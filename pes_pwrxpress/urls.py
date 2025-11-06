@@ -1,5 +1,5 @@
 """
-URL configuration for insb_spac24 project.
+URL configuration for pes_pwrxpress project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/5.1/topics/http/urls/
@@ -19,7 +19,7 @@ from django.urls import path,include,re_path
 from django.conf.urls.static import static
 from django.views.static import serve
 
-from insb_spac24 import settings
+from pes_pwrxpress import settings
 from system_administration.views import protected_serve
 
 urlpatterns = [

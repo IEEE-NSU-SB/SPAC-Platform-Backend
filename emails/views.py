@@ -17,7 +17,7 @@ from googleapiclient.discovery import build
 from django.core.files.base import ContentFile
 from django.template.loader import render_to_string
 from core.models import Registered_Participant
-from insb_spac24 import settings
+from pes_pwrxpress import settings
 from django.contrib import messages
 from django.shortcuts import render
 from django.contrib.admin.views.decorators import staff_member_required

@@ -1,5 +1,5 @@
 """
-ASGI config for insb_spac24 project.
+ASGI config for pes_pwrxpress project.
 
 It exposes the ASGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.asgi import get_asgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'insb_spac24.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'pes_pwrxpress.settings')
 
 application = get_asgi_application()

@@ -2,7 +2,7 @@ import mimetypes
 import os
 
 from django.http import FileResponse, Http404, HttpResponseForbidden
-from insb_spac24 import settings
+from pes_pwrxpress import settings
 
 def protected_serve(request, path):
     if request.user.is_authenticated:
