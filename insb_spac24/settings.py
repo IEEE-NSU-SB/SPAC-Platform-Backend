@@ -36,6 +36,7 @@ else:
 
 
 # Application definition
+TAILWIND_APP_NAME = 'theme'
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -50,7 +51,9 @@ INSTALLED_APPS = [
     'registration',
     'system_administration',
     'access_ctrl',
-    'access_ctrl.apps.CustomAuthConfig'
+    'access_ctrl.apps.CustomAuthConfig',
+    'tailwind',
+    'theme',
 ]
 
 MIDDLEWARE = [
