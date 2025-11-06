@@ -1,16 +1,15 @@
 {% load static %} {% block navbar %}
 <nav class="bg-[#122813] shadow-md sticky top-0 z-1">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="flex justify-between h-16">
+    <div class="flex justify-between h-18">
       <div class="flex items-center">
         <!-- Logo -->
-        <a href="" class="flex items-center gap-2">
+        <a href="" class="flex items-center gap-2 rounded-full px-4 py-1 bg-white overflow-hidden">
           <img
-            src="{% static 'images/logo.svg' %}"
+            src="{% static '/img/PowerExpressLogo.png' %}"
             alt="Logo"
-            class="h-8 w-8"
+            class="h-12 w-32"
           />
-          <span class="font-semibold text-lg text-gray-800">MySite</span>
         </a>
       </div>
 
@@ -18,26 +17,26 @@
       <div class="hidden md:flex md:items-center md:space-x-6">
         <a
           href="{% url 'main_web:homepage' %}"
-          class="nav-link text-white hover:text-amber-300 px-3 py-2 rounded-md text-md transition-all duration-300 ease-in-out font-medium"
+          class="nav-link text-white hover:text-amber-300 px-3 py-2 hover:-translate-y-0.5 rounded-md text-md transition-all duration-300 ease-in-out font-medium"
           >Home</a
         >
 
         <a
           href="{% url 'main_web:timeline' %}"
-          class="nav-link text-white hover:text-amber-300 px-3 py-2 rounded-md text-md transition-all duration-300 ease-in-out font-medium"
+          class="nav-link text-white hover:text-amber-300 px-3 py-2 hover:-translate-y-0.5 rounded-md text-md transition-all duration-300 ease-in-out font-medium"
           >Timeline</a
         >
 
         <a
           href="{% url 'registration:registration_form' %}"
-          class="nav-link text-white hover:text-amber-300 px-3 py-2 rounded-md text-md transition-all duration-300 ease-in-out font-medium"
+          class="nav-link text-white hover:text-amber-300 px-3 py-2 hover:-translate-y-0.5 rounded-md text-md transition-all duration-300 ease-in-out font-medium"
           >Registration</a
         >
 
         <a
           href="{% url 'main_web:organizers' %}"
-          class="nav-link text-white hover:text-amber-300 px-3 py-2 rounded-md text-md transition-all duration-300 ease-in-out font-medium"
-          >Organizer</a
+          class="nav-link text-white hover:text-amber-300 px-3 py-2 hover:-translate-y-0.5 rounded-md text-md transition-all duration-300 ease-in-out font-medium"
+          >Organizers</a
         >
       </div>
 

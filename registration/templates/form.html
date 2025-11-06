@@ -10,13 +10,14 @@
   <!--daisy ui-->
   <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
   <!--tailwind-->
-  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <link href="{% static 'css/dist/styles.css' %}" rel="stylesheet" />
   <!-- sweet alert  -->
    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <!--particles.js-->
   <script src="{% static 'js/particles.min.js' %}"></script>
   <!-- stats.js lib --> 
   <script src="http://threejs.org/examples/js/libs/stats.min.js"></script>
+
   <script>
     tailwind.config = {
       theme: {
@@ -38,6 +39,7 @@
       position: relative;
       z-index: 0;
       font-family: "Inter", sans-serif;
+      
     }
     .response_count{
       /* font-weight: bold; */
@@ -55,20 +57,43 @@
         margin: 0 auto;
       }
     }
+    /* Width of the scrollbar */
+    ::-webkit-scrollbar {
+      width: 12px;
+      height: 12px; /* For horizontal scrollbar */
+    }
+
+    /* Track (background) */
+    ::-webkit-scrollbar-track {
+      background: #a32d2d;
+      border-radius: 8px;
+    }
+
+    /* Handle (the draggable part) */
+    ::-webkit-scrollbar-thumb {
+      background: #e53232;
+      border-radius: 8px;
+      border: 3px solid #9d1e1e; /* Padding effect */
+    }
+
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+      background: #555;
+    }
     /* particles container */
     canvas{ display: block; vertical-align: bottom; } /* ---- particles.js container ---- */ #particles-js{ position:absolute; width: 100%; height: 100%; background-color: #489a46; background-image: url(""); background-repeat: no-repeat; background-size: 20%; background-position: 50% 50%; } /* ---- stats.js ---- */ .count-particles{ background: #000022; position: absolute; top: 48px; left: 0; width: 80px; color: #13E8E9; font-size: .8em; text-align: left; text-indent: 4px; line-height: 14px; padding-bottom: 2px; font-family: Helvetica, Arial, sans-serif; font-weight: bold; } .js-count-particles{ font-size: 1.1em; } #stats, .count-particles{ -webkit-user-select: none; margin-top: 5px; margin-left: 5px; } #stats{ border-radius: 3px 3px 0 0; overflow: hidden; } .count-particles{ border-radius: 0 0 3px 3px; }
   </style>
 </head>
 
+{% block navbar %} {% include 'navbar.html' %} {% endblock navbar %}
 <body class="min-h-screen">
   
-  {% block navbar %} {% include 'navbar.html' %} {% endblock navbar %}
   <div id="particles-js" class="fixed inset-0 -z-10"></div>
 
    <div class="w-11/12 md:w-3/5 mx-auto my-4 mt-12">
     <div class="rounded overflow-hidden shadow-lg flex justify-center">
         {% if not is_staff_view and not is_published and not registration_closed %}
-        <img style="height: 70vh;" src="{% static '/img/Stepclosed.png' %}" alt="" class="object-cover h-auto max-h-screen">
+        <img style="height: 70vh;" src="{% static '/img/PowerExpressBanner.png' %}" alt="" class="object-cover h-auto max-h-screen">
         {% else %}
         <img src="{% static '/img/PowerExpressBanner.png' %}" alt="" class="object-cover h-auto">
         {% endif %}
@@ -140,7 +165,7 @@
     <div class="p-6 bg-yellow-50 border border-yellow-300 rounded text-yellow-900 text-center">
       {% comment %} Registration is not open yet. Please check back later. {% endcomment %}
       <p>Registration is closed as we have reached the maximum number of participants.</p>
-      <p>If you have any other queries, please contact: 01309570567</p>
+      <p>If you have any other queries, please contact: Rahat bhaiyaaaa!</p>
       </div>
     {% elif not is_staff_view and registration_closed %}
       <div class="p-6 bg-red-50 border border-red-300 rounded text-red-900 text-center">
@@ -544,7 +569,7 @@
 </div>
 {% endif %}
 
-<div class="flex justify-center items-center mt-3">
+<div class="flex justify-center items-center mt-3 h-15">
   <p class="text-white"><small>2025 © All rights reserved by IEEE NSU Student Branch</small></p>
 </div>
   <script>
