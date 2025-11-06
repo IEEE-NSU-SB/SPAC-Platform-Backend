@@ -56,23 +56,24 @@
       }
     }
     /* particles container */
-    canvas{ display: block; vertical-align: bottom; } /* ---- particles.js container ---- */ #particles-js{ position:absolute; width: 100%; height: 100%; background-color: #00629b; background-image: url(""); background-repeat: no-repeat; background-size: 20%; background-position: 50% 50%; } /* ---- stats.js ---- */ .count-particles{ background: #000022; position: absolute; top: 48px; left: 0; width: 80px; color: #13E8E9; font-size: .8em; text-align: left; text-indent: 4px; line-height: 14px; padding-bottom: 2px; font-family: Helvetica, Arial, sans-serif; font-weight: bold; } .js-count-particles{ font-size: 1.1em; } #stats, .count-particles{ -webkit-user-select: none; margin-top: 5px; margin-left: 5px; } #stats{ border-radius: 3px 3px 0 0; overflow: hidden; } .count-particles{ border-radius: 0 0 3px 3px; }
+    canvas{ display: block; vertical-align: bottom; } /* ---- particles.js container ---- */ #particles-js{ position:absolute; width: 100%; height: 100%; background-color: #489a46; background-image: url(""); background-repeat: no-repeat; background-size: 20%; background-position: 50% 50%; } /* ---- stats.js ---- */ .count-particles{ background: #000022; position: absolute; top: 48px; left: 0; width: 80px; color: #13E8E9; font-size: .8em; text-align: left; text-indent: 4px; line-height: 14px; padding-bottom: 2px; font-family: Helvetica, Arial, sans-serif; font-weight: bold; } .js-count-particles{ font-size: 1.1em; } #stats, .count-particles{ -webkit-user-select: none; margin-top: 5px; margin-left: 5px; } #stats{ border-radius: 3px 3px 0 0; overflow: hidden; } .count-particles{ border-radius: 0 0 3px 3px; }
   </style>
 </head>
 
-<body class="min-h-screen py-8">
+<body class="min-h-screen">
+  
+  {% block navbar %} {% include 'navbar.html' %} {% endblock navbar %}
+  <div id="particles-js" class="fixed inset-0 -z-10"></div>
 
-<div id="particles-js" class="fixed inset-0 -z-10"></div>
-
-   <nav class="w-11/12 md:w-3/5 mx-auto my-4">
+   <div class="w-11/12 md:w-3/5 mx-auto my-4 mt-12">
     <div class="rounded overflow-hidden shadow-lg flex justify-center">
         {% if not is_staff_view and not is_published and not registration_closed %}
         <img style="height: 70vh;" src="{% static '/img/Stepclosed.png' %}" alt="" class="object-cover h-auto max-h-screen">
         {% else %}
-        <img src="{% static '/img/StepBanner.png' %}" alt="" class="object-cover h-auto">
+        <img src="{% static '/img/PowerExpressBanner.png' %}" alt="" class="object-cover h-auto">
         {% endif %}
     </div>
-  </nav>
+  </div>
   {% if has_perm.reg_form_control %}
   <!-- admin feature part  -->
   <!-- Button Header -->
