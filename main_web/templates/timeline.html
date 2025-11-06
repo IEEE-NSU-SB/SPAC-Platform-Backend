@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Timeline</title>
-    <link href="{% static 'css/dist/styles.css' %}" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 
     <style>
       /* Required for timeline vertical line */
@@ -16,10 +16,7 @@
         top: 10px;
         bottom: 0;
         width: 2px;
-        background: linear-gradient(
-          180deg,
-          #97d895,#97d895
-        );
+        background: linear-gradient(180deg, #97d895, #97d895);
       }
     </style>
   </head>
@@ -34,15 +31,14 @@
       </h2>
     </div>
 
-    {% comment %} <!-- TIMELINE SECTION -->
+    {% comment %}
+    <!-- TIMELINE SECTION -->
     <section class="relative timeline max-w-5xl mx-auto px-4 mt-10">
       <ul class="space-y-12">
         <!-- ITEM 6 - Right -->
         <li class="relative">
           <!-- marker -->
-          <div
-            class="absolute left-0 flex items-start h-full top-2"
-          >
+          <div class="absolute left-0 flex items-start h-full top-2">
             <div
               class="w-4 h-4 rounded-full bg-[#97d895] border-4 border-[#122813] shadow-sm text-[#97d895]"
             ></div>
@@ -50,7 +46,9 @@
 
           <div class="md:w-1/2 pl-8">
             <div class="inline-block md:max-w-md">
-              <div class="text-sm font-medium text-white mt-2">Feb 02, 2025</div>
+              <div class="text-sm font-medium text-white mt-2">
+                Feb 02, 2025
+              </div>
               <h3 class="mt-2 text-xl font-bold text-[#ffffffe7]">
                 Optimization Sprint
               </h3>
@@ -72,6 +70,7 @@
           </div>
         </li>
       </ul>
-    </section> {% endcomment %}
+    </section>
+    {% endcomment %}
   </body>
 </html>
