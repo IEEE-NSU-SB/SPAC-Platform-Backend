@@ -5,7 +5,7 @@ from .views import *
 app_name='registration'
 urlpatterns = [
     # Public/user registration form (only visible when published)
-    path('registration/', registration_form, name='registration_form'),
+    path('', registration_form, name='registration_form'),
     # Staff-only admin view of the form and controls
     path('reg/', registration_redirect, name="registration_redirect"),
     path('registration/admin/', registration_admin, name='registration_admin'),
@@ -15,8 +15,7 @@ urlpatterns = [
     path('registration/response/<int:id>/', view_response, name='view_response'),
     path('submit-form/', submit_form, name='submit_form'),
     path('download-excel/', download_excel, name='download_excel'),
-
-
+    
     #TEMPORARY
     path('t-shirt/responses/', t_shirt_responses, name='t_shirt_responses'),
 
