@@ -1454,7 +1454,7 @@ function validateStep(stepNumber) {
   const requiredInputs = currentStep.querySelectorAll("[required]");
   for (const input of requiredInputs) {
     if (!input.value.trim()) 
-    return true;
+    return false;
   }
   return true;
 }
