@@ -337,4 +337,4 @@ def view_response(request, id):
     context = {
         'participant': partipant
     }
-    return render(request, 'form_response.html', context)
+    return render(request, 'participant_response.html', context)

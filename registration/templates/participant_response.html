@@ -1,0 +1,836 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Power Express 2.0 | Registration Form</title>
+    <link rel="icon" href="{% static '/img/pes.png' %}" />
+    <!--daisy ui-->
+    <link
+      href="https://cdn.jsdelivr.net/npm/daisyui@5"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <!--tailwind-->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- sweet alert  -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!--particles.js-->
+    <script src="{% static 'js/particles.min.js' %}"></script>
+    <!-- stats.js lib -->
+    <script src="http://threejs.org/examples/js/libs/stats.min.js"></script>
+
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&display=swap');
+
+      body {
+        /* background-image: url("{% static '/img/StepBG.png' %}"); */
+        background: transparent;
+        background-repeat: no-repeat;
+        background-size: cover;
+        position: relative;
+        z-index: 0;
+        font-family: "Instrument Sans", sans-serif;
+      }
+      .response_count {
+        /* font-weight: bold; */
+        font-size: larger;
+        border-bottom: 2px solid #479A46;
+        border-top: 1px solid #479A46;
+        border-left: 6px solid #479A46;
+        border-right: 1px solid #479A46;
+        padding: 4px 8px;
+        border-radius: 14px 4px;
+        background: #e3ffc6;
+        color: #122812;
+        /* font-style: italic; */
+      }
+      /* Width of the scrollbar */
+      .custom-scrollbar::-webkit-scrollbar {
+        width: 5px;
+        height: 12px; /* For horizontal scrollbar */
+      }
+
+      /* Track (background) */
+      .custom-scrollbar::-webkit-scrollbar-track {
+        background: #a32d2d;
+        border-radius: 8px;
+      }
+
+      /* Handle (the draggable part) */
+      .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: #e53232;
+        border-radius: 9999px;
+        cursor: pointer;
+      }
+
+      /* Handle on hover */
+      .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+        background: #74BA2D;
+      }
+      /* particles container */
+      canvas {
+        display: block;
+        vertical-align: bottom;
+      } /* ---- particles.js container ---- */
+      #particles-js {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-color: #479A46;
+        background-image: url("");
+        background-repeat: no-repeat;
+        background-size: 20%;
+        background-position: 50% 50%;
+      } /* ---- stats.js ---- */
+      .count-particles {
+        background: #000022;
+        position: absolute;
+        top: 48px;
+        left: 0;
+        width: 80px;
+        color: #13e8e9;
+        font-size: 0.8em;
+        text-align: left;
+        text-indent: 4px;
+        line-height: 14px;
+        padding-bottom: 2px;
+        font-family: Helvetica, Arial, sans-serif;
+        font-weight: bold;
+      }
+      .js-count-particles {
+        font-size: 1.1em;
+      }
+      #stats,
+      .count-particles {
+        -webkit-user-select: none;
+        margin-top: 5px;
+        margin-left: 5px;
+      }
+      #stats {
+        border-radius: 3px 3px 0 0;
+        overflow: hidden;
+      }
+      .count-particles {
+        border-radius: 0 0 3px 3px;
+      }
+      .input_label{
+        display: block;
+        font-size: 18px;
+        margin-bottom: 0.35rem;
+        color: #122812;
+      }
+      .input{
+        width: 100%;
+        padding: .5rem .75rem;
+        border: 1px solid gray;
+        border-radius: 0.375rem;
+        outline-style: none;
+        box-shadow: 2px 2px 2px #eefbe3;
+        transition: all .3s ease-in-out;
+        background: transparent;
+      }
+      .input:focus{
+        border: 1px solid #74BA2D;
+        box-shadow: 2px 2px 2px #D7F5BF;
+      }
+      .admin-btn{
+        color: #122812;
+        border: 1px solid #122812;
+        border-radius: 0.325rem;
+        background: #c4f49d;
+        padding: 0.25rem 0.85rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 1.25rem;
+        transition: all 0.3s ease-in-out;
+        justify-content: center;
+      }
+      .admin-btn:hover{
+        background: #479A46;
+        color: #c4f49d;
+      }
+      .back-btn{
+        color: #122812;
+        border-radius: 1rem;
+        cursor: pointer;
+        font-size: 1.25rem;
+        margin-top: .75rem;
+      }
+      .section_heading{
+        text-align: center;
+        font-size: 1.5rem;
+        margin-bottom: .5rem;
+      }
+      @media screen and (max-width: 500px) {
+        .response_count {
+          margin: 0 auto;
+        }
+        .admin-btn{
+          width: 100%;
+          font-size: 1rem;
+        }
+        .response_count{
+          margin: 12px auto;
+        }
+      }
+    </style>
+  </head>
+
+  <body class="py-2 custom-scrollbar min-h-screen">
+    <!--Particles JS-->
+    <div id="particles-js" class="fixed inset-0 -z-10"></div>
+    <!-- Button Header -->
+    <div class="rounded">
+      <div
+        class="bg-[#eefbe3] w-11/12 md:w-3/5 mx-auto"
+        style="
+          backdrop-filter: blur(7px);
+          border-radius: 4px 4px;
+          box-shadow: 0 2px 6px 0px #00000078;
+        "
+      >
+        <!-- Form wrapper -->
+        <form id="registrationForm" method="post" action="/submit-form/">
+          {% csrf_token %}
+
+          <!-- Step 1: Basic Info -->
+          <section id="step1" class="shadow-md p-5 font-medium rounded-md">
+            <h2 class="section_heading">Response of Arman</h2>
+            <div class="mb-5">
+              <label for="name" class="input_label">
+                Name<span
+                  class="text-red-700 ml-1"
+                  >*</span
+                >
+              </label>
+              <input
+                type="text"
+                name="name"
+                id="name"
+                placeholder="Enter your Name"
+                class="input"
+                required disabled 
+              />
+            </div>
+            <div class="mb-5">
+              <label for="email" class="input_label">
+                Email Address<span class="text-red-700 ml-1">*</span>
+              </label>
+              <input
+                type="email"
+                name="email"
+                id="email"
+                placeholder="Enter your Email"
+                class="input"
+                required disabled
+              />
+            </div>
+            <div class="mb-5">
+              <label for="contact_number" class="input_label">
+                Contact Number<span class="text-red-700 ml-1">*</span>
+              </label>
+              <input
+                type="number"
+                name="contact_number"
+                id="contact_number"
+                placeholder="Enter your Contact Number"
+                class="input"
+                required disabled
+              />
+            </div>
+            <!--Select if you are a student or not-->
+            <div class="mb-5">
+              <label class="input_label">
+                Are you a student from North South University?<span class="text-red-700 ml-1">*</span>
+              </label>
+              <label class="text-lg">
+                <input
+                  class="mb-1"
+                  type="radio"
+                  name="is_student"
+                  value="student"
+                  required disabled
+                />
+                Yes </label
+              ><br />
+              <label class="text-lg">
+                <input
+                  class="mb-1"
+                  type="radio"
+                  name="is_student"
+                  value="other_student"
+                />
+                Other</label
+              ><br />
+              <input
+                type="hidden"
+                name="is_student_bool"
+                id="is_student_bool"
+              />
+            </div>
+            <!--For Student-->
+            <div class="student_div">
+              <div class="mb-5">
+                <label for="nsu_id" class="input_label">
+                  NSU ID<span class="text-red-700 ml-1">*</span>
+                </label>
+                <input
+                  type="number"
+                  name="nsu_id"
+                  id="nsu_id"
+                  placeholder="Enter your NSU ID"
+                  class="input"
+                  required disabled
+                />
+              </div>
+              <div class="mb-5">
+                <label for="nsu_email" class="input_label">
+                  NSU Email<span class="text-red-700 ml-1">*</span>
+                </label>
+                <input
+                  type="email"
+                  name="nsu_email"
+                  id="nsu_email"
+                  placeholder="Enter your NSU email"
+                  class="input"
+                  required disabled
+                />
+              </div>
+              <div class="mb-5">
+                <label for="department" class="input_label">
+                  Department<span class="text-red-700 ml-1">*</span>
+                </label>
+                <input
+                  type="text"
+                  name="department"
+                  id="department"
+                  placeholder="Enter your department"
+                  class="input"
+                  required disabled
+                />
+              </div>
+              <div class="mb-5">
+                <label for="current_year" class="input_label">
+                  Which year are you in?<span class="text-red-700 ml-1">*</span>
+                </label>
+                <input
+                  type="text"
+                  name="current_year"
+                  id="current_year"
+                  placeholder="Enter your current year in univerisity"
+                  class="input"
+                  required disabled
+                />
+              </div>
+            </div>
+            <!--For Students of other universities-->
+            <div class="other_uni_div">
+              <div class="mb-5">
+                <label for="uni_name" class="input_label">
+                  Name of your university<span class="text-red-700 ml-1">*</span>
+                </label>
+                <input
+                  type="text"
+                  name="uni_name"
+                  id="uni_name"
+                  placeholder="Enter your university name"
+                  class="input"
+                  required disabled
+                />
+              </div>
+              <div class="mb-5">
+                <label for="uni_id" class="input_label">
+                  University ID<span class="text-red-700 ml-1">*</span>
+                </label>
+                <input
+                  type="number"
+                  name="uni_id"
+                  id="uni_id"
+                  placeholder="Enter your university id"
+                  class="input"
+                  required disabled
+                />
+              </div>
+              <div class="mb-5">
+                <label for="other_current_year" class="input_label">
+                  Which year are you in?<span
+                    class="text-red-700 ml-1"
+                    >*</span
+                  >
+                </label>
+                <input
+                  type="text"
+                  name="other_current_year"
+                  id="other_current_year"
+                  placeholder="Enter your current year in univerisity"
+                  class="input"
+                  required disabled
+                />
+              </div>
+              <div class="mb-5">
+                <label for="major" class="input_label">
+                  What's your major?<span
+                    class="text-red-700 ml-1"
+                    >*</span
+                  >
+                </label>
+                <input
+                  type="text"
+                  name="major"
+                  id="major"
+                  placeholder="Enter your major"
+                  class="input"
+                  required disabled
+                />
+              </div>
+            </div>
+            <div class="mb-5">
+              <label class="input_label">
+                Are you an IEEE Member?<span class="text-red-700 ml-1">*</span>
+              </label>
+              <label class="text-lg">
+                <input
+                  class="mb-2"
+                  type="radio"
+                  name="membership_type"
+                  value="member"
+                  required disabled
+                />
+                IEEE Member </label
+              ><br />
+              <label class="text-lg">
+                <input type="radio" name="membership_type" value="non_ieee" />
+                Non-IEEE Member </label
+              ><br />
+            </div>
+            <div class="mb-5">
+                <label for="ieee_id" class="input_label">
+                  Your IEEE ID Number (Write N/A if you're Non-IEEE Member)<span
+                    class="text-red-700 ml-1"
+                    >*</span
+                  >
+                </label>
+                <input
+                  type="text"
+                  name="ieee_id"
+                  id="ieee_id"
+                  placeholder="Enter your Membership ID"
+                  class="input"
+                  required disabled
+                />
+            </div>
+          </section>
+
+          <!-- Step 2: Questionnaire -->
+          <section
+            id="step2"
+            class="shadow-md p-5 font-medium rounded-md"
+          >
+            <div class="flex items-center justify-between mb-8">
+              <!-- Centered Questionnaire Section -->
+              <div
+                class="absolute left-1/2 transform -translate-x-1/2 px-20 sm:px-4"
+              >
+                <h2 class="section_heading">
+                  Questions
+                </h2>
+              </div>
+            </div>
+
+            <div class="mb-5">
+              <label for="question1" class="input_label">
+                1. What's your idea about this event? (Write your thoughts within 100 words)<span
+                  class="text-red-700 ml-1"
+                  >*</span
+                >
+              </label>
+              <textarea
+                id="question1"
+                name="question1"
+                maxlength="250"
+                rows="4"
+                class="w-full p-2 border border-gray-500 rounded-md focus:outline-none focus:ring-1 focus:ring-black"
+                placeholder="Type your answer here..."
+                required disabled
+              ></textarea>
+            </div>
+            <div class="mb-5">
+              <label for="question2" class="input_label">
+                2. What is your expectation from this program? (Write your thoughts within 100 words)<span
+                  class="text-red-700 ml-1"
+                  >*</span
+                >
+              </label>
+              <textarea
+                id="question2"
+                name="question2"
+                maxlength="250"
+                rows="4"
+                class="w-full p-2 border border-gray-500 rounded-md focus:outline-none focus:ring-1 focus:ring-black"
+                placeholder="Type your answer here..."
+                required disabled
+              ></textarea>
+            </div>
+            <!-- <div class="mb-5">
+              <label for="ambassador_code" class="input_label">
+                Ambassador Code<span
+                  class="text-red-700 ml-1"
+                  >*</span
+                >
+              </label>
+              <input
+                type="text"
+                name="ambassador_code"
+                id="ambassador_code"
+                placeholder="Enter your Ambassador code"
+                class="input"
+                required disabled
+              />
+            </div> -->
+             <div class="mb-5">
+              <label class="input_label">
+                You are joining "Power Express 2.0" as_ (Select multiple if you want to participate in more than one)<span class="text-red-700 ml-1">*</span>
+              </label>
+              <label>
+                <input
+                  class="mb-1"
+                  type="checkbox"
+                  name="participant_type"
+                  value="participant_pstpre_contestant"
+                />
+                Poster Presentation Contestant</label
+              ><br />
+              <label>
+                <input
+                class="mb-1"
+                type="checkbox"
+                name="participant_type"
+                value="participant_pwrolmp_contestant"
+                />
+                Power Olympiad Contestant</label
+                ><br />
+                <label>
+                  <input
+                    class="mb-1"
+                    type="checkbox"
+                    name="participant_type"
+                    value="participant"
+                    required disabled
+                    checked
+                  />
+                  Just as Participant</label
+                ><br />
+              
+            </div>
+          </section>
+          <!-- Step 3: Poster Contest-->
+           <section
+            id="step3"
+            class="shadow-md p-5 font-medium rounded-md"
+          >
+            <div class="flex items-center justify-between mb-8">
+              <!-- Back button on the left -->
+              <div class="z-10">
+                <button
+                  onclick="prevStep(2)"
+                  class="back-btn"
+                  type="button"
+                >
+                  Back
+                </button>
+              </div>
+
+              <div
+                class="absolute left-1/2 transform -translate-x-1/2 px-20 sm:px-4"
+              >
+              <h2 class="section_heading">
+                  Poster Competition Details
+              </h2>
+            </div>
+          </div>
+          <p class="text-justify mb-5">Each team can have 3 members (maximum). All of the members will have to register for the event. Only one member from each team will have to register for his team.</p>
+             <div class="mb-5">
+              <label class="input_label">
+                Are you registering for your team?<span class="text-red-700 ml-1">*</span>
+              </label>
+              <label>
+                <input
+                  class="mb-1"
+                  type="radio"
+                  name="registering_for_team"
+                  value="True"
+                />
+                Yes, I'm registering for my team.</label
+              ><br />
+              <label>
+                <input
+                  class="mb-1"
+                  type="radio"
+                  name="registering_for_team"
+                  value="False"
+                />
+                No, one of my teammate will register.</label
+              ><br />
+            </div>
+            <div class="mb-5" id="team_count_section">
+              <label class="input_label">
+                How many member are there in your team?<span class="text-red-700 ml-1">*</span>
+              </label>
+              <label>
+                <input
+                  class="mb-1"
+                  type="radio"
+                  name="team_mem_count"
+                  value="two"
+                  required disabled
+                />
+                Two</label
+              ><br />
+              <label>
+                <input
+                  class="mb-1"
+                  type="radio"
+                  name="team_mem_count"
+                  value="three"
+                />
+                Three</label
+              ><br />
+            </div>
+            <div id="mem_1">
+              <div class="mb-5">
+                <label for="mem_name_1" class="input_label">
+                  Name of your team member 1<span class="text-red-700 ml-1">*</span>
+                </label>
+                <input
+                type="text"
+                name="mem_name_1"
+                id="mem_name_1"
+                placeholder="Enter your first team member name"
+                class="input"
+                required disabled
+                />
+            </div>
+            <div class="mb-5">
+              <label for="mem_uni_name_1" class="input_label">
+                University Name<span class="text-red-700 ml-1">*</span>
+              </label>
+              <input
+                type="text"
+                name="mem_uni_name_1"
+                id="mem_uni_name_1"
+                placeholder="Enter your first team member university name"
+                class="input"
+                required disabled
+                />
+              </div>
+              <div class="mb-5">
+                <label for="mem_uni_id_1" class="input_label">
+                University ID<span
+                  class="text-red-700 ml-1"
+                  >*</span
+                >
+              </label>
+              <input
+              type="number"
+              name="mem_uni_id_1"
+              id="mem_uni_id_1"
+              placeholder="Enter your first team member university id"
+              class="input"
+              required disabled
+              />
+            </div>
+            </div>
+            <div id="mem_2">
+              <div class="mb-5">
+                <label for="mem_name_2" class="input_label">
+                  Name of your team member 2<span class="text-red-700 ml-1">*</span>
+                </label>
+                <input
+                type="text"
+                name="mem_name_2"
+                id="mem_name_2"
+                placeholder="Enter your second team member name"
+                class="input"
+                required disabled
+                />
+            </div>
+            <div class="mb-5">
+              <label for="mem_uni_name_2" class="input_label">
+                University Name<span class="text-red-700 ml-1">*</span>
+              </label>
+              <input
+                type="text"
+                name="mem_uni_name_2"
+                id="mem_uni_name_2"
+                placeholder="Enter your second team member university name"
+                class="input"
+                required disabled
+                />
+              </div>
+              <div class="mb-5">
+                <label for="mem_uni_id_2" class="input_label">
+                University ID<span
+                  class="text-red-700 ml-1"
+                  >*</span
+                >
+              </label>
+              <input
+              type="number"
+              name="mem_uni_id_2"
+              id="mem_uni_id_2"
+              placeholder="Enter your second team member university id"
+              class="input"
+              required disabled
+              />
+            </div>
+            </div>
+          </section>
+
+          <!-- Step 4: Payment -->
+          <section
+            id="step4"
+            class="shadow-md p-5 font-medium rounded-md"
+          >
+            <div class="flex items-center justify-between mb-8">
+              <div
+                class="absolute left-1/2 transform -translate-x-1/2 px-20 sm:px-4"
+              >
+                <h2 class="text-2xl mb-6 truncate text-center">PAYMENT</h2>
+              </div>
+            </div>
+            <p>
+              IEEE Member 400 taka <br />
+              Non-IEEE Member 500 taka
+              <br />
+              <br />
+              <span style="font-weight: bold">Bkash: +8801734973058</span>
+            </p>
+            <div class="my-8">
+              <label class="block font-semibold mb-1">
+                Select Payment Method:<span class="text-red-700 ml-1">*</span>
+              </label>
+              <label>
+                <input
+                  type="radio"
+                  name="payment_method"
+                  value="Bkash"
+                  required disabled
+                  checked
+                />
+                Bkash (Send Money)
+              </label>
+            </div>
+
+            <div class="mb-5">
+              <label for="transaction_id" class="block font-semibold mb-1">
+                Transaction ID<span class="text-red-700 ml-1">*</span>
+              </label>
+              <input
+                type="text"
+                name="transaction_id"
+                id="transaction_id"
+                placeholder="Enter your Transaction ID"
+                class="input"
+                required disabled
+              />
+            </div>
+          </section>
+        </form>
+    </div>
+  </div>
+    <div class="flex justify-center items-center mt-3 h-15 mx-5 text-center">
+      <p class="text-black font-semibold italic">
+        <small>2025 © All rights reserved by IEEE NSU Student Branch</small>
+      </p>
+    </div>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        particlesJS("particles-js", {
+          particles: {
+            number: { value: 160, density: { enable: true, value_area: 800 } },
+            color: { value: "#ffffff" },
+            shape: {
+              type: "circle",
+              stroke: { width: 0, color: "#000000" },
+              polygon: { nb_sides: 5 },
+              image: { src: "img/github.svg", width: 100, height: 100 },
+            },
+            opacity: {
+              value: 1,
+              random: true,
+              anim: { enable: true, speed: 1, opacity_min: 0, sync: false },
+            },
+            size: {
+              value: 3,
+              random: true,
+              anim: { enable: false, speed: 4, size_min: 0.3, sync: false },
+            },
+            line_linked: {
+              enable: true,
+              distance: 150,
+              color: "#ffffff",
+              opacity: 0.4,
+              width: 1,
+            },
+            move: {
+              enable: true,
+              speed: 1,
+              direction: "none",
+              random: true,
+              straight: false,
+              out_mode: "out",
+              bounce: false,
+              attract: { enable: false, rotateX: 600, rotateY: 600 },
+            },
+          },
+          interactivity: {
+            detect_on: "canvas",
+            events: {
+              onhover: { enable: false, mode: "bubble" },
+              onclick: { enable: false, mode: "repulse" },
+              resize: true,
+            },
+            modes: {
+              grab: { distance: 400, line_linked: { opacity: 1 } },
+              bubble: {
+                distance: 250,
+                size: 0,
+                duration: 2,
+                opacity: 0,
+                speed: 3,
+              },
+              repulse: { distance: 400, duration: 0.4 },
+              push: { particles_nb: 4 },
+              remove: { particles_nb: 2 },
+            },
+          },
+          retina_detect: true,
+        });
+        var count_particles, stats, update;
+        stats = new Stats();
+        stats.setMode(0);
+        stats.domElement.style.position = "absolute";
+        stats.domElement.style.left = "0px";
+        stats.domElement.style.top = "0px";
+        document.body.appendChild(stats.domElement);
+        count_particles = document.querySelector(".js-count-particles");
+        update = function () {
+          stats.begin();
+          stats.end();
+          if (
+            window.pJSDom[0].pJS.particles &&
+            window.pJSDom[0].pJS.particles.array
+          ) {
+            count_particles.innerText =
+              window.pJSDom[0].pJS.particles.array.length;
+          }
+          requestAnimationFrame(update);
+        };
+        requestAnimationFrame(update);
+      });
+    </script>
+  </body>
+</html>
