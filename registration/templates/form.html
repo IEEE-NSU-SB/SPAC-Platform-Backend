@@ -36,12 +36,14 @@
       .response_count {
         /* font-weight: bold; */
         font-size: larger;
-        border-bottom: 2px solid #74BA2D;
-        border-right: 3px solid #74BA2D;
+        border-bottom: 2px solid #479A46;
+        border-top: 1px solid #479A46;
+        border-left: 6px solid #479A46;
+        border-right: 1px solid #479A46;
         padding: 4px 8px;
-        border-radius: 4px;
+        border-radius: 14px 4px;
         background: #e3ffc6;
-        color: #74BA2D;
+        color: #122812;
         /* font-style: italic; */
       }
       /* Width of the scrollbar */
@@ -189,18 +191,17 @@
     </style>
   </head>
 
-  <body class="py-8 custom-scrollbar">
+  <body class="py-2 custom-scrollbar min-h-screen">
     <!--Particles JS-->
     <div id="particles-js" class="fixed inset-0 -z-10"></div>
 
-    <div class="w-11/12 md:w-3/5 mx-auto my-4 mt-12">
+    <div class="w-11/12 md:w-3/5 mx-auto my-4">
       <div class="rounded overflow-hidden shadow-[0px_0px_10px_#c4f49d] border-1 border-white flex justify-center">
         {% if not is_staff_view and not is_published and not registration_closed %}
         <img
-          style="height: 70vh"
           src="{% static '/img/PowerExpressBanner.png' %}"
           alt=""
-          class="object-cover h-auto max-h-screen"
+          class="object-cover md:h-auto max-h-screen h-70"
         />
         {% else %}
         <img
@@ -672,7 +673,7 @@
                 required
               ></textarea>
             </div>
-            <div class="mb-5">
+            <!-- <div class="mb-5">
               <label for="ambassador_code" class="input_label">
                 Ambassador Code<span
                   class="text-red-700 ml-1"
@@ -687,15 +688,24 @@
                 class="input"
                 required
               />
-            </div>
+            </div> -->
              <div class="mb-5">
               <label class="input_label">
-                You are joining "Power Express 2.0" as_<span class="text-red-700 ml-1">*</span>
+                You are joining "Power Express 2.0" as_ (Select multiple if you want to participate in more than one)<span class="text-red-700 ml-1">*</span>
               </label>
               <label>
                 <input
                   class="mb-1"
-                  type="radio"
+                  type="checkbox"
+                  name="participant_type"
+                  value="participant_pstpre_contestant"
+                />
+                Poster Presentation Contestant</label
+              ><br />
+              <label>
+                <input
+                  class="mb-1"
+                  type="checkbox"
                   name="participant_type"
                   value="participant"
                   required
@@ -705,20 +715,11 @@
               <label>
                 <input
                   class="mb-1"
-                  type="radio"
-                  name="participant_type"
-                  value="participant_pstpre_contestant"
-                />
-                Participant and Poster Presentation Contestant</label
-              ><br />
-              <label>
-                <input
-                  class="mb-1"
-                  type="radio"
+                  type="checkbox"
                   name="participant_type"
                   value="participant_pwrolmp_contestant"
                 />
-                Participant and Power Olympiad Contestant</label
+                Power Olympiad Contestant</label
               ><br />
               
             </div>
