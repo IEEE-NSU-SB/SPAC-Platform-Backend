@@ -46,7 +46,7 @@ class Form_Participant(models.Model):
     # Store all questionnaire answers in JSON
     answers = models.JSONField(default=dict)
     ambassador_code = models.CharField(max_length=15, blank=True, null=True, default='')
-    participant_type = models.CharField(max_length=35, choices=JOIN_CHOICES, null=False, blank=False, default='participant')
+    participant_type = models.JSONField(default=list)
 
     # Step 3
     registering_for_team = models.BooleanField(blank=False, null=False, default=False)

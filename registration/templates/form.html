@@ -704,23 +704,25 @@
               ><br />
               <label>
                 <input
-                  class="mb-1"
-                  type="checkbox"
-                  name="participant_type"
-                  value="participant"
-                  required
-                />
-                Just as Participant</label
-              ><br />
-              <label>
-                <input
-                  class="mb-1"
-                  type="checkbox"
-                  name="participant_type"
-                  value="participant_pwrolmp_contestant"
+                class="mb-1"
+                type="checkbox"
+                name="participant_type"
+                value="participant_pwrolmp_contestant"
                 />
                 Power Olympiad Contestant</label
-              ><br />
+                ><br />
+                <label>
+                  <input
+                    class="mb-1"
+                    type="checkbox"
+                    name="participant_type"
+                    value="participant"
+                    required
+                    checked
+                    disabled
+                  />
+                  Just as Participant</label
+                ><br />
               
             </div>
             <div class="flex justify-center">
@@ -769,7 +771,6 @@
                   type="radio"
                   name="registering_for_team"
                   value="True"
-                  required
                 />
                 Yes, I'm registering for my team.</label
               ><br />

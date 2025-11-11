@@ -118,11 +118,12 @@ def submit_form(request):
                 'question1': request.POST.get('question1', ''),
                 'question2': request.POST.get('question2', ''),
             }
-            ambassador_code = request.POST.get('ambassador_code', '')
-            participant_type = request.POST.get('participant_type', '')
+            # ambassador_code = request.POST.get('ambassador_code', '')
+            participant_type = request.POST.getlist('participant_type', [])
+            participant_type.append('participant')
 
             # Step 3
-            registering_for_team = request.POST.get('registering_for_team', '')
+            registering_for_team = request.POST.get('registering_for_team', False)
             team_member_count = request.POST.get('team_mem_count', '')
             mem_name_1 = request.POST.get('mem_name_1', '')
             mem_uni_name_1 = request.POST.get('mem_uni_name_1', '')
@@ -150,8 +151,8 @@ def submit_form(request):
                 transaction_id=transaction_id,
                 answers=answers,
                 current_year=current_year,
-                is_nsu_student = is_nsu_student,
-                ambassador_code=ambassador_code,
+                is_nsu_student=is_nsu_student,
+                # ambassador_code=ambassador_code,
                 participant_type=participant_type,
                 major=major,
                 registering_for_team=registering_for_team,
