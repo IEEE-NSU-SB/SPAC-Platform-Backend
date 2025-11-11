@@ -67,16 +67,16 @@
             placeholder="Search through name or email"
             class="px-3 py-2 border bg-white text-black border-gray-400 rounded-md w-1/2 focus:outline-none focus:ring-2 focus:ring-[#74BA2D] duration-300 ease-in-out transition-all"
           />
-          {% if has_perm.view_finance_info %}
           <div class="flex items-center gap-4">
             <!--Logout-->
             <a href="{% url 'core:logout' %}" class="logout">Logout</a>
             <!-- Statistics Button -->
+            {% if has_perm.view_finance_info %}
               <button class="rounded py-2 px-5 text-white bg-[#e49e35] hover:bg-[#f4b557] duration-300 ease-in-out transition-all" onclick="document.getElementById('statsModal').showModal()">
                 Statistics
               </button>
+            {% endif %}
           </div>
-          {% endif %}
         </div>
         <!-- Scrollable wrapper -->
         <div class="bg-white rounded-xl shadow-lg overflow-x-auto max-h-[440px]">
