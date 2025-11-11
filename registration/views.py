@@ -280,7 +280,7 @@ def response_table(request):
     # Query grouped stats
     stats = (
         Form_Participant.objects
-        .values("is_student", "membership_type")
+        .values("is_nsu_student", "membership_type")
         .annotate(total=Count("id"))
     )
 
@@ -288,7 +288,7 @@ def response_table(request):
     summary = {}
 
     for entry in stats:
-        is_student = "student" if entry["is_student"] else "not_student"
+        is_student = "student" if entry["is_nsu_student"] else "not_student"
         membership = entry["membership_type"]
 
         key = f"{is_student}_{membership}"
