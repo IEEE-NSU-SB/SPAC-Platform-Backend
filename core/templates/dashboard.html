@@ -5,8 +5,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dashboard</title>
-    <link rel="icon" href="{% static '/img/logo.gif' %}" />
+    <title>Power Express 2.0 | Dashboard</title>
+    <link rel="icon" href="{% static '/img/pes.png' %}" />
 
     <script src="{% static 'js/html5-qrcode.min.js' %}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -761,81 +761,81 @@ closeStatusBtn.addEventListener("click", () => {
 });
 
 
-            const setSessionBtn = document.getElementById("set-session");
-            const setSessionModal = document.getElementById("set-session-modal");
-            const selectSessionBtn = document.getElementById("select-session");
-            const cancelSessionBtn = document.getElementById("cancel-session");
-            const modalOverlay = document.getElementById("modal-overlay");
-            const navbarSessionText = document.querySelector(".navbar > div");
+const setSessionBtn = document.getElementById("set-session");
+const setSessionModal = document.getElementById("set-session-modal");
+const selectSessionBtn = document.getElementById("select-session");
+const cancelSessionBtn = document.getElementById("cancel-session");
+const modalOverlay = document.getElementById("modal-overlay");
+const navbarSessionText = document.querySelector(".navbar > div");
 
-            {% if has_perm.update_session %}
-            // Open the modal
-            setSessionBtn.addEventListener("click", () => {
-              modalOverlay.style.display = "block";
-            });
+{% if has_perm.update_session %}
+// Open the modal
+setSessionBtn.addEventListener("click", () => {
+  modalOverlay.style.display = "block";
+});
 
-            // Close the modal on "Select Session"
-            selectSessionBtn.addEventListener("click", () => {
-              const selectedSessions = Array.from(
-                document.querySelectorAll('input[name="session"]:checked')
-              ).map((checkbox) => checkbox.value);
+// Close the modal on "Select Session"
+selectSessionBtn.addEventListener("click", () => {
+  const selectedSessions = Array.from(
+    document.querySelectorAll('input[name="session"]:checked')
+  ).map((checkbox) => checkbox.value);
 
-              const selectedSessionsName = Array.from(
-                document.querySelectorAll('input[name="session"]:checked')
-              ).map((checkbox) => checkbox.dataset.name);
+  const selectedSessionsName = Array.from(
+    document.querySelectorAll('input[name="session"]:checked')
+  ).map((checkbox) => checkbox.dataset.name);
 
-              fetch("{% url 'core:update_session' %}", {
-                method: "POST",
-                headers: { "Content-Type": "application/json", "X-CSRFToken":"{{csrf_token}}" },
-                body: JSON.stringify({"sessions": selectedSessions})
-              })
-                .then((response) => response.json())
-                .then((data) => {
-                  console.log("Server Response:", data);
+  fetch("{% url 'core:update_session' %}", {
+    method: "POST",
+    headers: { "Content-Type": "application/json", "X-CSRFToken":"{{csrf_token}}" },
+    body: JSON.stringify({"sessions": selectedSessions})
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log("Server Response:", data);
 
-                  if(data.message == 'success') {
-                    if (selectedSessions.length > 0) {
-                      navbarSessionText.textContent = `Current Sessions: ${selectedSessionsName.join(
-                        ", "
-                      )}`;
-                    } else {
-                      navbarSessionText.textContent = "No session selected";
-                    }
+      if(data.message == 'success') {
+        if (selectedSessions.length > 0) {
+          navbarSessionText.textContent = `Current Sessions: ${selectedSessionsName.join(
+            ", "
+          )}`;
+        } else {
+          navbarSessionText.textContent = "No session selected";
+        }
 
-                    Swal.fire({
-                      title: "Sessions Updated!",
-                      icon: "success",
-                      confirmButtonColor: "#3085d6",
-                      confirmButtonText: "OK",
-                    });
-                  }
-                  else {
-                    Swal.fire({
-                      title: "Sessions could not be updated!",
-                      icon: "warning",
-                      confirmButtonColor: "#3085d6",
-                    });
-                  }
-                }).catch((err) => console.error("Error:", err));
+        Swal.fire({
+          title: "Sessions Updated!",
+          icon: "success",
+          confirmButtonColor: "#3085d6",
+          confirmButtonText: "OK",
+        });
+      }
+      else {
+        Swal.fire({
+          title: "Sessions could not be updated!",
+          icon: "warning",
+          confirmButtonColor: "#3085d6",
+        });
+      }
+    }).catch((err) => console.error("Error:", err));
 
-              modalOverlay.style.display = "none";
-            });
+  modalOverlay.style.display = "none";
+});
 
-            // Close the modal on "Cancel"
-            cancelSessionBtn.addEventListener("click", () => {
-              modalOverlay.style.display = "none";
-            });
+// Close the modal on "Cancel"
+cancelSessionBtn.addEventListener("click", () => {
+  modalOverlay.style.display = "none";
+});
 
-            // Close the modal when clicking outside of it
-            modalOverlay.addEventListener("click", (event) => {
-              if (event.target === modalOverlay) {
-                modalOverlay.style.display = "none";
-              }
-            });
-            {% endif %}
+// Close the modal when clicking outside of it
+modalOverlay.addEventListener("click", (event) => {
+  if (event.target === modalOverlay) {
+    modalOverlay.style.display = "none";
+  }
+});
+{% endif %}
 
-            // Tap to Scan Button
-            const serverURL = '{% url "core:process_qr_data" %}';
+// Tap to Scan Button
+const serverURL = '{% url "core:process_qr_data" %}';
 const tapToScanBtn = document.getElementById("tap-to-scan");
 const qrReaderElement = document.getElementById("reader");
 const modalSessions = document.getElementById("modal-sessions");
