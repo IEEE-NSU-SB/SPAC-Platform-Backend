@@ -13,7 +13,7 @@ from emails.views import send_registration_email
 from django.db.models import Count
 from django.db.models.functions import Trim
 
-from .models import EventFormStatus, Form_Participant, T_Shirt_Form
+from .models import EventFormStatus, Form_Participant
 
 def _get_publish_status() -> bool:
     status = EventFormStatus.objects.order_by('-updated_at').first()
@@ -319,18 +319,3 @@ def view_response(request, id):
         'participant': partipant
     }
     return render(request, 'form_response.html', context)
-
-
-#TEMPORARY
-@login_required
-@permission_required('view_reg_responses_list')
-def t_shirt_responses(request):
-
-    participants = T_Shirt_Form.objects.all().order_by('created_at')
-    size_data = T_Shirt_Form.objects.values('tshirt_size').annotate(count=Count('tshirt_size')).order_by('count')
-
-    context = {
-        'participants': participants,
-        'size_data':size_data,
-    }
-    return render(request, 'response_table_t_shirt.html', context)
