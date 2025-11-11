@@ -198,7 +198,17 @@
 
           <!-- Step 1: Basic Info -->
           <section id="step1" class="shadow-md p-5 font-medium rounded-md">
-            <h2 class="section_heading">Response of Arman</h2>
+              <!-- Back button on the left -->
+              <div class="z-10">
+                <button
+                  onclick="window.history.back();"
+                  class="back-btn"
+                  type="button"
+                >
+                  Back
+                </button>
+                <h2 class="section_heading">Response of Arman</h2>
+              </div>
             <div class="mb-5">
               <label for="name" class="input_label">
                 Name<span
@@ -262,6 +272,7 @@
                   type="radio"
                   name="is_student"
                   value="other_student"
+                  disabled
                 />
                 Other</label
               ><br />
@@ -402,7 +413,7 @@
                 IEEE Member </label
               ><br />
               <label class="text-lg">
-                <input type="radio" name="membership_type" value="non_ieee" />
+                <input type="radio" name="membership_type" value="non_ieee" disabled/>
                 Non-IEEE Member </label
               ><br />
             </div>
@@ -429,7 +440,7 @@
             id="step2"
             class="shadow-md p-5 font-medium rounded-md"
           >
-            <div class="flex items-center justify-between mb-8">
+            <div class="flex items-center justify-between my-8">
               <!-- Centered Questionnaire Section -->
               <div
                 class="absolute left-1/2 transform -translate-x-1/2 px-20 sm:px-4"
@@ -500,6 +511,7 @@
                   type="checkbox"
                   name="participant_type"
                   value="participant_pstpre_contestant"
+                  disabled
                 />
                 Poster Presentation Contestant</label
               ><br />
@@ -509,6 +521,7 @@
                 type="checkbox"
                 name="participant_type"
                 value="participant_pwrolmp_contestant"
+                disabled
                 />
                 Power Olympiad Contestant</label
                 ><br />
@@ -531,18 +544,7 @@
             id="step3"
             class="shadow-md p-5 font-medium rounded-md"
           >
-            <div class="flex items-center justify-between mb-8">
-              <!-- Back button on the left -->
-              <div class="z-10">
-                <button
-                  onclick="prevStep(2)"
-                  class="back-btn"
-                  type="button"
-                >
-                  Back
-                </button>
-              </div>
-
+            <div class="flex items-center justify-between my-8">
               <div
                 class="absolute left-1/2 transform -translate-x-1/2 px-20 sm:px-4"
               >
@@ -562,6 +564,7 @@
                   type="radio"
                   name="registering_for_team"
                   value="True"
+                  disabled
                 />
                 Yes, I'm registering for my team.</label
               ><br />
@@ -571,6 +574,7 @@
                   type="radio"
                   name="registering_for_team"
                   value="False"
+                  disabled
                 />
                 No, one of my teammate will register.</label
               ><br />
@@ -595,6 +599,7 @@
                   type="radio"
                   name="team_mem_count"
                   value="three"
+                  disabled
                 />
                 Three</label
               ><br />
@@ -694,7 +699,7 @@
             id="step4"
             class="shadow-md p-5 font-medium rounded-md"
           >
-            <div class="flex items-center justify-between mb-8">
+            <div class="flex items-center justify-between my-8">
               <div
                 class="absolute left-1/2 transform -translate-x-1/2 px-20 sm:px-4"
               >
