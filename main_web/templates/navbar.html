@@ -4,11 +4,14 @@
     <div class="flex justify-between h-18">
       <div class="flex items-center">
         <!-- Logo -->
-        <a href="" class="flex items-center gap-2 rounded-full px-4 py-1 bg-white overflow-hidden">
+        <a
+          href=""
+          class="flex items-center gap-2 rounded-full px-4 py-1 bg-white overflow-hidden"
+        >
           <img
             src="{% static '/img/PowerExpressLogo.png' %}"
             alt="Logo"
-            class="h-12 w-32"
+            class="w-16 h-6 md:h-12 md:w-32"
           />
         </a>
       </div>
@@ -97,21 +100,21 @@
         >Home</a
       >
       <a
-        href="md transition-all duration-300 ease-in-out url 'main_web:timeline' %}"
+        href="{% url 'main_web:timeline' %}"
         class="block px-4 py-2 text-base font-medium text-white hover:bg-gray-50"
         >Timeline</a
       >
       <a
-        href="md transition-all duration-300 ease-in-out url 'registration:registration_form' %}"
+        href="{% url 'registration:registration_form' %}"
         class="block px-4 py-2 text-base font-medium text-white hover:bg-gray-50"
         >Registration</a
       >
       <a
-        href="md transition-all duration-300 ease-in-out url 'main_web:organizers' %}"
+        href="{% url 'main_web:organizers' %}"
         class="block px-4 py-2 text-base font-medium text-white hover:bg-gray-50"
         >Organizer</a
       >
-    </dimd transition-all duration-300 ease-in-out
+    </div>
   </div>
 
   <script>

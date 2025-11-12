@@ -142,7 +142,7 @@ IEEE NSU SB.''', 'plain'))
     
     return JsonResponse({'message':'success'})
 
-def send_registration_email(name, email):
+def send_registration_email(request, name, email):
     credentials = get_credentials()
 
     if not credentials:
@@ -153,8 +153,22 @@ def send_registration_email(name, email):
         message = MIMEMultipart()
         message["From"] = "IEEE NSU SB Portal <ieeensusb.portal@gmail.com>"
         message["To"] = str(email)
-        message["Subject"] = "STEP 2025 - Registration Successful"
-        message.attach(MIMEText(render_to_string('submission_email_template.html', {'participant_name':name}), 'html'))
+        message["Subject"] = "PowerExpress 2.0 - Registration Successful"
+
+        scheme = "https" if request.is_secure() else "http"
+        ics_link = f"{scheme}://{request.get_host()}/media_files/event.ics"
+        print(ics_link)
+        message.attach(MIMEText(render_to_string('submission_email_template.html', {'participant_name':name, 'ics_link':ics_link}), 'html'))
+
+        content_file = open(f"Participant Files/event.ics", "rb")
+        part = MIMEBase('application', 'octet-stream')
+        part.set_payload(content_file.read())
+        encoders.encode_base64(part)
+        part.add_header(
+            'Content-Disposition',
+            f'attachment; filename=PowerExpress2.0.ics',
+        )
+        message.attach(part)
         
         # encoded message
         encoded_message = base64.urlsafe_b64encode(message.as_bytes()).decode()

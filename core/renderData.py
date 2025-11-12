@@ -178,7 +178,7 @@ class Core:
                 university=participant.university,
                 contact_no=participant.contact_number,
                 email=participant.email,
-                t_shirt_size=participant.tshirt_size,
+                # t_shirt_size=participant.tshirt_size,
                 unique_code=Core.generate_unique_code(participant.name, participant.university),
             )
             for participant in Form_Participant.objects.all()

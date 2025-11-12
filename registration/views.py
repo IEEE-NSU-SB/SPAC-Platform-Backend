@@ -13,7 +13,7 @@ from emails.views import send_registration_email
 from django.db.models import Count
 from django.db.models.functions import Trim
 
-from .models import EventFormStatus, Form_Participant, T_Shirt_Form
+from .models import EventFormStatus, Form_Participant
 
 def _get_publish_status() -> bool:
     status = EventFormStatus.objects.order_by('-updated_at').first()
@@ -89,31 +89,53 @@ def submit_form(request):
                 })
 
             # Get form data
-            is_student = request.POST.get('is_student_bool')
+            #Step 1
             name = request.POST.get('name')
             email = request.POST.get('email')
             contact_number = request.POST.get('contact_number')
+            is_nsu_student = request.POST.get('is_student_bool')
+            nsu_email = None
+            major = ''
+            department = ''
+            if is_nsu_student == 'True':
+                university = 'North South University'
+                university_id = request.POST.get('nsu_id','')
+                nsu_email = request.POST.get('nsu_email', None)
+                department = request.POST.get('department','')
+                current_year = request.POST.get('current_year', '')
+            else:
+                university = request.POST.get('uni_name', '')
+                university_id = request.POST.get('uni_id','')
+                current_year = request.POST.get('other_current_year', '')
+                major = request.POST.get('major', '')
+
             membership_type = request.POST.get('membership_type')
             ieee_id = request.POST.get('ieee_id')
-            profession = request.POST.get('profession','')
-            designation = request.POST.get('designation','')
-            affiliation = request.POST.get('affiliation','')
-            university = request.POST.get('university','')
-            department = request.POST.get('department','')
-            university_id = request.POST.get('university_id','')
-            payment_method = request.POST.get('payment_method')
-            transaction_id = request.POST.get('transaction_id')
-            # tshirt_size = request.POST.get('tshirt_size')
-            comments = request.POST.get('comments', '')
-            
+
+            # Step 2
             # Collect questionnaire answers
             answers = {
                 'question1': request.POST.get('question1', ''),
                 'question2': request.POST.get('question2', ''),
-                'question3': request.POST.get('question3', ''),
-                'question4': request.POST.get('question4', ''),
             }
-            
+            # ambassador_code = request.POST.get('ambassador_code', '')
+            participant_type = request.POST.getlist('participant_type', [])
+            participant_type.append('participant')
+
+            # Step 3
+            registering_for_team = request.POST.get('registering_for_team', False)
+            team_member_count = request.POST.get('team_mem_count', '')
+            mem_name_1 = request.POST.get('mem_name_1', '')
+            mem_uni_name_1 = request.POST.get('mem_uni_name_1', '')
+            mem_uni_id_1 = request.POST.get('mem_uni_id_1', '')
+            mem_name_2 = request.POST.get('mem_name_2', '')
+            mem_uni_name_2 = request.POST.get('mem_uni_name_2', '')
+            mem_uni_id_2 = request.POST.get('mem_uni_id_2', '')
+
+            # Step 4
+            payment_method = request.POST.get('payment_method')
+            transaction_id = request.POST.get('transaction_id')
+
             # Create and save participant
             participant = Form_Participant.objects.create(
                 name=name,
@@ -121,21 +143,29 @@ def submit_form(request):
                 contact_number=contact_number,
                 membership_type=membership_type,
                 ieee_id=ieee_id,
+                nsu_email=nsu_email,
                 university=university,
                 department=department,
                 university_id=university_id,
                 payment_method=payment_method,
                 transaction_id=transaction_id,
-                # tshirt_size=tshirt_size,
-                comments=comments,
                 answers=answers,
-                profession = profession,
-                designation = designation,
-                is_student = is_student,
-                affiliation = affiliation
+                current_year=current_year,
+                is_nsu_student=is_nsu_student,
+                # ambassador_code=ambassador_code,
+                participant_type=participant_type,
+                major=major,
+                registering_for_team=registering_for_team,
+                team_member_count=team_member_count,
+                team_mem_1_name=mem_name_1,
+                team_mem_1_university=mem_uni_name_1,
+                team_mem_1_university_id=mem_uni_id_1,
+                team_mem_2_name=mem_name_2,
+                team_mem_2_university=mem_uni_name_2,
+                team_mem_2_university_id=mem_uni_id_2,
             )
 
-            send_registration_email(participant.name, participant.email)
+            # send_registration_email(request, participant.name, participant.email)
             
             # Return success response
             return JsonResponse({
@@ -143,7 +173,7 @@ def submit_form(request):
                 'message': 'Registration successful! Your participant ID is: ' + str(participant.id),
                 'participant_id': participant.id
             })
-                      
+                        
         else:
             # If not POST request, return error
             return JsonResponse({
@@ -237,10 +267,8 @@ def download_excel(request):
 @permission_required('view_reg_responses_list')
 def response_table(request):
 
-    student_member_amount = 410
-    student_non_member_amount = 510
-    not_student_member_amount = 810
-    not_student_non_member_amount = 910
+    ieee_member = 400
+    non_ieee_member = 500
 
     permissions = {
         'view_finance_info':Site_Permissions.user_has_permission(request.user, 'view_finance_info')
@@ -251,7 +279,7 @@ def response_table(request):
     # Query grouped stats
     stats = (
         Form_Participant.objects
-        .values("is_student", "membership_type")
+        .values("membership_type")
         .annotate(total=Count("id"))
     )
 
@@ -259,27 +287,18 @@ def response_table(request):
     summary = {}
 
     for entry in stats:
-        is_student = "student" if entry["is_student"] else "not_student"
         membership = entry["membership_type"]
-
-        key = f"{is_student}_{membership}"
-        summary[key] = entry.get("total", 0)
+        summary[membership] = entry.get("total", 0)
     
-    summary['student_member_amount_total'] = summary.get('student_member', 0) * student_member_amount
-    summary['student_non_ieee_amount_total'] = summary.get('student_non_ieee', 0) * student_non_member_amount
-    summary['not_student_member_amount_total'] = summary.get('not_student_member', 0) * not_student_member_amount
-    summary['not_student_non_ieee_amount_total'] = summary.get('not_student_non_ieee', 0) * not_student_non_member_amount
+    summary['ieee_member_total'] = summary.get('member', 0) * ieee_member
+    summary['non_ieee_member_total'] = summary.get('non_ieee', 0) * non_ieee_member
 
-    total_amount = (summary['student_member_amount_total']
-                    +summary['student_non_ieee_amount_total'] 
-                    +summary['not_student_member_amount_total']
-                    +summary['not_student_non_ieee_amount_total'])
+    total_amount = (summary['ieee_member_total']
+                    +summary['non_ieee_member_total'])
     total_amount = f"BDT {total_amount:,}"
 
-    summary['student_member_amount_total'] = f"{summary['student_member_amount_total']:,}"
-    summary['student_non_ieee_amount_total'] = f"{summary['student_non_ieee_amount_total']:,}"
-    summary['not_student_member_amount_total'] = f"{summary['not_student_member_amount_total']:,}"
-    summary['not_student_non_ieee_amount_total'] = f"{summary['not_student_non_ieee_amount_total']:,}"
+    summary['ieee_member_total'] = f"{summary['ieee_member_total']:,}"
+    summary['non_ieee_member_total'] = f"{summary['non_ieee_member_total']:,}"
 
     
     university_data = (
@@ -318,19 +337,4 @@ def view_response(request, id):
     context = {
         'participant': partipant
     }
-    return render(request, 'form_response.html', context)
-
-
-#TEMPORARY
-@login_required
-@permission_required('view_reg_responses_list')
-def t_shirt_responses(request):
-
-    participants = T_Shirt_Form.objects.all().order_by('created_at')
-    size_data = T_Shirt_Form.objects.values('tshirt_size').annotate(count=Count('tshirt_size')).order_by('count')
-
-    context = {
-        'participants': participants,
-        'size_data':size_data,
-    }
-    return render(request, 'response_table_t_shirt.html', context)
+    return render(request, 'participant_response.html', context)

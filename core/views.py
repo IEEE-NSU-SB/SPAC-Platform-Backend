@@ -117,7 +117,7 @@ def dashboard(request):
         'has_perm':permissions,
     }
 
-    return render(request, 'coordinator_dashboard.html', context)
+    return render(request, 'dashboard.html', context)
 
 class SessionUpdateAjax(View):
     def post(self, request):

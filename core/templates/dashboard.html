@@ -5,32 +5,29 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dashboard</title>
-    <link rel="icon" href="{% static '/img/logo.gif' %}" />
+    <title>PowerExpress 2.0 | Dashboard</title>
+    <link rel="icon" href="{% static '/img/pes.png' %}" />
 
-    <style>
-      @import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
-    </style>
     <script src="{% static 'js/html5-qrcode.min.js' %}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- particle  -->
-    <script src="{% static "js/particles.min.js" %}"></script> 
+    <script src="{% static 'js/particles.min.js' %}"></script>
      <style>
+      @import url("https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&display=swap");
+
       #particles-js {
         position: fixed;
         width: 100%;
         height: 100%;
-        background-color: #00629b;
+        background-color: #479a46;
         z-index: -10;
       }
-    </style>
-    <style>
+
       body {
-        font-family: "Roboto", serif;
+      font-family: "Instrument Sans", sans-serif;
         margin: 0;
         padding: 0;
         background: #68cbecfd;
-        background-image: url("{% static '/img/StepBG.png' %}");
         height: 100vh;
       }
 
@@ -39,7 +36,7 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        background-color: #f8f8f8;
+        background-color: #D7F5BF;
         color: #000;
         /* font-weight: bold; */
         padding: 10px 20px;
@@ -47,13 +44,13 @@
       }
 
       .navbar img {
-        width: 200px;
+        width: 150px;
         height: 50px;
         object-fit: cover;
       }
 
       .navbar .logout {
-        background-color: #ff3333;
+        background-color: #c82424;
         color: white;
         border: none;
         padding: 8px 16px;
@@ -79,34 +76,40 @@
       .button-group button,
       .button-group a {
         text-decoration: none;
-        font-size: 1rem;
-        padding: 8px 20px;
-        border: 1px solid #ffffff;
-        background: #ffffff;
+        color: #122812;
+        border: 1px solid #122812;
+        border-radius: 0.325rem;
+        background: #c4f49d;
+        padding: 0.75rem 1.5rem;
         cursor: pointer;
-        border-radius: 5px;
-        /* font-weight: bold; */
-        color: #00629B;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 1rem;
+        transition: all 0.3s ease-in-out;
+        justify-content: center;
+      }
+      .button-group button:hover,
+      .button-group a:hover{
+        background: #479A46;
+        color: #c4f49d;
+      }
+      /* Smooth Transition blocks */
+      /* General styling for status blocks */
+      .status-blocks {
+        display: flex; /* Ensure it's a flex container when visible */
+        padding: 0 20px 20px;
+        justify-content: space-between;
+        align-items: flex-start;
       }
 
-      /* Smooth Transition blocks */
-/* General styling for status blocks */
-.status-blocks {
-  display: flex; /* Ensure it's a flex container when visible */
-  padding: 0 20px 20px;
-  justify-content: space-between;
-  align-items: flex-start;
-}
-
-/* Specific styling for the status-blocks container */
-#status-blocks {
-  max-height: 0; /* Initially collapsed */
-  opacity: 0; /* Initially hidden */
-  overflow: hidden; /* Prevent content overflow */
-  transition: max-height 0.8s ease-in-out, opacity 0.8s ease-in-out; /* Smooth transition */
-}
-
-
+      /* Specific styling for the status-blocks container */
+      #status-blocks {
+        max-height: 0; /* Initially collapsed */
+        opacity: 0; /* Initially hidden */
+        overflow: hidden; /* Prevent content overflow */
+        transition: max-height 0.8s ease-in-out, opacity 0.8s ease-in-out; /* Smooth transition */
+      }
 
       .close-status {
         display: none;
@@ -170,8 +173,8 @@
         border: 1px solid #ddd;
         /* box-shadow: 2px 2px 1px 1px #ddd; */
         border-radius: 4px;
-        height: 30px;
-        width: 250px;
+        height: 40px;
+        width: 350px;
         padding: 0 14px;
       }
 
@@ -197,10 +200,12 @@
         text-decoration: none;
         border: none;
         border-radius: 4px;
-        padding: 8px 30px;
-        background: #3f3d21;
-        color: white;
+        padding: 11px 36px;
+        background: #c4f49d;
+        color: #000000;
         cursor: pointer;
+        font-size: 16px;
+        font-weight: 500;
       }
       .filter-options > label {
         display: flex;
@@ -250,7 +255,7 @@
         margin: auto;
         justify-content: center;
         gap: 250px;
-        background-color: #f8f8f8;
+        background-color: #D7F5BF;
         /* color: white; */
         position: fixed;
         bottom: 0;
@@ -337,13 +342,12 @@
         background: #555; /* Color on hover */
       }
       #tap-to-scan {
-        background-color: #f8f8f8;
-        color: #00498d;
-        border: 1px solid #00498d;
+        color: #000000;
+        background-color: #fbd762;
+        border: 1px solid #000000;
       }
       #tap-to-scan:hover {
-        background-color: #00498d;
-        color: white;
+        background-color: #f0c021;
         transition: 0.6s;
       }
       #reader {
@@ -519,7 +523,7 @@ video{
      <div id="particles-js"></div>
     <!-- Navbar -->
     <div class="navbar">
-      <img src="{% static '/img/STEP-25.png' %}" alt="logo" />
+      <img src="{% static '/img/PowerExpressLogo.png' %}" alt="logo" />
       <div>
         Current Sessions: {% for session in token_sessions %}{{session.session_name}}{% if not forloop.last %}, {% endif %}{% endfor %}
       </div>
@@ -618,7 +622,6 @@ video{
               <th>SL</th>
               <th>Name</th>
               <th>University</th>
-              <th>Tshirt Size</th>
               {% comment %} <th>Role</th> {% endcomment %}
               <th>Contact</th>
               {% for session in token_sessions_all %}
@@ -635,7 +638,6 @@ video{
               <td>{{participant.id}}</td>
               <td>{{participant.name}}</td>
               <td>{{participant.university}}</td>
-              <td>{{participant.t_shirt_size}}</td>
               {% comment %} <td>{{participant.role}}</td> {% endcomment %}
               <td>{{participant.contact_no}}</td>
               {% for session in token_sessions_all %}
@@ -662,8 +664,8 @@ video{
   </form>
 </div>
     <div class="footer">
-      <img src="{% static '/img/Footer1.png' %}" alt="logo" />
-      <img src="{% static '/img/Footer2.png' %}" alt="logo" />
+      <!-- <img src="{% static '/img/Footer1.png' %}" alt="logo" />
+      <img src="{% static '/img/Footer2.png' %}" alt="logo" /> -->
     </div>
     <!-- Modal -->
     <div
@@ -758,81 +760,81 @@ closeStatusBtn.addEventListener("click", () => {
 });
 
 
-            const setSessionBtn = document.getElementById("set-session");
-            const setSessionModal = document.getElementById("set-session-modal");
-            const selectSessionBtn = document.getElementById("select-session");
-            const cancelSessionBtn = document.getElementById("cancel-session");
-            const modalOverlay = document.getElementById("modal-overlay");
-            const navbarSessionText = document.querySelector(".navbar > div");
+const setSessionBtn = document.getElementById("set-session");
+const setSessionModal = document.getElementById("set-session-modal");
+const selectSessionBtn = document.getElementById("select-session");
+const cancelSessionBtn = document.getElementById("cancel-session");
+const modalOverlay = document.getElementById("modal-overlay");
+const navbarSessionText = document.querySelector(".navbar > div");
 
-            {% if has_perm.update_session %}
-            // Open the modal
-            setSessionBtn.addEventListener("click", () => {
-              modalOverlay.style.display = "block";
-            });
+{% if has_perm.update_session %}
+// Open the modal
+setSessionBtn.addEventListener("click", () => {
+  modalOverlay.style.display = "block";
+});
 
-            // Close the modal on "Select Session"
-            selectSessionBtn.addEventListener("click", () => {
-              const selectedSessions = Array.from(
-                document.querySelectorAll('input[name="session"]:checked')
-              ).map((checkbox) => checkbox.value);
+// Close the modal on "Select Session"
+selectSessionBtn.addEventListener("click", () => {
+  const selectedSessions = Array.from(
+    document.querySelectorAll('input[name="session"]:checked')
+  ).map((checkbox) => checkbox.value);
 
-              const selectedSessionsName = Array.from(
-                document.querySelectorAll('input[name="session"]:checked')
-              ).map((checkbox) => checkbox.dataset.name);
+  const selectedSessionsName = Array.from(
+    document.querySelectorAll('input[name="session"]:checked')
+  ).map((checkbox) => checkbox.dataset.name);
 
-              fetch("{% url 'core:update_session' %}", {
-                method: "POST",
-                headers: { "Content-Type": "application/json", "X-CSRFToken":"{{csrf_token}}" },
-                body: JSON.stringify({"sessions": selectedSessions})
-              })
-                .then((response) => response.json())
-                .then((data) => {
-                  console.log("Server Response:", data);
+  fetch("{% url 'core:update_session' %}", {
+    method: "POST",
+    headers: { "Content-Type": "application/json", "X-CSRFToken":"{{csrf_token}}" },
+    body: JSON.stringify({"sessions": selectedSessions})
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log("Server Response:", data);
 
-                  if(data.message == 'success') {
-                    if (selectedSessions.length > 0) {
-                      navbarSessionText.textContent = `Current Sessions: ${selectedSessionsName.join(
-                        ", "
-                      )}`;
-                    } else {
-                      navbarSessionText.textContent = "No session selected";
-                    }
+      if(data.message == 'success') {
+        if (selectedSessions.length > 0) {
+          navbarSessionText.textContent = `Current Sessions: ${selectedSessionsName.join(
+            ", "
+          )}`;
+        } else {
+          navbarSessionText.textContent = "No session selected";
+        }
 
-                    Swal.fire({
-                      title: "Sessions Updated!",
-                      icon: "success",
-                      confirmButtonColor: "#3085d6",
-                      confirmButtonText: "OK",
-                    });
-                  }
-                  else {
-                    Swal.fire({
-                      title: "Sessions could not be updated!",
-                      icon: "warning",
-                      confirmButtonColor: "#3085d6",
-                    });
-                  }
-                }).catch((err) => console.error("Error:", err));
+        Swal.fire({
+          title: "Sessions Updated!",
+          icon: "success",
+          confirmButtonColor: "#3085d6",
+          confirmButtonText: "OK",
+        });
+      }
+      else {
+        Swal.fire({
+          title: "Sessions could not be updated!",
+          icon: "warning",
+          confirmButtonColor: "#3085d6",
+        });
+      }
+    }).catch((err) => console.error("Error:", err));
 
-              modalOverlay.style.display = "none";
-            });
+  modalOverlay.style.display = "none";
+});
 
-            // Close the modal on "Cancel"
-            cancelSessionBtn.addEventListener("click", () => {
-              modalOverlay.style.display = "none";
-            });
+// Close the modal on "Cancel"
+cancelSessionBtn.addEventListener("click", () => {
+  modalOverlay.style.display = "none";
+});
 
-            // Close the modal when clicking outside of it
-            modalOverlay.addEventListener("click", (event) => {
-              if (event.target === modalOverlay) {
-                modalOverlay.style.display = "none";
-              }
-            });
-            {% endif %}
+// Close the modal when clicking outside of it
+modalOverlay.addEventListener("click", (event) => {
+  if (event.target === modalOverlay) {
+    modalOverlay.style.display = "none";
+  }
+});
+{% endif %}
 
-            // Tap to Scan Button
-            const serverURL = '{% url "core:process_qr_data" %}';
+// Tap to Scan Button
+const serverURL = '{% url "core:process_qr_data" %}';
 const tapToScanBtn = document.getElementById("tap-to-scan");
 const qrReaderElement = document.getElementById("reader");
 const modalSessions = document.getElementById("modal-sessions");
@@ -1166,7 +1168,6 @@ checkboxes.forEach((checkbox) => {
   });
 });
 
-
 var last_updated_date_time = new Date();
   var countdown = 10;
 
@@ -1311,7 +1312,7 @@ details_form.addEventListener("submit", (e) => {
         document.addEventListener("DOMContentLoaded", function () {
         particlesJS("particles-js", {
           particles: {
-            number: { value: 160, density: { enable: true, value_area: 800 } },
+            number: { value: 80, density: { enable: true, value_area: 800 } },
             color: { value: "#ffffff" },
             shape: { type: "circle" },
             opacity: {
@@ -1320,7 +1321,7 @@ details_form.addEventListener("submit", (e) => {
               anim: { enable: true, speed: 1, opacity_min: 0, sync: false },
             },
             size: { value: 3, random: true },
-            line_linked: { enable: false },
+            line_linked: { enable: true },
             move: {
               enable: true,
               speed: 1,
