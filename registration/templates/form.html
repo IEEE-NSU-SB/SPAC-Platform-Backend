@@ -316,17 +316,41 @@
         "
       >
         {% if not is_staff_view and not is_published and not registration_closed%}
+        <div class="shadow-md p-5 font-medium rounded-md">
+            <h2 class="text-3xl text-center mb-5 font-mono">
+              PowerExpress 2.0
+            </h2>
+            <p class="text-justify">
+              As global energy demands rise and climate challenges grow, the need for efficient grid design and sustainable energy management has never been greater. For Bangladesh, ensuring reliable power, integrating renewables, and maintaining grid stability are vital for sustainable growth. To address these challenges, PowerExpress aims to create a collaborative platform that fosters innovation, research, and practical solutions in the energy sector.  
+              <br>
+              <br>
+              <b>PowerExpress</b>, a flagship event from the <b>IEEE NSU PES Student Branch Chapter</b> brings together students, young professionals, industry leaders, and policy leaders for a day-long program of learning, innovation, and collaboration.  The program features a series of inspiring keynote talks, impactful panel discussions, and interactive competitions designed to turn fresh ideas into real-world solutions.
+              <br>
+              <br>
+              More than an event, <b>PowerExpress</b> is a platform that connects academia, industry, and young innovators, empowering participants to actively contribute to a sustainable energy future.
+              <br>
+              <br>
+              <b>Event Name</b>: PowerExpress 2.0
+              <br>
+              <b>Event Date</b>: 24th November 2025
+              <br>
+              <b>Venue</b>: North South University, Dhaka
+              <br>
+              <b>Event Type</b>: Day-long flagship program
+            </p>
+          </div>
         <div
-          class="p-6 bg-yellow-50 border border-yellow-300 rounded text-yellow-900 text-center"
+          class="p-6 bg-yellow-50 border border-yellow-300 rounded text-yellow-900 text-center" style="
+          margin-top:18px"
         >
           {% comment %} 
           Registration is not open yet. Please check back later.
           {% endcomment %}
           <p>
-            The form PowerExpress 2.0 is no longer accepting responses.
+            The form PowerExpress 2.0 has not started accepting responses yet. Check back later!
           </p>
           <p>
-            Try contacting the owner of the form if you think this is a mistake.
+            For any queries, contact - <a href="tel:+8801712902722" style="color:#0b5ed7;text-decoration:none;">+880 17 1290 2722</a>
           </p>
         </div>
         {% elif not is_staff_view and registration_closed %}
@@ -1446,12 +1470,41 @@ function goToStep(stepNumber) {
 function validateStep(stepNumber) {
   const currentStep = document.getElementById(`step${stepNumber}`);
   if (!currentStep) return true;
-  const requiredInputs = currentStep.querySelectorAll("[required]");
-  for (const input of requiredInputs) {
-    if (!input.value.trim()) 
-    return false;
-  }
-  return true;
+  const requiredFields = currentStep.querySelectorAll("[required]");
+  
+  let isValid = true;
+
+  requiredFields.forEach(field => {
+    let fieldWrapper = field.closest("div");
+
+    if (field.type === 'radio') {
+      // Get all radio buttons with the same name
+      const radioGroup = currentStep.querySelectorAll(`[name="${field.name}"]`);
+      
+      // Check if at least one radio is selected
+      const isChecked = Array.from(radioGroup).some(radio => radio.checked);
+
+      if (!isChecked) {
+        isValid = false;
+        radioGroup.forEach(radio => {
+          const wrapper = radio.closest('label') || radio;
+          wrapper.style.color = "#b02424ff";
+        });
+      } else {
+        radioGroup.forEach(radio => {
+          const wrapper = radio.closest('label') || radio;
+          wrapper.style.color = "";
+        });
+      }
+    } else if (!field.value.trim()) {
+      isValid = false;
+      field.style.border = "1px solid #f13131";
+    } else {
+      field.style.border = "";
+    }
+  });
+  
+  return isValid;
 }
 
 function updateIndicators(step) {
