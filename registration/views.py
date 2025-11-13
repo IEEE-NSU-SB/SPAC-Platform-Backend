@@ -267,8 +267,8 @@ def download_excel(request):
 @permission_required('view_reg_responses_list')
 def response_table(request):
 
-    ieee_member = 400
-    non_ieee_member = 500
+    ieee_member = 350
+    non_ieee_member = 450
 
     permissions = {
         'view_finance_info':Site_Permissions.user_has_permission(request.user, 'view_finance_info')
