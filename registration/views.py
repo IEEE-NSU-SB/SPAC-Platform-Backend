@@ -165,7 +165,7 @@ def submit_form(request):
                 team_mem_2_university_id=mem_uni_id_2,
             )
 
-            # send_registration_email(request, participant.name, participant.email)
+            send_registration_email(request, participant.name, participant.email)
             
             # Return success response
             return JsonResponse({
