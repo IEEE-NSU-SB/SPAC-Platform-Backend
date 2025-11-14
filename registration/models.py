@@ -51,12 +51,12 @@ class Form_Participant(models.Model):
     # Step 3
     registering_for_team = models.BooleanField(blank=False, null=False, default=False)
     team_member_count = models.CharField(max_length=5, choices=TEAM_MEMBER_COUNT_CHOICES, null=True, blank=True)
-    team_mem_1_name = models.CharField(max_length=200, null=True, blank=True)
+    team_mem_1_name = models.CharField(max_length=200, null=True, blank=True, default='')
     team_mem_1_university = models.CharField(max_length=200, null=True, blank=True, default='')
-    team_mem_1_university_id = models.CharField(max_length=50, null=True, blank=True,default='')
-    team_mem_2_name = models.CharField(max_length=200, null=True, blank=True)
+    team_mem_1_university_id = models.CharField(max_length=50, null=True, blank=True, default='')
+    team_mem_2_name = models.CharField(max_length=200, null=True, blank=True, default='')
     team_mem_2_university = models.CharField(max_length=200, null=True, blank=True, default='')
-    team_mem_2_university_id = models.CharField(max_length=50, null=True, blank=True,default='')
+    team_mem_2_university_id = models.CharField(max_length=50, null=True, blank=True, default='')
 
     # Step 4
     payment_method = models.CharField(max_length=20, choices=[("Bkash","Bkash")], default="Bkash")
