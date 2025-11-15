@@ -80,13 +80,13 @@ def submit_form(request):
         if request.method == 'POST':
             
             status = EventFormStatus.objects.order_by('-updated_at').first()
-            #TEMPORARY
-            # if not Site_Permissions.user_has_permission(request.user, 'reg_form_control') and status.is_published == False:
+
             # if not Site_Permissions.user_has_permission(request.user, 'reg_form_control'):
-            #     return JsonResponse({
-            #     'success': False,
-            #     'message': 'Registration failed'
-            #     })
+            if not Site_Permissions.user_has_permission(request.user, 'reg_form_control') and status.is_published == False:
+                return JsonResponse({
+                'success': False,
+                'message': 'Form has been turned off'
+                })
 
             # Get form data
             #Step 1
@@ -135,6 +135,7 @@ def submit_form(request):
             # Step 4
             payment_method = request.POST.get('payment_method')
             transaction_id = request.POST.get('transaction_id')
+            comments = request.POST.get('comments')
 
             # Create and save participant
             participant = Form_Participant.objects.create(
@@ -163,6 +164,7 @@ def submit_form(request):
                 team_mem_2_name=mem_name_2,
                 team_mem_2_university=mem_uni_name_2,
                 team_mem_2_university_id=mem_uni_id_2,
+                comments=comments,
             )
 
             send_registration_email(request, participant.name, participant.email)
