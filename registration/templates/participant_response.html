@@ -358,8 +358,8 @@
               <div class="mb-5">
                   <label class="input_label">Are you registering for your team?<span class="text-red-700 ml-1">*</span></label>
 
-                  <label><input class="mb-1" type="radio" name="registering_for_team" value="True" {% if participant.registering_for_team %}checked{% else %}disabled{% endif %} /> Yes</label><br />
-                  <label><input class="mb-1" type="radio" name="registering_for_team" value="False" {% if not participant.registering_for_team %}checked{% else %}disabled{% endif %} /> No</label><br />
+                  <label><input class="mb-1" type="radio" name="registering_for_team" value="True" {% if participant.registering_for_team %}checked{% else %}disabled{% endif %} /> Yes, I'm registering for my team.</label><br />
+                  <label><input class="mb-1" type="radio" name="registering_for_team" value="False" {% if not participant.registering_for_team %}checked{% else %}disabled{% endif %} /> No, one of my teammate will register.</label><br />
               </div>
               
               {% if participant.registering_for_team %}
