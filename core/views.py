@@ -18,8 +18,14 @@ from core.models import Registered_Participant
 
 # Create your views here.
 def login(request):
+
     if request.user.is_authenticated:
-        return redirect('core:dashboard')
+        if not Site_Permissions.user_has_permission(request.user, 'reg_form_control'):
+            return redirect('core:dashboard')
+        elif not Site_Permissions.user_has_permission(request.user, 'view_qr_dashboard'):
+            return redirect('registration:registration_admin')
+        else:
+            return redirect('core:dashboard')
     
     if(request.method == 'POST'):
         username = request.POST['username']
@@ -35,7 +41,12 @@ def login(request):
                 # Redirect to the originally requested URL
                 return redirect(next_url)
             else:
-                return redirect('core:dashboard')
+                if not Site_Permissions.user_has_permission(request.user, 'reg_form_control'):
+                    return redirect('core:dashboard')
+                elif not Site_Permissions.user_has_permission(request.user, 'view_qr_dashboard'):
+                    return redirect('registration:registration_admin')
+                else:
+                    return redirect('core:dashboard')
         else:
             messages.error(request, "Credentials don't match")
 
