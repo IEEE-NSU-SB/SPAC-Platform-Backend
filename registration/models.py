@@ -61,6 +61,7 @@ class Form_Participant(models.Model):
     # Step 4
     payment_method = models.CharField(max_length=20, choices=[("Bkash","Bkash")], default="Bkash")
     transaction_id = models.CharField(max_length=100, null=True, blank=True)
+    comments = models.TextField(null=True, blank=True, default='')
 
     created_at = models.DateTimeField(auto_now_add=True)
 
