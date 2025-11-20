@@ -287,6 +287,7 @@ def download_excel(request):
                 'University': '',
                 'University ID': ''
             })
+            teams_data_count += 1
     
     # Create Excel file with two sheets
     output = BytesIO()
