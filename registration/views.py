@@ -240,6 +240,34 @@ def download_excel(request):
             'Q2': answers.get('question2', ''),
         }
         questionnaire_data.append(questionnaire_row)
+
+    # Prepare data for Sheet 3: Teams
+    teams_data = []
+    teams_data_count = 1
+    for participant in participants:
+        if 'participant_pstpre_contestant' in participant.participant_type and participant.registering_for_team:
+            teams_data.append({f'Team: {teams_data_count}'})
+            teams_row = {
+                'Name': participant.name,
+                'University': participant.university,
+                'University ID': participant.university_id,
+            }
+            teams_data.append(teams_row)
+            if participant.team_member_count == 'two' or participant.team_member_count == 'three':
+                teams_row = {
+                    'Name': participant.team_mem_1_name,
+                    'University': participant.team_mem_1_university,
+                    'University ID': participant.team_mem_1_university_id,
+                }
+                teams_data.append(teams_row)
+            elif participant.team_member_count == 'three':
+                teams_row = {
+                    'Name': participant.team_mem_2_name,
+                    'University': participant.team_mem_2_university,
+                    'University ID': participant.team_mem_2_university_id,
+                }
+                teams_data.append(teams_row)
+            teams_data.append({})
     
     # Create Excel file with two sheets
     output = BytesIO()
@@ -261,6 +289,15 @@ def download_excel(request):
             # Create empty sheet if no data
             empty_df = pd.DataFrame({'Message': ['No participants registered']})
             empty_df.to_excel(writer, index=False, sheet_name='Questionnaire Answers')
+
+        # Sheet 3: Teams
+        if teams_data:
+            df_teams = pd.DataFrame(teams_data)
+            df_teams.to_excel(writer, index=False, sheet_name='Teams')
+        else:
+            # Create empty sheet if no data
+            empty_df = pd.DataFrame({'Message': ['No teams registered']})
+            empty_df.to_excel(writer, index=False, sheet_name='Teams')
     
     output.seek(0)
     response = HttpResponse(
