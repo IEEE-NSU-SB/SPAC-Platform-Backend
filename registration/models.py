@@ -26,6 +26,7 @@ class Form_Participant(models.Model):
         ('two', 'Two'),
         ('three', 'Three'),
     ]
+    SIZE_CHOICES = [("S","S"),("M","M"),("L","L"),("XL","XL"),("2XL","2XL"),("3XL","3XL"),("4XL","4XL")]
 
     is_nsu_student = models.BooleanField(default=False)
 
@@ -63,6 +64,7 @@ class Form_Participant(models.Model):
     transaction_id = models.CharField(max_length=100, null=True, blank=True)
     comments = models.TextField(null=True, blank=True, default='')
 
+    tshirt_size = models.CharField(max_length=5, choices=SIZE_CHOICES, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
