@@ -46,10 +46,10 @@ def send_emails(request):
 
             message["From"] = "IEEE NSU SB Portal <ieeensusb.portal@gmail.com>"
             message["To"] = participant.email
-            message["Cc"] = 'sb-nsu@ieee.org'
-            message["Subject"] = 'Registration Confirmation & Event Guidelines for IEEE STEP 2025'
+            message["Cc"] = 'nujhat.saleh@northsouth.edu'
+            message["Subject"] = 'Registration Confirmation & Event Guidelines for PowerExpress 2.0'
 
-            message.attach(MIMEText(render_to_string('email_template_step25.html', {'name':participant.name}), 'html'))
+            message.attach(MIMEText(render_to_string('email_template.html', {'name':participant.name}), 'html'))
 
             content_file = open(f"Participant Files/Participant_QR/{participant.id}.png", "rb")
 
@@ -62,16 +62,27 @@ def send_emails(request):
             )
             message.attach(part)
 
-            content_file2 = open(f"Participant Files/IEEE Student Transition and Elevation Partnership 2025 - Igniting Future Innovators - Event Timeline.pdf", "rb")
+            content_file2 = open(f"Participant Files/PowerExpress 2.0 Timeline.pdf", "rb")
 
             part2 = MIMEBase('application', 'octet-stream')
             part2.set_payload(content_file2.read())
             encoders.encode_base64(part2)
             part2.add_header(
                 'Content-Disposition',
-                f'attachment; filename=IEEE Student Transition and Elevation Partnership 2025 - Igniting Future Innovators - Event Timeline.pdf',
+                f'attachment; filename=PowerExpress 2.0 Timeline.pdf',
             )
             message.attach(part2)
+
+            content_file3 = open(f"Participant Files/PowerExpressBanner.png", "rb")
+
+            part3 = MIMEBase('application', 'octet-stream')
+            part3.set_payload(content_file3.read())
+            encoders.encode_base64(part3)
+            part3.add_header(
+                'Content-Disposition',
+                f'attachment; filename=PowerExpressBanner.png',
+            )
+            message.attach(part3)
 
             # encoded message
             encoded_message = base64.urlsafe_b64encode(message.as_bytes()).decode()
@@ -107,10 +118,10 @@ def send_email(request):
         message = MIMEMultipart()
         message["From"] = "IEEE NSU SB Portal <ieeensusb.portal@gmail.com>"
         message["To"] = data['emailAddr']
-        message["Subject"] = "QR Code for STEP'25"
+        message["Subject"] = "QR Code for PowerExpress 2.0"
         message.attach(MIMEText(f'''Dear Participant,
                                 
-Your QR code for STEP'25 event is attached in this email.
+Your QR code for PowerExpress 2.0 event is attached in this email.
 This QR code is essential to collect your food and goodies.
                                 
 Best regards,
