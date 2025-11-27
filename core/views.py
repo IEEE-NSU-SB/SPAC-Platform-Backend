@@ -10,7 +10,7 @@ from django.db import connection
 
 from access_ctrl.decorators import permission_required
 from access_ctrl.utils import Site_Permissions
-from pes_pwrxpress import settings
+from spac_platform import settings
 from .renderData import Core
 
 from core.forms import CSVImportForm
