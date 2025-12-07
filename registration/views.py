@@ -43,6 +43,9 @@ def registration_form(request):
     }
     return render(request, 'form.html', context)
 
+def registration_form_phase02(request):
+    return render(request, 'phase2form.html')
+
 @login_required
 @permission_required('reg_form_control')
 def registration_admin(request):
