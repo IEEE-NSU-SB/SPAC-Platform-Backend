@@ -43,6 +43,30 @@ def registration_form(request):
     }
     return render(request, 'form.html', context)
 
+def registration_form_phase02(request):
+    """Display the registration form for general users. Hidden if not published."""
+    # If staff/superuser hits the user URL, send them to the admin view
+
+    if request.user.is_authenticated and request.user.is_staff:
+        return redirect('registration:registration_admin')
+    
+    if request.user.is_authenticated:
+        if not Site_Permissions.user_has_permission(request.user, 'reg_form_control'):
+            return redirect('core:dashboard')
+        elif not Site_Permissions.user_has_permission(request.user, 'view_qr_dashboard'):
+            return redirect('registration:registration_admin')
+        else:
+            return redirect('core:dashboard')
+
+    registration_count = Form_Participant.objects.count()
+    registration_closed = registration_count >= 10000
+    context = {
+        'is_staff_view': False,
+        'is_published': _get_publish_status(),
+        'registration_closed': registration_closed,
+    }
+    return render(request, 'phase2form.html',context)
+
 @login_required
 @permission_required('reg_form_control')
 def registration_admin(request):
