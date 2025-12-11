@@ -4,7 +4,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>PowerExpress 2.0 | Registration Form</title>
+    <title>SPAC 2025 | Registration Form</title>
     <link rel="icon" href="{% static '/img/logo.gif' %}" />
     <!--daisy ui-->
     <link
@@ -25,7 +25,6 @@
       @import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&display=swap');
 
       body {
-        /* background-image: url("{% static '/img/StepBG.png' %}"); */
         background: transparent;
         background-repeat: no-repeat;
         background-size: cover;
@@ -34,7 +33,6 @@
         font-family: "Instrument Sans", sans-serif;
       }
       .response_count {
-        /* font-weight: bold; */
         font-size: larger;
         border-bottom: 2px solid #19508e;
         border-top: 1px solid #19508e;
@@ -44,12 +42,11 @@
         border-radius: 4px;
         background: #c6e8ff;
         color: #122812;
-        /* font-style: italic; */
       }
       /* Width of the scrollbar */
       .custom-scrollbar::-webkit-scrollbar {
         width: 5px;
-        height: 12px; /* For horizontal scrollbar */
+        height: 12px;
       }
 
       /* Track (background) */
@@ -73,7 +70,7 @@
       canvas {
         display: block;
         vertical-align: bottom;
-      } /* ---- particles.js container ---- */
+      }
       #particles-js {
         position: absolute;
         width: 100%;
@@ -83,7 +80,7 @@
         background-repeat: no-repeat;
         background-size: 20%;
         background-position: 50% 50%;
-      } /* ---- stats.js ---- */
+      }
       .count-particles {
         background: #000022;
         position: absolute;
@@ -178,6 +175,15 @@
         margin-bottom: .5rem;
         margin-bottom: 22px;
       }
+      .payment-info-text {
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-bottom: 15px;
+        color: #122812;
+      }
+      .payment-info-text strong {
+        color: #00629B;
+      }
       @media screen and (max-width: 500px) {
         .response_count {
           margin: 0 auto;
@@ -189,6 +195,12 @@
         .response_count{
           margin: 12px auto;
         }
+        .payment-info-text {
+          font-size: 1rem;
+        }
+        .payment-info-text strong {
+          font-size: 1.1rem;
+        }
       }
     </style>
   </head>
@@ -199,24 +211,15 @@
 
     <div class="w-11/12 md:w-3/5 mx-auto my-4">
       <div class="rounded overflow-hidden shadow-[0px_0px_10px_#00629B] border-1 border-white flex justify-center">
-        {% if not is_staff_view and not is_published and not registration_closed %}
         <img
           src="{% static '/img/SpacBanner.png' %}"
           alt=""
           class="object-cover md:h-auto"
         />
-        {% else %}
-        <img
-          src="{% static '/img/SpacBanner.png' %}"
-          alt=""
-          class="object-cover md:h-auto"
-        />
-        {% endif %}
       </div>
     </div>
     {% if has_perm.reg_form_control %}
     <!-- admin feature part  -->
-    <!-- Button Header -->
     <div class="rounded">
       <div
         class="bg-[#d3e4f7] w-11/12 md:w-3/5 mx-auto px-6 py-5"
@@ -227,7 +230,6 @@
           position: relative;
           top: 14px;"
       >
-        <!-- <div class="flex flex-wrap gap-3 items-center justify-between"> -->
         <div
           class="flex flex-col sm:flex-row sm:flex-wrap items-center md:justify-between items-start"
         >
@@ -328,7 +330,7 @@
               <br>
               </p>
               <p >
-              <b>What’s in for Phase 1?</b>
+              <b>What's in for Phase 1?</b>
               </p>
               <br>
               Phase 1 is an application selection process based on the answers provided during registration. 
@@ -363,12 +365,6 @@
           class="p-6 bg-yellow-50 border border-yellow-300 rounded text-yellow-900 text-center" style="
           margin-top:18px"
         >
-          {% comment %} 
-          Registration is not open yet. Please check back later.
-          {% endcomment %}
-          {% comment %} <p>
-            The form PowerExpress 2.0 has not started accepting responses yet. Check back later!
-          </p> {% endcomment %}
           <p>
             Registration is closed as we have reached the maximum number of
             participants.
@@ -385,12 +381,6 @@
           participants.
         </div>
         {% else %}
-        <!-- Step indicator
-        <div class="flex justify-between mb-8">
-          <div id="step1Indicator" class="w-1/3 text-center font-bold text-primary">1. Basic Info</div>
-          <div id="step2Indicator" class="w-1/3 text-center text-gray-500">2. Questionnaire</div>
-          <div id="step3Indicator" class="w-1/3 text-center text-gray-500">3. Payment</div>
-        </div> -->
 
         <!-- Form wrapper -->
         <form id="registrationForm" method="post" action="/submit-form/">
@@ -407,7 +397,7 @@
               <br>
               </p>
               <p >
-              <b>What’s in for Phase 1?</b>
+              <b>What's in for Phase 1?</b>
               </p>
               <br>
               Phase 1 is an application selection process based on the answers provided during registration. 
@@ -439,6 +429,7 @@
             </p>
             <hr class="my-6 w-[100%] m-auto text-gray-400">
             <h2 class="section_heading">BASIC INFO</h2>
+            <!-- name  -->
             <div class="mb-5">
               <label for="name" class="input_label">
                 Name<span
@@ -455,6 +446,7 @@
                 required
               />
             </div>
+            <!-- email  -->
             <div class="mb-5">
               <label for="email" class="input_label">
                 Email Address<span class="text-red-700 ml-1">*</span>
@@ -468,6 +460,7 @@
                 required
               />
             </div>
+            <!-- contact number -->
             <div class="mb-5">
               <label for="contact_number" class="input_label">
                 Contact Number<span class="text-red-700 ml-1">*</span>
@@ -481,190 +474,140 @@
                 required
               />
             </div>
-            <!--Select if you are a student or not-->
+
+            <!-- university name  -->
             <div class="mb-5">
-              <label class="input_label">
-                Are you a student from North South University?<span class="text-red-700 ml-1">*</span>
+              <label class="input_label block mb-2">
+                Institution Name
+                <span class="text-red-700 ml-1">*</span>
               </label>
-              <label class="text-lg">
-                <input
-                  class="mb-1"
-                  type="radio"
-                  name="is_student"
-                  value="student"
-                  required
-                />
-                Yes </label
-              ><br />
-              <label class="text-lg">
-                <input
-                  class="mb-1"
-                  type="radio"
-                  name="is_student"
-                  value="other_student"
-                />
-                Other</label
-              ><br />
+
+              <ul class="list-disc pl-6 space-y-4">
+                <li>Ahsanullah University of Science and Technology</li>
+                <li>American International University Bangladesh</li>
+                <li>Bangabandhu Sheikh Mujibur Rahman Science and Technology University, Gopalganj</li>
+                <li>Bangladesh University Engineering and Technology</li>
+                <li>Bangladesh University of Professionals (BUP)</li>
+                <li>BRAC University</li>
+                <li>Daffodil International University</li>
+                <li>East Delta University</li>
+                <li>East West University</li>
+                <li>Green University of Bangladesh</li>
+                <li>Independent University, Bangladesh</li>
+                <li>Jashore University of Science and Technology</li>
+                <li>Leading University</li>
+                <li>North South University</li>
+                <li>Southeast University</li>
+                <li>Stamford University Bangladesh</li>
+                <li>United International University</li>
+                <li>University of Asia Pacific</li>
+                <li>Xiamen University Malaysia</li>
+                <li>Northern University of Bangladesh, Khulna</li>
+              </ul>
+            </div>
+
+            <!-- selected phase 1  -->
+            <div class="mb-5">
+              <label class="input_label block mb-2">
+                Are You Selected in Phase 01 on SPAC 2025?
+                <span class="text-red-700 ml-1">*</span>
+              </label>
+
+              <div class="flex items-center gap-6 mt-2">
+                <!-- Yes Option -->
+                <label class="flex items-center gap-2 cursor-pointer">
+                  <input
+                    type="radio"
+                    name="selected_phase1"
+                    value="yes"
+                    required
+                    class="radio-input"
+                  />
+                  <span>Yes</span>
+                </label>
+
+                <!-- No Option -->
+                <label class="flex items-center gap-2 cursor-pointer">
+                  <input
+                    type="radio"
+                    name="selected_phase1"
+                    value="no"
+                    required
+                    class="radio-input"
+                  />
+                  <span>No</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- membership Sections -->
+            <div class="mb-5">
+              <label class="input_label block mb-2">
+                Select Your Membership Grade
+                <span class="text-red-700 ml-1">*</span>
+              </label>
+
+              <div class="flex flex-col gap-3 mt-3">
+                <label class="flex items-center gap-2 cursor-pointer">
+                  <input
+                    type="radio"
+                    name="membership_grade"
+                    value="student"
+                    class="radio-input"
+                    required
+                  />
+                  <span>IEEE Student Member (Undergraduate Students, Grade Students Membership)</span>
+                </label>
+
+                <label class="flex items-center gap-2 cursor-pointer">
+                  <input
+                    type="radio"
+                    name="membership_grade"
+                    value="professional"
+                    class="radio-input"
+                  />
+                  <span>IEEE Member (Senior Members, Professionals, Faculty Members, Fellow)</span>
+                </label>
+
+                <label class="flex items-center gap-2 cursor-pointer">
+                  <input
+                    type="radio"
+                    name="membership_grade"
+                    value="non_ieee"
+                    class="radio-input"
+                  />
+                  <span>Non-IEEE Member</span>
+                </label>
+              </div>
+            </div>
+
+            <!--ieee member  -->
+            <div id="student_section" class="hidden mt-3 mb-4">
+              <label class="input_label block mb-2">IEEE Student Membership ID  <span class="text-red-700 ml-1">*</span></label>
               <input
-                type="hidden"
-                name="is_student_bool"
-                id="is_student_bool"
+                type="text"
+                name="student_membership_id"
+                id="student_membership_id"
+                class="input"
+                placeholder="Enter your IEEE Student Membership ID"
               />
             </div>
-            <!--For Student-->
-            <div class="student_div">
-              <div class="mb-5">
-                <label for="nsu_id" class="input_label">
-                  NSU ID<span class="text-red-700 ml-1">*</span>
-                </label>
-                <input
-                  type="number"
-                  name="nsu_id"
-                  id="nsu_id"
-                  placeholder="Enter your NSU ID"
-                  class="input"
-                  required
-                />
-              </div>
-              <div class="mb-5">
-                <label for="nsu_email" class="input_label">
-                  NSU Email<span class="text-red-700 ml-1">*</span>
-                </label>
-                <input
-                  type="email"
-                  name="nsu_email"
-                  id="nsu_email"
-                  placeholder="Enter your NSU email"
-                  class="input"
-                  required
-                />
-              </div>
-              <div class="mb-5">
-                <label for="department" class="input_label">
-                  Department<span class="text-red-700 ml-1">*</span>
-                </label>
-                <input
-                  type="text"
-                  name="department"
-                  id="department"
-                  placeholder="Enter your department"
-                  class="input"
-                  required
-                />
-              </div>
-              <div class="mb-5">
-                <label for="current_year" class="input_label">
-                  Which year are you in?<span class="text-red-700 ml-1">*</span>
-                </label>
-                <input
-                  type="text"
-                  name="current_year"
-                  id="current_year"
-                  placeholder="Enter your current year in univerisity"
-                  class="input"
-                  required
-                />
-              </div>
+
+            <!-- senior member  -->
+            <div id="professional_section" class="hidden mt-3 mb-4">
+              <label class="input_label block mb-2">IEEE Membership ID  <span class="text-red-700 ml-1">*</span></label>
+              <input
+                type="text"
+                name="professional_membership_id"
+                id="professional_membership_id"
+                class="input"
+                placeholder="Enter your IEEE Membership ID"
+              />
             </div>
-            <!--For Students of other universities-->
-            <div class="other_uni_div">
-              <div class="mb-5">
-                <label for="uni_name" class="input_label">
-                  Name of your university<span class="text-red-700 ml-1">*</span>
-                </label>
-                <input
-                  type="text"
-                  name="uni_name"
-                  id="uni_name"
-                  placeholder="Enter your university name"
-                  class="input"
-                  required
-                />
-              </div>
-              <div class="mb-5">
-                <label for="uni_id" class="input_label">
-                  University ID<span class="text-red-700 ml-1">*</span>
-                </label>
-                <input
-                  type="number"
-                  name="uni_id"
-                  id="uni_id"
-                  placeholder="Enter your university id"
-                  class="input"
-                  required
-                />
-              </div>
-              <div class="mb-5">
-                <label for="other_current_year" class="input_label">
-                  Which year are you in?<span
-                    class="text-red-700 ml-1"
-                    >*</span
-                  >
-                </label>
-                <input
-                  type="text"
-                  name="other_current_year"
-                  id="other_current_year"
-                  placeholder="Enter your current year in univerisity"
-                  class="input"
-                  required
-                />
-              </div>
-              <div class="mb-5">
-                <label for="major" class="input_label">
-                  What's your major?<span
-                    class="text-red-700 ml-1"
-                    >*</span
-                  >
-                </label>
-                <input
-                  type="text"
-                  name="major"
-                  id="major"
-                  placeholder="Enter your major"
-                  class="input"
-                  required
-                />
-              </div>
-            </div>
-            <div class="mb-5">
-              <label class="input_label">
-                Are you an IEEE Member?<span class="text-red-700 ml-1">*</span>
-              </label>
-              <label class="text-lg">
-                <input
-                  class="mb-2"
-                  type="radio"
-                  name="membership_type"
-                  value="member"
-                  required
-                />
-                IEEE Member </label
-              ><br />
-              <label class="text-lg">
-                <input type="radio" name="membership_type" value="non_ieee" />
-                Non-IEEE Member </label
-              ><br />
-            </div>
-            <div class="mb-5">
-                <label for="ieee_id" class="input_label">
-                  Your IEEE ID Number (Write N/A if you're Non-IEEE Member)<span
-                    class="text-red-700 ml-1"
-                    >*</span
-                  >
-                </label>
-                <input
-                  type="text"
-                  name="ieee_id"
-                  id="ieee_id"
-                  placeholder="Enter your Membership ID"
-                  class="input"
-                  required
-                />
-            </div>
+
             <div class="flex justify-center">
               <button
-                onclick="nextStep(1)"
+                onclick="nextStep()"
                 class="continue-btn"
                 type="button"
               >
@@ -673,330 +616,9 @@
             </div>
           </section>
 
-          <!-- Step 2: Questionnaire -->
+          <!-- Step 2: Payment -->
           <section
             id="step2"
-            class="hidden shadow-md p-5 font-medium rounded-md"
-          >
-            <div class="flex items-center justify-between">
-              <!-- Back button on the left -->
-              <div class="z-10">
-                <button
-                  onclick="prevStep(1)"
-                  class="back-btn"
-                  type="button"
-                >
-                  Back
-                </button>
-              </div>
-
-              <!-- Centered Questionnaire Section -->
-              <div
-                class="absolute left-1/2 transform -translate-x-1/2 px-20 sm:px-4"
-              >
-            </div>
-          </div>
-          <h2 class="section_heading">
-            Questions
-          </h2>
-
-            <div class="mb-5">
-              <label for="question1" class="input_label">
-                1. What's your idea about this event? (Write your thoughts within 100 words)<span
-                  class="text-red-700 ml-1"
-                  >*</span
-                >
-              </label>
-              <textarea
-                id="question1"
-                name="question1"
-                maxlength="250"
-                rows="4"
-                class="w-full p-2 border border-gray-500 rounded-md focus:outline-none focus:ring-1 focus:ring-black"
-                placeholder="Type your answer here..."
-                required
-              ></textarea>
-            </div>
-            <div class="mb-5">
-              <label for="question2" class="input_label">
-                2. What is your expectation from this program? (Write your thoughts within 100 words)<span
-                  class="text-red-700 ml-1"
-                  >*</span
-                >
-              </label>
-              <textarea
-                id="question2"
-                name="question2"
-                maxlength="250"
-                rows="4"
-                class="w-full p-2 border border-gray-500 rounded-md focus:outline-none focus:ring-1 focus:ring-black"
-                placeholder="Type your answer here..."
-                required
-              ></textarea>
-            </div>
-            <!-- <div class="mb-5">
-              <label for="ambassador_code" class="input_label">
-                Ambassador Code<span
-                  class="text-red-700 ml-1"
-                  >*</span
-                >
-              </label>
-              <input
-                type="text"
-                name="ambassador_code"
-                id="ambassador_code"
-                placeholder="Enter your Ambassador code"
-                class="input"
-                required
-              />
-            </div> -->
-             <div class="mb-5">
-              <label class="input_label">
-                You are joining "PowerExpress 2.0" as_ (Select multiple if you want to participate in more than one)<span class="text-red-700 ml-1">*</span>
-              </label>
-              <label>
-                <input
-                  class="mb-1"
-                  type="checkbox"
-                  name="participant_type"
-                  value="participant_pstpre_contestant"
-                />
-                Idea Generation Competition Contestant</label
-              ><br />
-              <!-- <label>
-                <input
-                class="mb-1"
-                type="checkbox"
-                name="participant_type"
-                value="participant_pwrolmp_contestant"
-                />
-                Power Olympiad Contestant</label
-                ><br />
-                <label> -->
-                  <input
-                    class="mb-1"
-                    type="checkbox"
-                    name="participant_type"
-                    value="participant"
-                    required
-                    checked
-                    disabled
-                  />
-                  Just as Participant</label
-                ><br />
-              
-            </div>
-            <div class="flex justify-center">
-              <button
-                onclick="nextStep(2)"
-                class="continue-btn"
-                type="button"
-              >
-                Continue
-              </button>
-            </div>
-          </section>
-          <!-- Step 3: Poster Contest-->
-           <section
-            id="step3"
-            class="hidden shadow-md p-5 font-medium rounded-md"
-          >
-            <div class="flex items-center justify-between+">
-              <!-- Back button on the left -->
-              <div class="z-10">
-                <button
-                  onclick="prevStep(2)"
-                  class="back-btn"
-                  type="button"
-                >
-                  Back
-                </button>
-              </div>
-
-              <div
-                class="absolute left-1/2 transform -translate-x-1/2 px-20 sm:px-4"
-              >
-            </div>
-          </div>
-
-          
-          <h2 class="section_heading" style="margin-bottom: 0px">
-            Idea Generation Competition Details
-          </h2>
-          <p style="text-align:center;margin-bottom: 22px">Powering a greener tomorrow starts with your idea!</p>  
-          <div class="text-justify mb-5">
-
-            <p><b>Topic:</b> Affordable, Low-Carbon &amp; Resilient Energy Solutions for Local Energy Community (LEC) of Bangladesh</p>
-            <p><b>Goals:</b></p>
-            <ul>
-              <li>Reduce CO₂ emissions</li>
-              <li>Make energy affordable &amp; fair</li>
-              <li>Boost reliability and resilience</li>
-              <li>Achieve the lowest possible cost</li>
-            </ul>
-            <br>
-            <p><b>Winner,  1st Runner-Up,</b> and <b>2nd Runner-Up</b> will receive cash prizes for their innovative contributions!</p>
-            <br>
-            <p><b>Submission Requirement:</b></p>
-            <p>All participants must join in groups- minimum 2 members and maximum 3 members per team.</p>
-            <p>Participants registered for the Idea Generation Competition must submit an <b>abstract (100–150 words)</b> by <b>22nd November.</b></p>
-            <p>The submission link will be shared via <b>email</b> on <b>21st November</b>.</p>
-            <p>All <b>selected participants</b> must present their idea using <b>presentation slides</b> on the event day.</p>
-            <br>
-            <p>Let’s rethink, redesign, and revolutionize the future of energy for Bangladesh- one powerful idea at a time.</p>
-          </div>
-          <hr class="my-6 w-[100%] m-auto text-gray-400">
-          <p class="text-justify mb-5">Each team can have 3 members (maximum). All of the members will have to register for the event. Only one member from each team will have to register for his team.</p>
-             <div class="mb-5">
-              <label class="input_label">
-                Are you registering for your team?<span class="text-red-700 ml-1">*</span>
-              </label>
-              <label>
-                <input
-                  class="mb-1"
-                  type="radio"
-                  name="registering_for_team"
-                  value="True"
-                  required
-                />
-                Yes, I'm registering for my team.</label
-              ><br />
-              <label>
-                <input
-                  class="mb-1"
-                  type="radio"
-                  name="registering_for_team"
-                  value="False"
-                />
-                No, one of my teammate will register.</label
-              ><br />
-            </div>
-            <div class="mb-5" id="team_count_section">
-              <label class="input_label">
-                How many member are there in your team?<span class="text-red-700 ml-1">*</span>
-              </label>
-              <label>
-                <input
-                  class="mb-1"
-                  type="radio"
-                  name="team_mem_count"
-                  value="two"
-                  required
-                />
-                Two</label
-              ><br />
-              <label>
-                <input
-                  class="mb-1"
-                  type="radio"
-                  name="team_mem_count"
-                  value="three"
-                />
-                Three</label
-              ><br />
-            </div>
-            <div id="mem_1">
-              <div class="mb-5">
-                <label for="mem_name_1" class="input_label">
-                  Name of your team member 1<span class="text-red-700 ml-1">*</span>
-                </label>
-                <input
-                type="text"
-                name="mem_name_1"
-                id="mem_name_1"
-                placeholder="Enter your first team member name"
-                class="input"
-                required
-                />
-            </div>
-            <div class="mb-5">
-              <label for="mem_uni_name_1" class="input_label">
-                University Name<span class="text-red-700 ml-1">*</span>
-              </label>
-              <input
-                type="text"
-                name="mem_uni_name_1"
-                id="mem_uni_name_1"
-                placeholder="Enter your first team member university name"
-                class="input"
-                required
-                />
-              </div>
-              <div class="mb-5">
-                <label for="mem_uni_id_1" class="input_label">
-                University ID<span
-                  class="text-red-700 ml-1"
-                  >*</span
-                >
-              </label>
-              <input
-              type="number"
-              name="mem_uni_id_1"
-              id="mem_uni_id_1"
-              placeholder="Enter your first team member university id"
-              class="input"
-              required
-              />
-            </div>
-            </div>
-            <div id="mem_2">
-              <div class="mb-5">
-                <label for="mem_name_2" class="input_label">
-                  Name of your team member 2<span class="text-red-700 ml-1">*</span>
-                </label>
-                <input
-                type="text"
-                name="mem_name_2"
-                id="mem_name_2"
-                placeholder="Enter your second team member name"
-                class="input"
-                required
-                />
-            </div>
-            <div class="mb-5">
-              <label for="mem_uni_name_2" class="input_label">
-                University Name<span class="text-red-700 ml-1">*</span>
-              </label>
-              <input
-                type="text"
-                name="mem_uni_name_2"
-                id="mem_uni_name_2"
-                placeholder="Enter your second team member university name"
-                class="input"
-                required
-                />
-              </div>
-              <div class="mb-5">
-                <label for="mem_uni_id_2" class="input_label">
-                University ID<span
-                  class="text-red-700 ml-1"
-                  >*</span
-                >
-              </label>
-              <input
-              type="number"
-              name="mem_uni_id_2"
-              id="mem_uni_id_2"
-              placeholder="Enter your second team member university id"
-              class="input"
-              required
-              />
-            </div>
-            </div>
-            <div class="flex justify-center">
-              <button
-                onclick="nextStep(3)"
-                class="continue-btn"
-                type="button"
-              >
-                Continue
-              </button>
-            </div>
-          </section>
-
-          <!-- Step 4: Payment -->
-          <section
-            id="step4"
             class="hidden shadow-md p-5 font-medium rounded-md"
           >
             <!--  back button and title  -->
@@ -1004,20 +626,20 @@
               <!-- Back button on the left -->
               <div class="z-10">
                 <button
-                  onclick="prevStep(3)"
+                  onclick="prevStep()"
                   class="back-btn"
                   type="button"
                 >
                   Back
                 </button>
               </div>
-          </div>
+            </div>
             <h2 class="section_heading">Payment</h2>
+            
+            <!-- Payment Amount Display Text -->
+            <p id="paymentAmountText" class="payment-info-text"></p>
+            
             <p>
-              IEEE Member 350 taka <br />
-              Non-IEEE Member 450 taka
-              <br />
-              <br />
               <span style="font-weight: bold">Bkash: +8801734973058</span>
             </p>
             <div class="my-8">
@@ -1063,246 +685,16 @@
               />
             </div>
 
-            {% comment %}
-            <!-- shirt table  -->
-            <h2 class="mb-1">Size Chart</h2>
-
-            <div class="overflow-x-auto">
-              <table
-                class="w-full border-collapse text-xs sm:text-lg min-w-full bg-gray-50"
-              >
-                <thead>
-                  <tr>
-                    <th
-                      class="border border-gray-300 bg-gray-50 px-2 py-2 sm:px-3 text-left font-semibold text-gray-700"
-                    >
-                      Description
-                    </th>
-                    <th
-                      class="border border-gray-300 bg-gray-50 px-2 py-2 sm:px-3 text-center font-semibold text-gray-700"
-                    >
-                      S
-                    </th>
-                    <th
-                      class="border border-gray-300 bg-gray-50 px-2 py-2 sm:px-3 text-center font-semibold text-gray-700"
-                    >
-                      M
-                    </th>
-                    <th
-                      class="border border-gray-300 bg-gray-50 px-2 py-2 sm:px-3 text-center font-semibold text-gray-700"
-                    >
-                      L
-                    </th>
-                    <th
-                      class="border border-gray-300 bg-gray-50 px-2 py-2 sm:px-3 text-center font-semibold text-gray-700"
-                    >
-                      XL
-                    </th>
-                    <th
-                      class="border border-gray-300 bg-gray-50 px-2 py-2 sm:px-3 text-center font-semibold text-gray-700"
-                    >
-                      2XL
-                    </th>
-                    <th
-                      class="border border-gray-300 bg-gray-50 px-2 py-2 sm:px-3 text-center font-semibold text-gray-700"
-                    >
-                      3XL
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr class="hover:bg-gray-50">
-                    <td
-                      class="border border-gray-300 bg-gray-50 px-2 py-2 sm:px-3 font-semibold text-gray-700"
-                    >
-                      Chest Width
-                    </td>
-                    <td
-                      class="border border-gray-300 px-2 py-2 sm:px-3 text-center"
-                    >
-                      36"
-                    </td>
-                    <td
-                      class="border border-gray-300 px-2 py-2 sm:px-3 text-center"
-                    >
-                      38"
-                    </td>
-                    <td
-                      class="border border-gray-300 px-2 py-2 sm:px-3 text-center"
-                    >
-                      40"
-                    </td>
-                    <td
-                      class="border border-gray-300 px-2 py-2 sm:px-3 text-center"
-                    >
-                      42"
-                    </td>
-                    <td
-                      class="border border-gray-300 px-2 py-2 sm:px-3 text-center"
-                    >
-                      44"
-                    </td>
-                    <td
-                      class="border border-gray-300 px-2 py-2 sm:px-3 text-center"
-                    >
-                      46"
-                    </td>
-                  </tr>
-                  <tr class="hover:bg-gray-50">
-                    <td
-                      class="border border-gray-300 bg-gray-50 px-2 py-2 sm:px-3 font-semibold text-gray-700"
-                    >
-                      Chest Height
-                    </td>
-                    <td
-                      class="border border-gray-300 px-2 py-2 sm:px-3 text-center"
-                    >
-                      25"
-                    </td>
-                    <td
-                      class="border border-gray-300 px-2 py-2 sm:px-3 text-center"
-                    >
-                      26"
-                    </td>
-                    <td
-                      class="border border-gray-300 px-2 py-2 sm:px-3 text-center"
-                    >
-                      27"
-                    </td>
-                    <td
-                      class="border border-gray-300 px-2 py-2 sm:px-3 text-center"
-                    >
-                      28"
-                    </td>
-                    <td
-                      class="border border-gray-300 px-2 py-2 sm:px-3 text-center"
-                    >
-                      29"
-                    </td>
-                    <td
-                      class="border border-gray-300 px-2 py-2 sm:px-3 text-center"
-                    >
-                      30"
-                    </td>
-                  </tr>
-                  <tr class="hover:bg-gray-50">
-                    <td
-                      class="border border-gray-300 bg-gray-50 px-2 py-2 sm:px-3 font-semibold text-gray-700"
-                    >
-                      Body Length
-                    </td>
-                    <td
-                      class="border border-gray-300 px-2 py-2 sm:px-3 text-center"
-                    >
-                      26"
-                    </td>
-                    <td
-                      class="border border-gray-300 px-2 py-2 sm:px-3 text-center"
-                    >
-                      27"
-                    </td>
-                    <td
-                      class="border border-gray-300 px-2 py-2 sm:px-3 text-center"
-                    >
-                      28"
-                    </td>
-                    <td
-                      class="border border-gray-300 px-2 py-2 sm:px-3 text-center"
-                    >
-                      29"
-                    </td>
-                    <td
-                      class="border border-gray-300 px-2 py-2 sm:px-3 text-center"
-                    >
-                      30"
-                    </td>
-                    <td
-                      class="border border-gray-300 px-2 py-2 sm:px-3 text-center"
-                    >
-                      31"
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-
-            <div class="mb-4 mt-3">
-              <label class="block font-semibold mb-1">
-                Select T-Shirt size<span class="text-red-700 ml-1">*</span>
-              </label>
-              <div class="flex flex-col gap-2 ml-6">
-                <label class="flex items-center gap-2">
-                  <input
-                    type="radio"
-                    name="tshirt_size"
-                    value="S"
-                    class="form-radio text-blue-500"
-                    required
-                  />
-                  S
-                </label>
-                <label class="flex items-center gap-2">
-                  <input
-                    type="radio"
-                    name="tshirt_size"
-                    value="M"
-                    class="form-radio text-blue-500"
-                    required
-                  />
-                  M
-                </label>
-                <label class="flex items-center gap-2">
-                  <input
-                    type="radio"
-                    name="tshirt_size"
-                    value="L"
-                    class="form-radio text-blue-500"
-                    required
-                  />
-                  L
-                </label>
-                <label class="flex items-center gap-2">
-                  <input
-                    type="radio"
-                    name="tshirt_size"
-                    value="XL"
-                    class="form-radio text-blue-500"
-                    required
-                  />
-                  XL
-                </label>
-                <label class="flex items-center gap-2">
-                  <input
-                    type="radio"
-                    name="tshirt_size"
-                    value="2XL"
-                    class="form-radio text-blue-500"
-                    required
-                  />
-                  2XL
-                </label>
-                <label class="flex items-center gap-2">
-                  <input
-                    type="radio"
-                    name="tshirt_size"
-                    value="3XL"
-                    class="form-radio text-blue-500"
-                    required
-                  />
-                  3XL
-                </label>
-              </div>
-            </div>
-            {% endcomment %}
             <div class="flex justify-center">
               <button
                 type="submit"
-                class="text-[#00629B] bg-[#D7F5BF] px-5 py-2 rounded-md hover:bg-[#00629B] duration-300 ease-in-out transition-all"
+                class="text-white px-5 py-2 border  border-[#00629B] bg-[#00629B] rounded-md hover:bg-[#d3e4f7] hover:text-[#00629B] duration-300 ease-in-out transition-all cursor-pointer"
               >
-                Submit
+                Submit 
               </button>
             </div>
           </section>
+
         </form>
         {% endif %}
       </div>
@@ -1370,344 +762,213 @@
         <small>2025 © All rights reserved by IEEE NSU Student Branch</small>
       </p>
     </div>
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-  const studentRadio = document.querySelector('input[name="is_student"][value="student"]');
-  const otherStudentRadio = document.querySelector('input[name="is_student"][value="other_student"]');
-  const studentDivs = document.querySelectorAll('.student_div');
-  const otherStudentDivs = document.querySelectorAll('.other_uni_div');
 
-  const teamRadios = document.querySelectorAll('input[name="registering_for_team"]');
-  const teamCountRadios = document.querySelectorAll('input[name="team_mem_count"]');
-  const teamCountSection = document.getElementById("team_count_section");
-  const mem1 = document.getElementById("mem_1");
-  const mem2 = document.getElementById("mem_2");
+    <!-- membership grade condition  -->
+    <script>
+      const radios = document.querySelectorAll('input[name="membership_grade"]');
+      const studentSection = document.getElementById("student_section");
+      const professionalSection = document.getElementById("professional_section");
+      const studentIdInput = document.getElementById("student_membership_id");
+      const professionalIdInput = document.getElementById("professional_membership_id");
 
-  const mem1Inputs = mem1.querySelectorAll("input");
-  const mem2Inputs = mem2.querySelectorAll("input");
+      radios.forEach((radio) => {
+        radio.addEventListener("change", () => {
+          studentSection.classList.add("hidden");
+          professionalSection.classList.add("hidden");
+          
+          // Remove required from all membership ID fields first
+          studentIdInput.removeAttribute("required");
+          professionalIdInput.removeAttribute("required");
 
-  // --- Toggle Student Sections ---
-  function toggleSections() {
-    if (studentRadio.checked) {
-      studentDivs.forEach(div => div.style.display = 'block');
-      otherStudentDivs.forEach(div => div.style.display = 'none');
-
-      document.querySelectorAll('.student_div input').forEach(f => f.required = true);
-      document.querySelectorAll('.other_uni_div input').forEach(f => f.required = false);
-
-    } else if (otherStudentRadio.checked) {
-      studentDivs.forEach(div => div.style.display = 'none');
-      otherStudentDivs.forEach(div => div.style.display = 'block');
-
-      document.querySelectorAll('.student_div input').forEach(f => f.required = false);
-      document.querySelectorAll('.other_uni_div input').forEach(f => f.required = true);
-    }
-  }
-
-  studentDivs.forEach(div => div.style.display = 'none');
-  otherStudentDivs.forEach(div => div.style.display = 'none');
-  studentRadio.addEventListener('change', toggleSections);
-  otherStudentRadio.addEventListener('change', toggleSections);
-
-// --- Toggle Team Sections ---
-  function toggleTeamSection() {
-    const selected = document.querySelector('input[name="registering_for_team"]:checked');
-
-    if (selected && selected.value === "True") {
-      teamCountSection.style.display = "block";
-    } else {
-      teamCountSection.style.display = "none";
-      mem1.style.display = "none";
-      mem2.style.display = "none";
-
-      mem1Inputs.forEach(i => i.required = false);
-      mem2Inputs.forEach(i => i.required = false);
-
-      const tmc = document.querySelectorAll('input[name="team_mem_count"]')
-      tmc.forEach(i => i.required = false)
-    }
-  }
-
-  // --- Toggle Member Sections (refactored like your student toggle) ---
-  function toggleMemberSection() {
-    const selected = document.querySelector('input[name="team_mem_count"]:checked');
-
-    if (selected && selected.value === "two") {
-      // Show only member 1
-      mem1.style.display = "block";
-      mem2.style.display = "none";
-
-      mem1Inputs.forEach(i => i.required = true);
-      mem2Inputs.forEach(i => i.required = false);
-
-    } else if (selected && selected.value === "three") {
-      // Show both members
-      mem1.style.display = "block";
-      mem2.style.display = "block";
-
-      mem1Inputs.forEach(i => i.required = true);
-      mem2Inputs.forEach(i => i.required = true);
-
-    } else {
-      // Hide both if no selection
-      mem1.style.display = "none";
-      mem2.style.display = "none";
-
-      mem1Inputs.forEach(i => i.required = false);
-      mem2Inputs.forEach(i => i.required = false);
-    }
-  }
-
-  // --- Initialize hidden state ---
-  teamCountSection.style.display = "none";
-  mem1.style.display = "none";
-  mem2.style.display = "none";
-
-  // --- Add Event Listeners ---
-  teamRadios.forEach(r => r.addEventListener("change", toggleTeamSection));
-  teamCountRadios.forEach(r => r.addEventListener("change", toggleMemberSection));
-
-  // --- Initialize once ---
-  toggleTeamSection();
-  toggleMemberSection();
-});
-
-
-// --- Step Navigation Logic ---
-let lastStepBeforePayment = 2; // Tracks what came before step 4
-
-function nextStep(currentStep) {
-  if (!validateStep(currentStep)) {
-    Swal.fire("Please fill in all the required fields!");
-    return;
-  }
-
-  if (currentStep === 2) {
-    const participantType = document.querySelector('input[name="participant_type"]:checked');
-    if (!participantType) {
-      Swal.fire("Please select a participation type!");
-      return;
-    }
-
-    if (participantType.value === "participant_pstpre_contestant") {
-      const step3 = document.getElementById("step3");
-        step3.querySelectorAll("input").forEach(input => {
-          input.disabled = false;
+          if (radio.value === "student") {
+            studentSection.classList.remove("hidden");
+            studentIdInput.setAttribute("required", "required");
+          } else if (radio.value === "professional") {
+            professionalSection.classList.remove("hidden");
+            professionalIdInput.setAttribute("required", "required");
+          }
         });
-      lastStepBeforePayment = 3;
-      goToStep(3);
-    } else {
-        const step3 = document.getElementById("step3");
-        step3.querySelectorAll("input").forEach(input => {
-          input.disabled = true;
-        });
-      lastStepBeforePayment = 2;
-      goToStep(4);
-    }
-    return;
-  }
+      });
 
-    // ✅ Poster validation
-  if (currentStep === 3) {
-    const registeringForTeam = document.querySelector('input[name="registering_for_team"]:checked');
-    if (!registeringForTeam) {
-      Swal.fire("Please select whether you're registering for your team!");
-      return;
-    }
-
-    if (registeringForTeam.value === "True") {
-      const teamCount = document.querySelector('input[name="team_mem_count"]:checked');
-      if (!teamCount) {
-        Swal.fire("Please select how many members are in your team!");
-        return;
+      // Update payment display based on membership selection
+      function updatePaymentDisplay() {
+        const selectedMembership = document.querySelector('input[name="membership_grade"]:checked');
+        const paymentAmountText = document.getElementById('paymentAmountText');
+        
+        if (selectedMembership) {
+          const membershipValue = selectedMembership.value;
+          
+          if (membershipValue === 'student') {
+            paymentAmountText.innerHTML = 'For IEEE Student Member — You have to pay <strong>710 BDT</strong>';
+          } else if (membershipValue === 'professional') {
+            paymentAmountText.innerHTML = 'For IEEE Member — You have to pay <strong>810 BDT</strong>';
+          } else if (membershipValue === 'non_ieee') {
+            paymentAmountText.innerHTML = 'For Non-IEEE Members — You have to pay <strong>860 BDT</strong>';
+          }
+        }
       }
-    }
-  }
 
-  goToStep(currentStep + 1);
-}
-
-function prevStep(currentStep) {
-  if (currentStep === 3) {
-    goToStep(lastStepBeforePayment);
-  } else if (currentStep === 2){
-    goToStep(2);
-  } else if (currentStep === 1){
-    goToStep(1);
-  } else {
-    goToStep(currentStep - 1);
-  }
-}
-
-function goToStep(stepNumber) {
-  document.querySelectorAll("section[id^='step']").forEach(sec => sec.classList.add("hidden"));
-  const nextSection = document.getElementById(`step${stepNumber}`);
-  if (nextSection) nextSection.classList.remove("hidden");
-  updateIndicators(stepNumber);
-  window.scrollTo({ top: 0, behavior: "smooth" });
-}
-
-function validateStep(stepNumber) {
-  const currentStep = document.getElementById(`step${stepNumber}`);
-  if (!currentStep) return true;
-  const requiredFields = currentStep.querySelectorAll("[required]");
-  
-  let isValid = true;
-
-  requiredFields.forEach(field => {
-    let fieldWrapper = field.closest("div");
-
-    if (field.type === 'radio') {
-      // Get all radio buttons with the same name
-      const radioGroup = currentStep.querySelectorAll(`[name="${field.name}"]`);
-      
-      // Check if at least one radio is selected
-      const isChecked = Array.from(radioGroup).some(radio => (radio.checked && !radio.disabled));
-
-      if (!isChecked) {
-        isValid = false;
-        radioGroup.forEach(radio => {
-          const wrapper = radio.closest('label') || radio;
-          wrapper.style.color = "#b02424ff";
-        });
-      } else {
-        radioGroup.forEach(radio => {
-          const wrapper = radio.closest('label') || radio;
-          wrapper.style.color = "";
-        });
+      // --- Simple 2-Page Navigation ---
+      function nextStep() {
+        if (!validateStep(1)) {
+          Swal.fire({
+            icon: 'warning',
+            title: 'Incomplete Form',
+            text: 'Please fill in all the required fields!'
+          });
+          return;
+        }
+        updatePaymentDisplay(); // Update payment amount when moving to step 2
+        goToStep(2);
       }
-    } else if (!field.value.trim()) {
-      isValid = false;
-      field.style.border = "1px solid #f13131";
-    } else {
-      field.style.border = "";
-    }
-  });
-  
-  return isValid;
-}
 
-function updateIndicators(step) {
-  if (!document.getElementById('step1Indicator')) return;
-  [1, 2, 3, 4].forEach(num => {
-    const indicator = document.getElementById(`step${num}Indicator`);
-    if (indicator) {
-      indicator.classList.remove("text-primary", "font-bold");
-      indicator.classList.add("text-gray-500");
-    }
-  });
-  const active = document.getElementById(`step${step}Indicator`);
-  if (active) {
-    active.classList.remove("text-gray-500");
-    active.classList.add("text-primary", "font-bold");
-  }
-}
-
-
-// --- Form Submission ---
-document.getElementById('registrationForm').addEventListener('submit', function (e) {
-  e.preventDefault();
-
-  const submitBtn = document.querySelector('button[type="submit"]');
-  const originalText = submitBtn.textContent;
-  submitBtn.textContent = 'Submitting...';
-  submitBtn.disabled = true;
-
-  const formData = new FormData(this);
-  fetch(this.action, {
-    method: 'POST',
-    body: formData,
-    headers: { 'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value || '' }
-  })
-    .then(r => r.json())
-    .then(data => {
-      if (data.success) {
-        Swal.fire({
-          title: "Registration Complete 🎊",
-          text: "Thanks for signing up! Check your confirmation email (Inbox/Spam).",
-          icon: "success"
-        });
-        this.reset();
+      function prevStep() {
         goToStep(1);
-      } else {
-        Swal.fire("Registration failed!", data.message, "error");
       }
-    })
-    .catch(err => Swal.fire("Error", err.message, "error"))
-    .finally(() => {
-      submitBtn.textContent = originalText;
-      submitBtn.disabled = false;
-    });
-});
 
-{% if is_staff_view %}
-// Get elements
-const publishToggle = document.getElementById('publishCheckbox');
-const publishText = document.getElementById('publishText');
-const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-
-if (publishToggle) {
-  publishToggle.addEventListener('change', () => {
-    if (publishToggle.checked) {
-      // Show Publish Modal
-      document.getElementById('publishModal').classList.remove('hidden');
-    } else {
-      // Show Unpublish Modal
-      document.getElementById('unpublishModal').classList.remove('hidden');
-    }
-  });
-
-  // --- Publish Modal ---
-  document.getElementById('cancelPublish').addEventListener('click', () => {
-    document.getElementById('publishModal').classList.add('hidden');
-    publishToggle.checked = false; // revert toggle
-  });
-
-  document.getElementById('confirmPublish').addEventListener('click', () => {
-    document.getElementById('publishModal').classList.add('hidden');
-    // Send AJAX request to publish
-    fetch('{% url "registration:toggle_publish" %}', {
-      method: 'POST',
-      headers: {
-        'X-CSRFToken': csrfToken
+      function goToStep(stepNumber) {
+        document.querySelectorAll("section[id^='step']").forEach(sec => sec.classList.add("hidden"));
+        const nextSection = document.getElementById(`step${stepNumber}`);
+        if (nextSection) nextSection.classList.remove("hidden");
+        window.scrollTo({ top: 0, behavior: "smooth" });
       }
-    })
-    .then(r => r.json())
-    .then(data => {
-      publishText.textContent = data.is_published ? 'Form published!' : 'Publish Form?';
-      publishText.style.color = data.is_published ? '#009b1f' : '#cf1912';
-      // alert('Publish status: ' + (data.is_published ? 'Published' : 'Unpublished'));
-    })
-    .catch(err => alert('Failed to toggle publish: ' + err.message));
-  });
 
-  // --- Unpublish Modal ---
-  document.getElementById('cancelUnpublish').addEventListener('click', () => {
-    document.getElementById('unpublishModal').classList.add('hidden');
-    publishToggle.checked = true; // revert toggle
-  });
+      function validateStep(stepNumber) {
+        const currentStep = document.getElementById(`step${stepNumber}`);
+        if (!currentStep) return true;
+        const requiredFields = currentStep.querySelectorAll("[required]");
+        
+        let isValid = true;
 
-  document.getElementById('confirmUnpublish').addEventListener('click', () => {
-    document.getElementById('unpublishModal').classList.add('hidden');
-    // Send AJAX request to unpublish
-    fetch('{% url "registration:toggle_publish" %}', {
-      method: 'POST',
-      headers: {
-        'X-CSRFToken': csrfToken
+        requiredFields.forEach(field => {
+          // Skip hidden fields
+          const parentSection = field.closest('.hidden');
+          if (parentSection) return;
+
+          if (field.type === 'radio') {
+            const radioGroup = currentStep.querySelectorAll(`[name="${field.name}"]`);
+            const isChecked = Array.from(radioGroup).some(radio => (radio.checked && !radio.disabled));
+
+            if (!isChecked) {
+              isValid = false;
+              radioGroup.forEach(radio => {
+                const wrapper = radio.closest('label') || radio;
+                wrapper.style.color = "#b02424ff";
+              });
+            } else {
+              radioGroup.forEach(radio => {
+                const wrapper = radio.closest('label') || radio;
+                wrapper.style.color = "";
+              });
+            }
+          } else if (!field.value.trim()) {
+            isValid = false;
+            field.style.border = "1px solid #f13131";
+          } else {
+            field.style.border = "";
+          }
+        });
+        
+        return isValid;
       }
-    })
-    .then(r => r.json())
-    .then(data => {
-      publishText.textContent = data.is_published ? 'Form published!' : 'Publish Form?';
-      publishText.style.color = data.is_published ? '#009b1f' : '#cf1912';
-      // alert('Publish status: ' + (data.is_published ? 'Published' : 'Unpublished'));
-    })
-    .catch(err => alert('Failed to toggle publish: ' + err.message));
-  });
-}
-{% endif %}
-</script>
 
+      // --- Form Submission ---
+      document.getElementById('registrationForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        const submitBtn = document.querySelector('button[type="submit"]');
+        const originalText = submitBtn.textContent;
+        submitBtn.textContent = 'Submitting...';
+        submitBtn.disabled = true;
+
+        const formData = new FormData(this);
+        fetch(this.action, {
+          method: 'POST',
+          body: formData,
+          headers: { 'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value || '' }
+        })
+          .then(r => r.json())
+          .then(data => {
+            if (data.success) {
+              Swal.fire({
+                title: "Registration Complete 🎊",
+                text: "Thanks for signing up! Check your confirmation email (Inbox/Spam).",
+                icon: "success"
+              });
+              this.reset();
+              goToStep(1);
+            } else {
+              Swal.fire("Registration failed!", data.message, "error");
+            }
+          })
+          .catch(err => Swal.fire("Error", err.message, "error"))
+          .finally(() => {
+            submitBtn.textContent = originalText;
+            submitBtn.disabled = false;
+          });
+      });
+
+      {% if is_staff_view %}
+      // Get elements
+      const publishToggle = document.getElementById('publishCheckbox');
+      const publishText = document.getElementById('publishText');
+      const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+      if (publishToggle) {
+        publishToggle.addEventListener('change', () => {
+          if (publishToggle.checked) {
+            document.getElementById('publishModal').classList.remove('hidden');
+          } else {
+            document.getElementById('unpublishModal').classList.remove('hidden');
+          }
+        });
+
+        // --- Publish Modal ---
+        document.getElementById('cancelPublish').addEventListener('click', () => {
+          document.getElementById('publishModal').classList.add('hidden');
+          publishToggle.checked = false;
+        });
+
+        document.getElementById('confirmPublish').addEventListener('click', () => {
+          document.getElementById('publishModal').classList.add('hidden');
+          fetch('{% url "registration:toggle_publish" %}', {
+            method: 'POST',
+            headers: {
+              'X-CSRFToken': csrfToken
+            }
+          })
+          .then(r => r.json())
+          .then(data => {
+            publishText.textContent = data.is_published ? 'Form published!' : 'Publish Form?';
+            publishText.style.color = data.is_published ? '#009b1f' : '#cf1912';
+          })
+          .catch(err => alert('Failed to toggle publish: ' + err.message));
+        });
+
+        // --- Unpublish Modal ---
+        document.getElementById('cancelUnpublish').addEventListener('click', () => {
+          document.getElementById('unpublishModal').classList.add('hidden');
+          publishToggle.checked = true;
+        });
+
+        document.getElementById('confirmUnpublish').addEventListener('click', () => {
+          document.getElementById('unpublishModal').classList.add('hidden');
+          fetch('{% url "registration:toggle_publish" %}', {
+            method: 'POST',
+            headers: {
+              'X-CSRFToken': csrfToken
+            }
+          })
+          .then(r => r.json())
+          .then(data => {
+            publishText.textContent = data.is_published ? 'Form published!' : 'Publish Form?';
+            publishText.style.color = data.is_published ? '#009b1f' : '#cf1912';
+          })
+          .catch(err => alert('Failed to toggle publish: ' + err.message));
+        });
+      }
+      {% endif %}
+    </script>
 
     <script>
       document.addEventListener("DOMContentLoaded", function () {
@@ -1793,14 +1054,6 @@ if (publishToggle) {
           requestAnimationFrame(update);
         };
         requestAnimationFrame(update);
-      });
-    </script>
-    <script>
-      document.querySelectorAll('input[name="is_student"]').forEach((radio) => {
-        radio.addEventListener("change", function () {
-          document.getElementById("is_student_bool").value =
-            this.value === "student" ? "True" : "False";
-        });
       });
     </script>
   </body>
