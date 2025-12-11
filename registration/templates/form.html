@@ -4,7 +4,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>PowerExpress 2.0 | Registration Form</title>
+    <title>SPAC 2025 | Registration Form</title>
     <link rel="icon" href="{% static '/img/logo.gif' %}" />
     <!--daisy ui-->
     <link
@@ -198,7 +198,7 @@
     <div id="particles-js" class="fixed inset-0 -z-10"></div>
 
     <div class="w-11/12 md:w-3/5 mx-auto my-4">
-      <div class="rounded overflow-hidden shadow-[0px_0px_10px_#00629B] border-1 border-white flex justify-center">
+      <div class="rounded overflow-hidden shadow-[0px_0px_10px_#00629B] border-1 border-white flex justify-center max-md:h-40">
         {% if not is_staff_view and not is_published and not registration_closed %}
         <img
           src="{% static '/img/SpacBanner.png' %}"
@@ -207,7 +207,7 @@
         />
         {% else %}
         <img
-          src="{% static '/img/SpacBanner.png' %}"
+          src="{% static '/img/phase 1.png' %}"
           alt=""
           class="object-cover md:h-auto"
         />
@@ -319,7 +319,7 @@
       >
         {% if not is_staff_view and not is_published and not registration_closed%}
         <div class="shadow-md p-5 font-medium rounded-md">
-            <h2 class="text-3xl text-center mb-5 font-mono">
+            <h2 class="md:text-3xl text-xl text-center mb-5">
               Phase 01 - Participants Registration -  Student Professional Awareness Conference (SPAC) 2025
             </h2>
             <p class="text-justify">
@@ -398,7 +398,7 @@
 
           <!-- Step 1: Basic Info -->
           <section id="step1" class="shadow-md p-5 font-medium rounded-md">
-            <h2 class="text-3xl text-center mb-5 font-mono">
+            <h2 class="md:text-3xl text-xl text-center mb-5">
               Phase 01 - Participants Registration -  Student Professional Awareness Conference (SPAC) 2025
             </h2>
             <p class="text-justify">
@@ -515,7 +515,7 @@
             <div class="student_div">
               <div class="mb-5">
                 <label for="nsu_id" class="input_label">
-                  NSU ID<span class="text-red-700 ml-1">*</span>
+                  University ID<span class="text-red-700 ml-1">*</span>
                 </label>
                 <input
                   type="number"
@@ -544,7 +544,7 @@
             <div class="other_uni_div">
               <div class="mb-5">
                 <label for="uni_name" class="input_label">
-                  Name of your university<span class="text-red-700 ml-1">*</span>
+                  University<span class="text-red-700 ml-1">*</span>
                 </label>
                 <input
                   type="text"
@@ -570,7 +570,7 @@
               </div>
               <div class="mb-5">
                 <label for="major" class="input_label">
-                  What's your department?<span
+                  Department<span
                     class="text-red-700 ml-1"
                     >*</span
                   >
@@ -604,9 +604,9 @@
                 Non-IEEE Member </label
               ><br />
             </div>
-            <div class="mb-5">
+            <div class="mb-5 ieee_id_div">
                 <label for="ieee_id" class="input_label">
-                  Your IEEE ID Number (Write N/A if you're Non-IEEE Member)<span
+                  Your IEEE ID Number<span
                     class="text-red-700 ml-1"
                     >*</span
                   >
@@ -1038,14 +1038,22 @@ document.addEventListener('DOMContentLoaded', function () {
   const studentDivs = document.querySelectorAll('.student_div');
   const otherStudentDivs = document.querySelectorAll('.other_uni_div');
 
-  const teamRadios = document.querySelectorAll('input[name="registering_for_team"]');
-  const teamCountRadios = document.querySelectorAll('input[name="team_mem_count"]');
-  const teamCountSection = document.getElementById("team_count_section");
-  const mem1 = document.getElementById("mem_1");
-  const mem2 = document.getElementById("mem_2");
+  // --- IEEE Member Logic ---
+  const ieeeMemberRadio = document.querySelector('input[name="membership_type"][value="member"]');
+  const ieeeNonMemberRadio = document.querySelector('input[name="membership_type"][value="non_ieee"]');
+  const ieeeIdDiv = document.querySelector('.ieee_id_div');
+  const ieeeIdInput = document.querySelector('#ieee_id');
 
-  const mem1Inputs = mem1.querySelectorAll("input");
-  const mem2Inputs = mem2.querySelectorAll("input");
+  function toggleIeeeSection() {
+    if (ieeeMemberRadio.checked) {
+      ieeeIdDiv.style.display = 'block';
+      ieeeIdInput.required = true;
+    } else if (ieeeNonMemberRadio.checked) {
+      ieeeIdDiv.style.display = 'none';
+      ieeeIdInput.required = false;
+      ieeeIdInput.value = ""; // clear
+    }
+  }
 
   // --- Toggle Student Sections ---
   function toggleSections() {
@@ -1065,74 +1073,18 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
+  // --- Default Hidden ---
   studentDivs.forEach(div => div.style.display = 'none');
   otherStudentDivs.forEach(div => div.style.display = 'none');
+  ieeeIdDiv.style.display = 'none'; // hide IEEE ID by default
+
+  // --- Event Listeners ---
   studentRadio.addEventListener('change', toggleSections);
   otherStudentRadio.addEventListener('change', toggleSections);
 
-// --- Toggle Team Sections ---
-  function toggleTeamSection() {
-    const selected = document.querySelector('input[name="registering_for_team"]:checked');
-
-    if (selected && selected.value === "True") {
-      teamCountSection.style.display = "block";
-    } else {
-      teamCountSection.style.display = "none";
-      mem1.style.display = "none";
-      mem2.style.display = "none";
-
-      mem1Inputs.forEach(i => i.required = false);
-      mem2Inputs.forEach(i => i.required = false);
-
-      const tmc = document.querySelectorAll('input[name="team_mem_count"]')
-      tmc.forEach(i => i.required = false)
-    }
-  }
-
-  // --- Toggle Member Sections (refactored like your student toggle) ---
-  function toggleMemberSection() {
-    const selected = document.querySelector('input[name="team_mem_count"]:checked');
-
-    if (selected && selected.value === "two") {
-      // Show only member 1
-      mem1.style.display = "block";
-      mem2.style.display = "none";
-
-      mem1Inputs.forEach(i => i.required = true);
-      mem2Inputs.forEach(i => i.required = false);
-
-    } else if (selected && selected.value === "three") {
-      // Show both members
-      mem1.style.display = "block";
-      mem2.style.display = "block";
-
-      mem1Inputs.forEach(i => i.required = true);
-      mem2Inputs.forEach(i => i.required = true);
-
-    } else {
-      // Hide both if no selection
-      mem1.style.display = "none";
-      mem2.style.display = "none";
-
-      mem1Inputs.forEach(i => i.required = false);
-      mem2Inputs.forEach(i => i.required = false);
-    }
-  }
-
-  // --- Initialize hidden state ---
-  teamCountSection.style.display = "none";
-  mem1.style.display = "none";
-  mem2.style.display = "none";
-
-  // --- Add Event Listeners ---
-  teamRadios.forEach(r => r.addEventListener("change", toggleTeamSection));
-  teamCountRadios.forEach(r => r.addEventListener("change", toggleMemberSection));
-
-  // --- Initialize once ---
-  toggleTeamSection();
-  toggleMemberSection();
+  ieeeMemberRadio.addEventListener('change', toggleIeeeSection);
+  ieeeNonMemberRadio.addEventListener('change', toggleIeeeSection);
 });
-
 
 
 function nextStep(currentStep) {
