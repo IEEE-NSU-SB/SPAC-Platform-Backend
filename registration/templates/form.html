@@ -4,7 +4,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>PowerExpress 2.0 | Registration Form</title>
+    <title>SPAC 2025 | Phase 01 Registration Form</title>
     <link rel="icon" href="{% static '/img/logo.gif' %}" />
     <!--daisy ui-->
     <link
@@ -78,7 +78,7 @@
         position: absolute;
         width: 100%;
         height: 100%;
-        background-color: #00629B;
+        background-color: #002855;
         background-image: url("");
         background-repeat: no-repeat;
         background-size: 20%;
@@ -198,7 +198,7 @@
     <div id="particles-js" class="fixed inset-0 -z-10"></div>
 
     <div class="w-11/12 md:w-3/5 mx-auto my-4">
-      <div class="rounded overflow-hidden shadow-[0px_0px_10px_#00629B] border-1 border-white flex justify-center">
+      <div class="rounded overflow-hidden shadow-[0px_0px_10px_#00629B] border-1 border-white flex justify-center max-md:h-40">
         {% if not is_staff_view and not is_published and not registration_closed %}
         <img
           src="{% static '/img/SpacBanner.png' %}"
@@ -207,7 +207,7 @@
         />
         {% else %}
         <img
-          src="{% static '/img/SpacBanner.png' %}"
+          src="{% static '/img/phase 1.png' %}"
           alt=""
           class="object-cover md:h-auto"
         />
@@ -319,7 +319,7 @@
       >
         {% if not is_staff_view and not is_published and not registration_closed%}
         <div class="shadow-md p-5 font-medium rounded-md">
-            <h2 class="text-3xl text-center mb-5 font-mono">
+            <h2 class="md:text-3xl text-xl text-center mb-5">
               Phase 01 - Participants Registration -  Student Professional Awareness Conference (SPAC) 2025
             </h2>
             <p class="text-justify">
@@ -398,7 +398,7 @@
 
           <!-- Step 1: Basic Info -->
           <section id="step1" class="shadow-md p-5 font-medium rounded-md">
-            <h2 class="text-3xl text-center mb-5 font-mono">
+            <h2 class="md:text-3xl text-xl text-center mb-5">
               Phase 01 - Participants Registration -  Student Professional Awareness Conference (SPAC) 2025
             </h2>
             <p class="text-justify">
@@ -515,52 +515,26 @@
             <div class="student_div">
               <div class="mb-5">
                 <label for="nsu_id" class="input_label">
-                  NSU ID<span class="text-red-700 ml-1">*</span>
+                  Student ID<span class="text-red-700 ml-1">*</span>
                 </label>
                 <input
                   type="number"
                   name="nsu_id"
                   id="nsu_id"
-                  placeholder="Enter your NSU ID"
-                  class="input"
-                  required
-                />
-              </div>
-              <div class="mb-5">
-                <label for="nsu_email" class="input_label">
-                  NSU Email<span class="text-red-700 ml-1">*</span>
-                </label>
-                <input
-                  type="email"
-                  name="nsu_email"
-                  id="nsu_email"
-                  placeholder="Enter your NSU email"
+                  placeholder="Enter your student id"
                   class="input"
                   required
                 />
               </div>
               <div class="mb-5">
                 <label for="department" class="input_label">
-                  Department<span class="text-red-700 ml-1">*</span>
+                  Department/Major<span class="text-red-700 ml-1">*</span>
                 </label>
                 <input
                   type="text"
                   name="department"
                   id="department"
-                  placeholder="Enter your department"
-                  class="input"
-                  required
-                />
-              </div>
-              <div class="mb-5">
-                <label for="current_year" class="input_label">
-                  Which year are you in?<span class="text-red-700 ml-1">*</span>
-                </label>
-                <input
-                  type="text"
-                  name="current_year"
-                  id="current_year"
-                  placeholder="Enter your current year in univerisity"
+                  placeholder="Enter your department/major"
                   class="input"
                   required
                 />
@@ -570,49 +544,33 @@
             <div class="other_uni_div">
               <div class="mb-5">
                 <label for="uni_name" class="input_label">
-                  Name of your university<span class="text-red-700 ml-1">*</span>
+                  Institution Name<span class="text-red-700 ml-1">*</span>
                 </label>
                 <input
                   type="text"
                   name="uni_name"
                   id="uni_name"
-                  placeholder="Enter your university name"
+                  placeholder="Enter your institution name"
                   class="input"
                   required
                 />
               </div>
               <div class="mb-5">
                 <label for="uni_id" class="input_label">
-                  University ID<span class="text-red-700 ml-1">*</span>
+                  Student ID<span class="text-red-700 ml-1">*</span>
                 </label>
                 <input
                   type="number"
                   name="uni_id"
                   id="uni_id"
-                  placeholder="Enter your university id"
-                  class="input"
-                  required
-                />
-              </div>
-              <div class="mb-5">
-                <label for="other_current_year" class="input_label">
-                  Which year are you in?<span
-                    class="text-red-700 ml-1"
-                    >*</span
-                  >
-                </label>
-                <input
-                  type="text"
-                  name="other_current_year"
-                  id="other_current_year"
-                  placeholder="Enter your current year in univerisity"
+                  placeholder="Enter your student id"
                   class="input"
                   required
                 />
               </div>
               <div class="mb-5">
                 <label for="major" class="input_label">
-                  What's your major?<span
+                  Department/Major<span
                     class="text-red-700 ml-1"
                     >*</span
                   >
@@ -621,7 +579,7 @@
                   type="text"
                   name="major"
                   id="major"
-                  placeholder="Enter your major"
+                  placeholder="Enter your department/major"
                   class="input"
                   required
                 />
@@ -646,9 +604,9 @@
                 Non-IEEE Member </label
               ><br />
             </div>
-            <div class="mb-5">
+            <div class="mb-5 ieee_id_div">
                 <label for="ieee_id" class="input_label">
-                  Your IEEE ID Number (Write N/A if you're Non-IEEE Member)<span
+                  Your IEEE Membership ID<span
                     class="text-red-700 ml-1"
                     >*</span
                   >
@@ -657,11 +615,24 @@
                   type="text"
                   name="ieee_id"
                   id="ieee_id"
-                  placeholder="Enter your Membership ID"
+                  placeholder="Enter your IEEE Membership ID"
                   class="input"
                   required
                 />
             </div>
+            <div class="mb-5">
+              <label for="ambassador_code" class="input_label">
+                Reference (Ambassador Unique Code)
+              </label>
+              <input
+                type="text"
+                name="ambassador_code"
+                id="ambassador_code"
+                placeholder="Enter the ambassador reference code"
+                class="input"
+              />
+            </div>
+
             <div class="flex justify-center">
               <button
                 onclick="nextStep(1)"
@@ -700,13 +671,10 @@
             Questions
           </h2>
 
-            <div class="mb-5">
-              <label for="question1" class="input_label">
-                1. What's your idea about this event? (Write your thoughts within 100 words)<span
-                  class="text-red-700 ml-1"
-                  >*</span
-                >
-              </label>
+          <div class="mb-5">
+            <label for="question1" class="input_label">
+              1. What do you know about SPAC?<span class="text-red-700 ml-1">*</span>
+            </label>
               <textarea
                 id="question1"
                 name="question1"
@@ -716,24 +684,51 @@
                 placeholder="Type your answer here..."
                 required
               ></textarea>
-            </div>
-            <div class="mb-5">
-              <label for="question2" class="input_label">
-                2. What is your expectation from this program? (Write your thoughts within 100 words)<span
-                  class="text-red-700 ml-1"
-                  >*</span
-                >
-              </label>
-              <textarea
-                id="question2"
-                name="question2"
-                maxlength="250"
-                rows="4"
-                class="w-full p-2 border border-gray-500 rounded-md focus:outline-none focus:ring-1 focus:ring-black"
-                placeholder="Type your answer here..."
-                required
-              ></textarea>
-            </div>
+          </div>
+
+          <div class="mb-5">
+            <label for="question2" class="input_label">
+              2. Why do you want to be a participant of SPAC?<span class="text-red-700 ml-1">*</span>
+            </label>
+            <textarea
+              id="question2"
+              name="question2"
+              maxlength="250"
+              rows="4"
+              class="w-full p-2 border border-gray-500 rounded-md focus:outline-none focus:ring-1 focus:ring-black"
+              placeholder="Type your answer here..."
+              required
+            ></textarea>
+          </div>
+
+          <div class="mb-5">
+            <label for="question3" class="input_label">
+              3. What is your expectation from SPAC?<span class="text-red-700 ml-1">*</span>
+            </label>
+            <textarea
+              id="question3"
+              name="question3"
+              maxlength="250"
+              rows="4"
+              class="w-full p-2 border border-gray-500 rounded-md focus:outline-none focus:ring-1 focus:ring-black"
+              placeholder="Type your answer here..."
+              required
+            ></textarea>
+          </div>
+
+          <div class="mb-5">
+            <label for="comments" class="input_label">
+              4. Any comments?
+            </label>
+            <textarea
+              id="comments"
+              name="comments"
+              rows="3"
+              class="w-full p-2 border border-gray-500 rounded-md focus:outline-none focus:ring-1 focus:ring-black"
+              placeholder="Optional..."
+            ></textarea>
+          </div>
+
             <!-- <div class="mb-5">
               <label for="ambassador_code" class="input_label">
                 Ambassador Code<span
@@ -751,18 +746,6 @@
               />
             </div> -->
              <div class="mb-5">
-              <label class="input_label">
-                You are joining "PowerExpress 2.0" as_ (Select multiple if you want to participate in more than one)<span class="text-red-700 ml-1">*</span>
-              </label>
-              <label>
-                <input
-                  class="mb-1"
-                  type="checkbox"
-                  name="participant_type"
-                  value="participant_pstpre_contestant"
-                />
-                Idea Generation Competition Contestant</label
-              ><br />
               <!-- <label>
                 <input
                 class="mb-1"
@@ -773,36 +756,24 @@
                 Power Olympiad Contestant</label
                 ><br />
                 <label> -->
-                  <input
-                    class="mb-1"
-                    type="checkbox"
-                    name="participant_type"
-                    value="participant"
-                    required
-                    checked
-                    disabled
-                  />
-                  Just as Participant</label
-                ><br />
+                  <br />
               
             </div>
             <div class="flex justify-center">
               <button
-                onclick="nextStep(2)"
                 class="continue-btn"
-                type="button"
+                type="submit"
               >
-                Continue
+                Submit
               </button>
             </div>
           </section>
           <!-- Step 3: Poster Contest-->
-           <section
+           <!-- <section
             id="step3"
             class="hidden shadow-md p-5 font-medium rounded-md"
           >
             <div class="flex items-center justify-between+">
-              <!-- Back button on the left -->
               <div class="z-10">
                 <button
                   onclick="prevStep(2)"
@@ -992,317 +963,7 @@
                 Continue
               </button>
             </div>
-          </section>
-
-          <!-- Step 4: Payment -->
-          <section
-            id="step4"
-            class="hidden shadow-md p-5 font-medium rounded-md"
-          >
-            <!--  back button and title  -->
-            <div class="flex items-center justify-between mb-8">
-              <!-- Back button on the left -->
-              <div class="z-10">
-                <button
-                  onclick="prevStep(3)"
-                  class="back-btn"
-                  type="button"
-                >
-                  Back
-                </button>
-              </div>
-          </div>
-            <h2 class="section_heading">Payment</h2>
-            <p>
-              IEEE Member 350 taka <br />
-              Non-IEEE Member 450 taka
-              <br />
-              <br />
-              <span style="font-weight: bold">Bkash: +8801734973058</span>
-            </p>
-            <div class="my-8">
-              <label class="block font-semibold mb-1">
-                Select Payment Method:<span class="text-red-700 ml-1">*</span>
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  name="payment_method"
-                  value="Bkash"
-                  required
-                  checked
-                />
-                Bkash (Send Money)
-              </label>
-            </div>
-
-            <div class="mb-5">
-              <label for="transaction_id" class="block font-semibold mb-1">
-                Transaction ID<span class="text-red-700 ml-1">*</span>
-              </label>
-              <input
-                type="text"
-                name="transaction_id"
-                id="transaction_id"
-                placeholder="Enter your Transaction ID"
-                class="input"
-                required
-              />
-            </div>
-
-            <div class="mb-5">
-              <label for="comments" class="block font-semibold mb-1">
-                Any Comments?
-              </label>
-              <input
-                type="text"
-                name="comments"
-                id="comments"
-                placeholder="Share your thoughts"
-                class="input"
-              />
-            </div>
-
-            {% comment %}
-            <!-- shirt table  -->
-            <h2 class="mb-1">Size Chart</h2>
-
-            <div class="overflow-x-auto">
-              <table
-                class="w-full border-collapse text-xs sm:text-lg min-w-full bg-gray-50"
-              >
-                <thead>
-                  <tr>
-                    <th
-                      class="border border-gray-300 bg-gray-50 px-2 py-2 sm:px-3 text-left font-semibold text-gray-700"
-                    >
-                      Description
-                    </th>
-                    <th
-                      class="border border-gray-300 bg-gray-50 px-2 py-2 sm:px-3 text-center font-semibold text-gray-700"
-                    >
-                      S
-                    </th>
-                    <th
-                      class="border border-gray-300 bg-gray-50 px-2 py-2 sm:px-3 text-center font-semibold text-gray-700"
-                    >
-                      M
-                    </th>
-                    <th
-                      class="border border-gray-300 bg-gray-50 px-2 py-2 sm:px-3 text-center font-semibold text-gray-700"
-                    >
-                      L
-                    </th>
-                    <th
-                      class="border border-gray-300 bg-gray-50 px-2 py-2 sm:px-3 text-center font-semibold text-gray-700"
-                    >
-                      XL
-                    </th>
-                    <th
-                      class="border border-gray-300 bg-gray-50 px-2 py-2 sm:px-3 text-center font-semibold text-gray-700"
-                    >
-                      2XL
-                    </th>
-                    <th
-                      class="border border-gray-300 bg-gray-50 px-2 py-2 sm:px-3 text-center font-semibold text-gray-700"
-                    >
-                      3XL
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr class="hover:bg-gray-50">
-                    <td
-                      class="border border-gray-300 bg-gray-50 px-2 py-2 sm:px-3 font-semibold text-gray-700"
-                    >
-                      Chest Width
-                    </td>
-                    <td
-                      class="border border-gray-300 px-2 py-2 sm:px-3 text-center"
-                    >
-                      36"
-                    </td>
-                    <td
-                      class="border border-gray-300 px-2 py-2 sm:px-3 text-center"
-                    >
-                      38"
-                    </td>
-                    <td
-                      class="border border-gray-300 px-2 py-2 sm:px-3 text-center"
-                    >
-                      40"
-                    </td>
-                    <td
-                      class="border border-gray-300 px-2 py-2 sm:px-3 text-center"
-                    >
-                      42"
-                    </td>
-                    <td
-                      class="border border-gray-300 px-2 py-2 sm:px-3 text-center"
-                    >
-                      44"
-                    </td>
-                    <td
-                      class="border border-gray-300 px-2 py-2 sm:px-3 text-center"
-                    >
-                      46"
-                    </td>
-                  </tr>
-                  <tr class="hover:bg-gray-50">
-                    <td
-                      class="border border-gray-300 bg-gray-50 px-2 py-2 sm:px-3 font-semibold text-gray-700"
-                    >
-                      Chest Height
-                    </td>
-                    <td
-                      class="border border-gray-300 px-2 py-2 sm:px-3 text-center"
-                    >
-                      25"
-                    </td>
-                    <td
-                      class="border border-gray-300 px-2 py-2 sm:px-3 text-center"
-                    >
-                      26"
-                    </td>
-                    <td
-                      class="border border-gray-300 px-2 py-2 sm:px-3 text-center"
-                    >
-                      27"
-                    </td>
-                    <td
-                      class="border border-gray-300 px-2 py-2 sm:px-3 text-center"
-                    >
-                      28"
-                    </td>
-                    <td
-                      class="border border-gray-300 px-2 py-2 sm:px-3 text-center"
-                    >
-                      29"
-                    </td>
-                    <td
-                      class="border border-gray-300 px-2 py-2 sm:px-3 text-center"
-                    >
-                      30"
-                    </td>
-                  </tr>
-                  <tr class="hover:bg-gray-50">
-                    <td
-                      class="border border-gray-300 bg-gray-50 px-2 py-2 sm:px-3 font-semibold text-gray-700"
-                    >
-                      Body Length
-                    </td>
-                    <td
-                      class="border border-gray-300 px-2 py-2 sm:px-3 text-center"
-                    >
-                      26"
-                    </td>
-                    <td
-                      class="border border-gray-300 px-2 py-2 sm:px-3 text-center"
-                    >
-                      27"
-                    </td>
-                    <td
-                      class="border border-gray-300 px-2 py-2 sm:px-3 text-center"
-                    >
-                      28"
-                    </td>
-                    <td
-                      class="border border-gray-300 px-2 py-2 sm:px-3 text-center"
-                    >
-                      29"
-                    </td>
-                    <td
-                      class="border border-gray-300 px-2 py-2 sm:px-3 text-center"
-                    >
-                      30"
-                    </td>
-                    <td
-                      class="border border-gray-300 px-2 py-2 sm:px-3 text-center"
-                    >
-                      31"
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-
-            <div class="mb-4 mt-3">
-              <label class="block font-semibold mb-1">
-                Select T-Shirt size<span class="text-red-700 ml-1">*</span>
-              </label>
-              <div class="flex flex-col gap-2 ml-6">
-                <label class="flex items-center gap-2">
-                  <input
-                    type="radio"
-                    name="tshirt_size"
-                    value="S"
-                    class="form-radio text-blue-500"
-                    required
-                  />
-                  S
-                </label>
-                <label class="flex items-center gap-2">
-                  <input
-                    type="radio"
-                    name="tshirt_size"
-                    value="M"
-                    class="form-radio text-blue-500"
-                    required
-                  />
-                  M
-                </label>
-                <label class="flex items-center gap-2">
-                  <input
-                    type="radio"
-                    name="tshirt_size"
-                    value="L"
-                    class="form-radio text-blue-500"
-                    required
-                  />
-                  L
-                </label>
-                <label class="flex items-center gap-2">
-                  <input
-                    type="radio"
-                    name="tshirt_size"
-                    value="XL"
-                    class="form-radio text-blue-500"
-                    required
-                  />
-                  XL
-                </label>
-                <label class="flex items-center gap-2">
-                  <input
-                    type="radio"
-                    name="tshirt_size"
-                    value="2XL"
-                    class="form-radio text-blue-500"
-                    required
-                  />
-                  2XL
-                </label>
-                <label class="flex items-center gap-2">
-                  <input
-                    type="radio"
-                    name="tshirt_size"
-                    value="3XL"
-                    class="form-radio text-blue-500"
-                    required
-                  />
-                  3XL
-                </label>
-              </div>
-            </div>
-            {% endcomment %}
-            <div class="flex justify-center">
-              <button
-                type="submit"
-                class="text-[#00629B] bg-[#D7F5BF] px-5 py-2 rounded-md hover:bg-[#00629B] duration-300 ease-in-out transition-all"
-              >
-                Submit
-              </button>
-            </div>
-          </section>
+          </section> -->
         </form>
         {% endif %}
       </div>
@@ -1377,14 +1038,22 @@ document.addEventListener('DOMContentLoaded', function () {
   const studentDivs = document.querySelectorAll('.student_div');
   const otherStudentDivs = document.querySelectorAll('.other_uni_div');
 
-  const teamRadios = document.querySelectorAll('input[name="registering_for_team"]');
-  const teamCountRadios = document.querySelectorAll('input[name="team_mem_count"]');
-  const teamCountSection = document.getElementById("team_count_section");
-  const mem1 = document.getElementById("mem_1");
-  const mem2 = document.getElementById("mem_2");
+  // --- IEEE Member Logic ---
+  const ieeeMemberRadio = document.querySelector('input[name="membership_type"][value="member"]');
+  const ieeeNonMemberRadio = document.querySelector('input[name="membership_type"][value="non_ieee"]');
+  const ieeeIdDiv = document.querySelector('.ieee_id_div');
+  const ieeeIdInput = document.querySelector('#ieee_id');
 
-  const mem1Inputs = mem1.querySelectorAll("input");
-  const mem2Inputs = mem2.querySelectorAll("input");
+  function toggleIeeeSection() {
+    if (ieeeMemberRadio.checked) {
+      ieeeIdDiv.style.display = 'block';
+      ieeeIdInput.required = true;
+    } else if (ieeeNonMemberRadio.checked) {
+      ieeeIdDiv.style.display = 'none';
+      ieeeIdInput.required = false;
+      ieeeIdInput.value = ""; // clear
+    }
+  }
 
   // --- Toggle Student Sections ---
   function toggleSections() {
@@ -1404,140 +1073,43 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
+  // --- Default Hidden ---
   studentDivs.forEach(div => div.style.display = 'none');
   otherStudentDivs.forEach(div => div.style.display = 'none');
+  ieeeIdDiv.style.display = 'none'; // hide IEEE ID by default
+
+  // --- Event Listeners ---
   studentRadio.addEventListener('change', toggleSections);
   otherStudentRadio.addEventListener('change', toggleSections);
 
-// --- Toggle Team Sections ---
-  function toggleTeamSection() {
-    const selected = document.querySelector('input[name="registering_for_team"]:checked');
-
-    if (selected && selected.value === "True") {
-      teamCountSection.style.display = "block";
-    } else {
-      teamCountSection.style.display = "none";
-      mem1.style.display = "none";
-      mem2.style.display = "none";
-
-      mem1Inputs.forEach(i => i.required = false);
-      mem2Inputs.forEach(i => i.required = false);
-
-      const tmc = document.querySelectorAll('input[name="team_mem_count"]')
-      tmc.forEach(i => i.required = false)
-    }
-  }
-
-  // --- Toggle Member Sections (refactored like your student toggle) ---
-  function toggleMemberSection() {
-    const selected = document.querySelector('input[name="team_mem_count"]:checked');
-
-    if (selected && selected.value === "two") {
-      // Show only member 1
-      mem1.style.display = "block";
-      mem2.style.display = "none";
-
-      mem1Inputs.forEach(i => i.required = true);
-      mem2Inputs.forEach(i => i.required = false);
-
-    } else if (selected && selected.value === "three") {
-      // Show both members
-      mem1.style.display = "block";
-      mem2.style.display = "block";
-
-      mem1Inputs.forEach(i => i.required = true);
-      mem2Inputs.forEach(i => i.required = true);
-
-    } else {
-      // Hide both if no selection
-      mem1.style.display = "none";
-      mem2.style.display = "none";
-
-      mem1Inputs.forEach(i => i.required = false);
-      mem2Inputs.forEach(i => i.required = false);
-    }
-  }
-
-  // --- Initialize hidden state ---
-  teamCountSection.style.display = "none";
-  mem1.style.display = "none";
-  mem2.style.display = "none";
-
-  // --- Add Event Listeners ---
-  teamRadios.forEach(r => r.addEventListener("change", toggleTeamSection));
-  teamCountRadios.forEach(r => r.addEventListener("change", toggleMemberSection));
-
-  // --- Initialize once ---
-  toggleTeamSection();
-  toggleMemberSection();
+  ieeeMemberRadio.addEventListener('change', toggleIeeeSection);
+  ieeeNonMemberRadio.addEventListener('change', toggleIeeeSection);
 });
 
 
-// --- Step Navigation Logic ---
-let lastStepBeforePayment = 2; // Tracks what came before step 4
-
 function nextStep(currentStep) {
+  // Validate current step before moving forward
   if (!validateStep(currentStep)) {
     Swal.fire("Please fill in all the required fields!");
     return;
   }
 
-  if (currentStep === 2) {
-    const participantType = document.querySelector('input[name="participant_type"]:checked');
-    if (!participantType) {
-      Swal.fire("Please select a participation type!");
-      return;
-    }
-
-    if (participantType.value === "participant_pstpre_contestant") {
-      const step3 = document.getElementById("step3");
-        step3.querySelectorAll("input").forEach(input => {
-          input.disabled = false;
-        });
-      lastStepBeforePayment = 3;
-      goToStep(3);
-    } else {
-        const step3 = document.getElementById("step3");
-        step3.querySelectorAll("input").forEach(input => {
-          input.disabled = true;
-        });
-      lastStepBeforePayment = 2;
-      goToStep(4);
-    }
+  // If we're on step 1, go to step 2
+  if (currentStep === 1) {
+    goToStep(2);
     return;
   }
-
-    // ✅ Poster validation
-  if (currentStep === 3) {
-    const registeringForTeam = document.querySelector('input[name="registering_for_team"]:checked');
-    if (!registeringForTeam) {
-      Swal.fire("Please select whether you're registering for your team!");
-      return;
-    }
-
-    if (registeringForTeam.value === "True") {
-      const teamCount = document.querySelector('input[name="team_mem_count"]:checked');
-      if (!teamCount) {
-        Swal.fire("Please select how many members are in your team!");
-        return;
-      }
-    }
-  }
-
-  goToStep(currentStep + 1);
 }
+
 
 function prevStep(currentStep) {
-  if (currentStep === 3) {
-    goToStep(lastStepBeforePayment);
-  } else if (currentStep === 2){
-    goToStep(2);
-  } else if (currentStep === 1){
+  if (currentStep === 2) {
     goToStep(1);
   } else {
-    goToStep(currentStep - 1);
+    goToStep(Math.max(1, currentStep - 1));
   }
 }
+
 
 function goToStep(stepNumber) {
   document.querySelectorAll("section[id^='step']").forEach(sec => sec.classList.add("hidden"));
