@@ -6,6 +6,7 @@ app_name='registration'
 urlpatterns = [
     # Public/user registration form (only visible when published)
     path('', registration_form, name='registration_form'),
+    path('phase2', registration_form_phase02, name='registration_form_phase02'),
     # Staff-only admin view of the form and controls
     path('reg/', registration_redirect, name="registration_redirect"),
     path('registration/admin/', registration_admin, name='registration_admin'),
@@ -15,5 +16,4 @@ urlpatterns = [
     path('registration/response/<int:id>/', view_response, name='view_response'),
     path('submit-form/', submit_form, name='submit_form'),
     path('download-excel/', download_excel, name='download_excel'),
-
 ]   
