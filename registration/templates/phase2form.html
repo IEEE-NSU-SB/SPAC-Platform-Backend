@@ -439,6 +439,7 @@
             </p>
             <hr class="my-6 w-[100%] m-auto text-gray-400">
             <h2 class="section_heading">BASIC INFO</h2>
+            <!-- name  -->
             <div class="mb-5">
               <label for="name" class="input_label">
                 Name<span
@@ -455,6 +456,7 @@
                 required
               />
             </div>
+            <!-- email  -->
             <div class="mb-5">
               <label for="email" class="input_label">
                 Email Address<span class="text-red-700 ml-1">*</span>
@@ -468,6 +470,7 @@
                 required
               />
             </div>
+            <!-- contact number -->
             <div class="mb-5">
               <label for="contact_number" class="input_label">
                 Contact Number<span class="text-red-700 ml-1">*</span>
@@ -481,93 +484,76 @@
                 required
               />
             </div>
-            <!--Select if you are a student or not-->
-            <div class="mb-5">
-              <label class="input_label">
-                Are you a student from North South University?<span class="text-red-700 ml-1">*</span>
-              </label>
-              <label class="text-lg">
-                <input
-                  class="mb-1"
-                  type="radio"
-                  name="is_student"
-                  value="student"
-                  required
-                />
-                Yes </label
-              ><br />
-              <label class="text-lg">
-                <input
-                  class="mb-1"
-                  type="radio"
-                  name="is_student"
-                  value="other_student"
-                />
-                Other</label
-              ><br />
-              <input
-                type="hidden"
-                name="is_student_bool"
-                id="is_student_bool"
-              />
-            </div>
-            <!--For Student-->
-            <div class="student_div">
-              <div class="mb-5">
-                <label for="nsu_id" class="input_label">
-                  NSU ID<span class="text-red-700 ml-1">*</span>
-                </label>
-                <input
-                  type="number"
-                  name="nsu_id"
-                  id="nsu_id"
-                  placeholder="Enter your NSU ID"
-                  class="input"
-                  required
-                />
-              </div>
-              <div class="mb-5">
-                <label for="nsu_email" class="input_label">
-                  NSU Email<span class="text-red-700 ml-1">*</span>
-                </label>
-                <input
-                  type="email"
-                  name="nsu_email"
-                  id="nsu_email"
-                  placeholder="Enter your NSU email"
-                  class="input"
-                  required
-                />
-              </div>
-              <div class="mb-5">
-                <label for="department" class="input_label">
-                  Department<span class="text-red-700 ml-1">*</span>
-                </label>
-                <input
-                  type="text"
-                  name="department"
-                  id="department"
-                  placeholder="Enter your department"
-                  class="input"
-                  required
-                />
-              </div>
-              <div class="mb-5">
-                <label for="current_year" class="input_label">
-                  Which year are you in?<span class="text-red-700 ml-1">*</span>
-                </label>
-                <input
-                  type="text"
-                  name="current_year"
-                  id="current_year"
-                  placeholder="Enter your current year in univerisity"
-                  class="input"
-                  required
-                />
-              </div>
-            </div>
-            <!--For Students of other universities-->
-            <div class="other_uni_div">
+
+            <!-- university name  -->
+  <div class="mb-5">
+  <label class="input_label block mb-2">
+    Institution Name
+    <span class="text-red-700 ml-1">*</span>
+  </label>
+
+  <ul class="list-disc pl-6 space-y-4">
+    <li>Ahsanullah University of Science and Technology</li>
+    <li>American International University Bangladesh</li>
+    <li>Bangabandhu Sheikh Mujibur Rahman Science and Technology University, Gopalganj</li>
+    <li>Bangladesh University Engineering and Technology</li>
+    <li>Bangladesh University of Professionals (BUP)</li>
+    <li>BRAC University</li>
+    <li>Daffodil International University</li>
+    <li>East Delta University</li>
+    <li>East West University</li>
+    <li>Green University of Bangladesh</li>
+    <li>Independent University, Bangladesh</li>
+    <li>Jashore University of Science and Technology</li>
+    <li>Leading University</li>
+    <li>North South University</li>
+    <li>Southeast University</li>
+    <li>Stamford University Bangladesh</li>
+    <li>United International University</li>
+    <li>University of Asia Pacific</li>
+    <li>Xiamen University Malaysia</li>
+    <li>Northern University of Bangladesh, Khulna</li>
+  </ul>
+</div>
+
+
+            <!-- selected phase 1  -->
+             <div class="mb-5">
+  <label class="input_label block mb-2">
+    Are You Selected in Phase 01 on SPAC 2025?
+    <span class="text-red-700 ml-1">*</span>
+  </label>
+
+  <div class="flex items-center gap-6 mt-2">
+    <!-- Yes Option -->
+    <label class="flex items-center gap-2 cursor-pointer">
+      <input
+        type="radio"
+        name="selected_phase1"
+        value="yes"
+        required
+        class="radio-input"
+      />
+      <span>Yes</span>
+    </label>
+
+    <!-- No Option -->
+    <label class="flex items-center gap-2 cursor-pointer">
+      <input
+        type="radio"
+        name="selected_phase1"
+        value="no"
+        required
+        class="radio-input"
+      />
+      <span>No</span>
+    </label>
+  </div>
+</div>
+
+
+
+<!--         
               <div class="mb-5">
                 <label for="uni_name" class="input_label">
                   Name of your university<span class="text-red-700 ml-1">*</span>
@@ -626,7 +612,7 @@
                   required
                 />
               </div>
-            </div>
+            </div> 
             <div class="mb-5">
               <label class="input_label">
                 Are you an IEEE Member?<span class="text-red-700 ml-1">*</span>
@@ -661,7 +647,101 @@
                   class="input"
                   required
                 />
-            </div>
+            </div> -->
+
+
+
+
+
+            <!-- membership Sections -->
+
+<div class="mb-5">
+  <label class="input_label block mb-2">
+    Select Your Membership Grade
+    <span class="text-red-700 ml-1">*</span>
+  </label>
+
+  <div class="flex flex-col gap-3 mt-3">
+    <label class="flex items-center gap-2 cursor-pointer">
+      <input
+        type="radio"
+        name="membership_grade"
+        value="student"
+        class="radio-input"
+        required
+      />
+      <span>IEEE Student Member (Undergraduate Students, Grade Students Membership)</span>
+    </label>
+
+    <label class="flex items-center gap-2 cursor-pointer">
+      <input
+        type="radio"
+        name="membership_grade"
+        value="professional"
+        class="radio-input"
+      />
+      <span>IEEE Member (Senior Members, Professionals, Faculty Members, Fellow)</span>
+    </label>
+
+    <label class="flex items-center gap-2 cursor-pointer">
+      <input
+        type="radio"
+        name="membership_grade"
+        value="non_ieee"
+        class="radio-input"
+      />
+      <span>Non-IEEE Member</span>
+    </label>
+  </div>
+</div>
+
+<!--ieee member  -->
+<div id="student_section" class="hidden mt-3 mb-4">
+  <p class="font-medium mb-2">
+    For IEEE Student Member — You have to pay <strong>710 BDT</strong>.
+  </p>
+
+  <label class="input_label block mb-2">IEEE Student Membership ID  <span class="text-red-700 ml-1">*</span></label>
+  <input
+    type="text"
+    name="student_membership_id"
+    class="input"
+    placeholder="Enter your IEEE Student Membership ID"
+  />
+</div>
+
+   <!-- senior member  -->
+
+<div id="professional_section" class="hidden mt-3 mb-4">
+  <p class="font-medium mb-2">
+    For IEEE Member — You have to pay <strong>810 BDT</strong>.
+  </p>
+
+  <label class="input_label block mb-2">IEEE Membership ID  <span class="text-red-700 ml-1">*</span></label>
+  <input
+    type="text"
+    name="professional_membership_id"
+    class="input"
+    placeholder="Enter your IEEE Membership ID"
+  />
+</div>
+
+
+<!-- non ieee member  -->
+
+<div id="non_ieee_section" class="hidden mt-3 mb-4">
+  <p class="font-medium">
+    For Non-IEEE Members — You have to pay <strong>860 BDT</strong>.
+  </p>
+</div>
+
+
+
+
+
+
+
+
             <div class="flex justify-center">
               <button
                 onclick="nextStep(1)"
@@ -674,12 +754,12 @@
           </section>
 
           <!-- Step 2: Questionnaire -->
-          <section
+         <section
             id="step2"
             class="hidden shadow-md p-5 font-medium rounded-md"
           >
             <div class="flex items-center justify-between">
-              <!-- Back button on the left -->
+             
               <div class="z-10">
                 <button
                   onclick="prevStep(1)"
@@ -690,7 +770,7 @@
                 </button>
               </div>
 
-              <!-- Centered Questionnaire Section -->
+            
               <div
                 class="absolute left-1/2 transform -translate-x-1/2 px-20 sm:px-4"
               >
@@ -734,22 +814,7 @@
                 required
               ></textarea>
             </div>
-            <!-- <div class="mb-5">
-              <label for="ambassador_code" class="input_label">
-                Ambassador Code<span
-                  class="text-red-700 ml-1"
-                  >*</span
-                >
-              </label>
-              <input
-                type="text"
-                name="ambassador_code"
-                id="ambassador_code"
-                placeholder="Enter your Ambassador code"
-                class="input"
-                required
-              />
-            </div> -->
+         
              <div class="mb-5">
               <label class="input_label">
                 You are joining "PowerExpress 2.0" as_ (Select multiple if you want to participate in more than one)<span class="text-red-700 ml-1">*</span>
@@ -763,16 +828,7 @@
                 />
                 Idea Generation Competition Contestant</label
               ><br />
-              <!-- <label>
-                <input
-                class="mb-1"
-                type="checkbox"
-                name="participant_type"
-                value="participant_pwrolmp_contestant"
-                />
-                Power Olympiad Contestant</label
-                ><br />
-                <label> -->
+         
                   <input
                     class="mb-1"
                     type="checkbox"
@@ -795,14 +851,20 @@
                 Continue
               </button>
             </div>
-          </section>
+          </section>  
+
+
+
+
+
           <!-- Step 3: Poster Contest-->
-           <section
+       <section
             id="step3"
             class="hidden shadow-md p-5 font-medium rounded-md"
           >
             <div class="flex items-center justify-between+">
-              <!-- Back button on the left -->
+
+
               <div class="z-10">
                 <button
                   onclick="prevStep(2)"
@@ -992,7 +1054,7 @@
                 Continue
               </button>
             </div>
-          </section>
+          </section>  
 
           <!-- Step 4: Payment -->
           <section
@@ -1297,12 +1359,15 @@
             <div class="flex justify-center">
               <button
                 type="submit"
-                class="text-[#00629B] bg-[#D7F5BF] px-5 py-2 rounded-md hover:bg-[#00629B] duration-300 ease-in-out transition-all"
+                class="text-white px-5 py-2 border  border-[#00629B]
+ bg-[#00629B] rounded-md hover:bg-[#d3e4f7] hover:text-[#00629B] duration-300 ease-in-out transition-all cursor-pointer"
               >
-                Submit
+             Submit 
               </button>
             </div>
           </section>
+
+
         </form>
         {% endif %}
       </div>
@@ -1370,6 +1435,31 @@
         <small>2025 © All rights reserved by IEEE NSU Student Branch</small>
       </p>
     </div>
+    <!-- membership grade condition  -->
+     <script>
+  const radios = document.querySelectorAll('input[name="membership_grade"]');
+
+  const studentSection = document.getElementById("student_section");
+  const professionalSection = document.getElementById("professional_section");
+  const nonIeeeSection = document.getElementById("non_ieee_section");
+
+  radios.forEach((radio) => {
+    radio.addEventListener("change", () => {
+      studentSection.classList.add("hidden");
+      professionalSection.classList.add("hidden");
+      nonIeeeSection.classList.add("hidden");
+
+      if (radio.value === "student") {
+        studentSection.classList.remove("hidden");
+      } else if (radio.value === "professional") {
+        professionalSection.classList.remove("hidden");
+      } else if (radio.value === "non_ieee") {
+        nonIeeeSection.classList.remove("hidden");
+      }
+    });
+  });
+</script>
+
 <script>
 document.addEventListener('DOMContentLoaded', function () {
   const studentRadio = document.querySelector('input[name="is_student"][value="student"]');
@@ -1507,7 +1597,7 @@ function nextStep(currentStep) {
     return;
   }
 
-    // ✅ Poster validation
+    // ✅ Poster validation 
   if (currentStep === 3) {
     const registeringForTeam = document.querySelector('input[name="registering_for_team"]:checked');
     if (!registeringForTeam) {
