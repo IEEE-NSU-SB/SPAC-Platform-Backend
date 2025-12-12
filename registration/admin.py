@@ -7,6 +7,6 @@ from .models import *
 class EventFormStatusAdmin(admin.ModelAdmin):
     list_display = ['is_published', 'updated_at']
 
-@admin.register(Form_Participant)
-class Form_ParticipantAdmin(admin.ModelAdmin):
+@admin.register(Form_Participant_Phase_1)
+class Form_Participant_Phase01_Admin(admin.ModelAdmin):
     list_display = ['id', 'name', 'university', 'email', 'membership_type', 'is_nsu_student', 'created_at']
