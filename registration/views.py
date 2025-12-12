@@ -19,6 +19,24 @@ def _get_publish_status() -> bool:
     status = EventFormStatus.objects.order_by('-updated_at').first()
     return bool(status and status.is_published)
 
+def landing(request):
+
+    if not request.user.is_authenticated:
+        return redirect('registration:registration_form_phase01')
+    
+    if request.user.is_authenticated and request.user.is_staff:
+        return redirect('registration:registration_admin')
+    
+    if request.user.is_authenticated:
+        if not Site_Permissions.user_has_permission(request.user, 'reg_form_control'):
+            return redirect('core:dashboard')
+        elif not Site_Permissions.user_has_permission(request.user, 'view_qr_dashboard'):
+            return redirect('registration:registration_admin')
+        else:
+            return redirect('core:dashboard')
+    else:
+        return redirect('registration:registration_form_phase01')
+
 def registration_form_phase01(request):
     """Display the registration form for general users. Hidden if not published."""
     # If staff/superuser hits the user URL, send them to the admin view
@@ -169,7 +187,7 @@ def submit_form(request):
                 comments=comments,
             )
 
-            # send_registration_email(request, participant.name, participant.email)
+            send_registration_email(request, participant.name, participant.email)
             
             # Return success response
             return JsonResponse({
