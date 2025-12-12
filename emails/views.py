@@ -166,10 +166,11 @@ def send_registration_email(request, name, email):
         message["To"] = str(email)
         message["Subject"] = "SPAC25 - Phase-1 - Registration Successful"
 
-        # scheme = "https" if request.is_secure() else "http"
+        scheme = "https" if request.is_secure() else "http"
         # ics_link = f"{scheme}://{request.get_host()}/media_files/event.ics"
+        banner_image_url = f"{scheme}://{request.get_host()}/media_files/SPAC25Logo.png"
         # print(ics_link)
-        message.attach(MIMEText(render_to_string('phase1_submission_email_template.html', {'participant_name':name,}), 'html'))
+        message.attach(MIMEText(render_to_string('phase1_submission_email_template.html', {'participant_name':name, 'banner_image_url':banner_image_url}), 'html'))
 
         # content_file = open(f"Participant Files/event.ics", "rb")
         # part = MIMEBase('application', 'octet-stream')
