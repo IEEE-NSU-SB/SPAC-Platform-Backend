@@ -168,7 +168,7 @@ def send_registration_email(request, name, email):
 
         scheme = "https" if request.is_secure() else "http"
         # ics_link = f"{scheme}://{request.get_host()}/media_files/event.ics"
-        banner_image_url = f"{scheme}://{request.get_host()}/media_files/SPAC25Logo.png"
+        banner_image_url = f"{scheme}://{request.get_host()}/media_files/SPAC25LogoMin.png"
         # print(ics_link)
         message.attach(MIMEText(render_to_string('phase1_submission_email_template.html', {'participant_name':name, 'banner_image_url':banner_image_url}), 'html'))
 
