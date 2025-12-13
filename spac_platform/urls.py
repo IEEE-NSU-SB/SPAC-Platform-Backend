@@ -24,7 +24,6 @@ from system_administration.views import protected_serve
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('main_web.urls')),
     path('', include('core.urls')),
     path('', include('emails.urls')),
     path('', include('registration.urls')),

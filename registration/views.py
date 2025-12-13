@@ -13,13 +13,31 @@ from emails.views import send_registration_email
 from django.db.models import Count
 from django.db.models.functions import Trim
 
-from .models import EventFormStatus, Form_Participant
+from .models import EventFormStatus, Form_Participant_Phase_1
 
 def _get_publish_status() -> bool:
     status = EventFormStatus.objects.order_by('-updated_at').first()
     return bool(status and status.is_published)
 
-def registration_form(request):
+def landing(request):
+
+    if not request.user.is_authenticated:
+        return redirect('registration:registration_form_phase01')
+    
+    if request.user.is_authenticated and request.user.is_staff:
+        return redirect('registration:registration_admin')
+    
+    if request.user.is_authenticated:
+        if not Site_Permissions.user_has_permission(request.user, 'reg_form_control'):
+            return redirect('core:dashboard')
+        elif not Site_Permissions.user_has_permission(request.user, 'view_qr_dashboard'):
+            return redirect('registration:registration_admin')
+        else:
+            return redirect('core:dashboard')
+    else:
+        return redirect('registration:registration_form_phase01')
+
+def registration_form_phase01(request):
     """Display the registration form for general users. Hidden if not published."""
     # If staff/superuser hits the user URL, send them to the admin view
 
@@ -34,7 +52,7 @@ def registration_form(request):
         else:
             return redirect('core:dashboard')
 
-    registration_count = Form_Participant.objects.count()
+    registration_count = Form_Participant_Phase_1.objects.count()
     registration_closed = registration_count >= 10000
     context = {
         'is_staff_view': False,
@@ -58,7 +76,7 @@ def registration_form_phase02(request):
         else:
             return redirect('core:dashboard')
 
-    registration_count = Form_Participant.objects.count()
+    registration_count = Form_Participant_Phase_1.objects.count()
     registration_closed = registration_count >= 10000
     context = {
         'is_staff_view': False,
@@ -72,7 +90,7 @@ def registration_form_phase02(request):
 def registration_admin(request):
     """Staff-only admin view to manage and preview the form regardless of publish state."""
 
-    registration_count = Form_Participant.objects.count()
+    registration_count = Form_Participant_Phase_1.objects.count()
 
     permisions = {
         'reg_form_control':Site_Permissions.user_has_permission(request.user, 'reg_form_control'),
@@ -127,76 +145,45 @@ def submit_form(request):
             email = request.POST.get('email')
             contact_number = request.POST.get('contact_number')
             is_nsu_student = request.POST.get('is_student_bool')
-            nsu_email = None
-            major = ''
             department = ''
             if is_nsu_student == 'True':
                 university = 'North South University'
                 university_id = request.POST.get('nsu_id','')
-                nsu_email = request.POST.get('nsu_email', None)
                 department = request.POST.get('department','')
-                current_year = request.POST.get('current_year', '')
             else:
                 university = request.POST.get('uni_name', '')
                 university_id = request.POST.get('uni_id','')
-                current_year = request.POST.get('other_current_year', '')
-                major = request.POST.get('major', '')
+                department = request.POST.get('major','')
 
             membership_type = request.POST.get('membership_type')
-            ieee_id = request.POST.get('ieee_id')
+            if membership_type == 'member':
+                ieee_id = request.POST.get('ieee_id')
+            else:
+                ieee_id = 'N/A'
+            ambassador_code = request.POST.get('ambassador_code', '')
 
             # Step 2
             # Collect questionnaire answers
             answers = {
                 'question1': request.POST.get('question1', ''),
                 'question2': request.POST.get('question2', ''),
+                'question3': request.POST.get('question3', ''),
             }
-            # ambassador_code = request.POST.get('ambassador_code', '')
-            participant_type = request.POST.getlist('participant_type', [])
-            participant_type.append('participant')
-
-            # Step 3
-            registering_for_team = request.POST.get('registering_for_team', False)
-            team_member_count = request.POST.get('team_mem_count', '')
-            mem_name_1 = request.POST.get('mem_name_1', '')
-            mem_uni_name_1 = request.POST.get('mem_uni_name_1', '')
-            mem_uni_id_1 = request.POST.get('mem_uni_id_1', '')
-            mem_name_2 = request.POST.get('mem_name_2', '')
-            mem_uni_name_2 = request.POST.get('mem_uni_name_2', '')
-            mem_uni_id_2 = request.POST.get('mem_uni_id_2', '')
-
-            # Step 4
-            payment_method = request.POST.get('payment_method')
-            transaction_id = request.POST.get('transaction_id')
             comments = request.POST.get('comments')
 
             # Create and save participant
-            participant = Form_Participant.objects.create(
+            participant = Form_Participant_Phase_1.objects.create(
                 name=name,
                 email=email,
                 contact_number=contact_number,
                 membership_type=membership_type,
                 ieee_id=ieee_id,
-                nsu_email=nsu_email,
                 university=university,
                 department=department,
                 university_id=university_id,
-                payment_method=payment_method,
-                transaction_id=transaction_id,
                 answers=answers,
-                current_year=current_year,
                 is_nsu_student=is_nsu_student,
-                # ambassador_code=ambassador_code,
-                participant_type=participant_type,
-                major=major,
-                registering_for_team=registering_for_team,
-                team_member_count=team_member_count,
-                team_mem_1_name=mem_name_1,
-                team_mem_1_university=mem_uni_name_1,
-                team_mem_1_university_id=mem_uni_id_1,
-                team_mem_2_name=mem_name_2,
-                team_mem_2_university=mem_uni_name_2,
-                team_mem_2_university_id=mem_uni_id_2,
+                ambassador_code=ambassador_code,
                 comments=comments,
             )
 
@@ -226,7 +213,7 @@ def submit_form(request):
 @login_required
 @permission_required('reg_form_control')
 def download_excel(request):
-    participants = Form_Participant.objects.all()
+    participants = Form_Participant_Phase_1.objects.all()
     
     # Prepare data for Sheet 1: Basic Information (without questionnaire answers)
     basic_data = []
@@ -242,12 +229,7 @@ def download_excel(request):
             'University': participant.university,
             'University ID': participant.university_id,
             'Department': participant.department,
-            'Major': participant.major,
-            'Current Year': participant.current_year,
-            'Payment Method': participant.payment_method,
-            'Transaction ID': participant.transaction_id,
             'Comments': participant.comments,
-            'T-shirt Size': participant.tshirt_size,
             'Created At': participant.created_at.astimezone().strftime('%Y-%m-%d %H:%M:%S'),
         }
         basic_data.append(basic_row)
@@ -263,69 +245,9 @@ def download_excel(request):
             'Contact': participant.contact_number,
             'Q1': answers.get('question1', ''),
             'Q2': answers.get('question2', ''),
+            'Q3': answers.get('question3', ''),
         }
         questionnaire_data.append(questionnaire_row)
-
-    # Prepare data for Sheet 3: Teams
-    teams_data = []
-    teams_data_count = 1
-    for participant in participants:
-        if 'participant_pstpre_contestant' in participant.participant_type and participant.registering_for_team:
-            # Team header row
-            teams_data.append({
-                'Team': f'Team {teams_data_count}',
-                'Name': '',
-                'University': '',
-                'University ID': ''
-            })
-
-            # Leader
-            teams_data.append({
-                'Team': '',
-                'Name': participant.name,
-                'University': participant.university,
-                'University ID': participant.university_id
-            })
-
-            # Member 1
-            if participant.team_member_count in ['two', 'three']:
-                teams_data.append({
-                    'Team': '',
-                    'Name': participant.team_mem_1_name,
-                    'University': participant.team_mem_1_university,
-                    'University ID': participant.team_mem_1_university_id
-                })
-
-            # Member 2 (only for 3-member team)
-            if participant.team_member_count == 'three':
-                teams_data.append({
-                    'Team': '',
-                    'Name': participant.team_mem_2_name,
-                    'University': participant.team_mem_2_university,
-                    'University ID': participant.team_mem_2_university_id
-                })
-
-            # Blank row for spacing
-            teams_data.append({
-                'Team': '',
-                'Name': '',
-                'University': '',
-                'University ID': ''
-            })
-            teams_data_count += 1
-
-    # Prepare data for Sheet 4: T-Shirt
-    t_shirt_data = []
-    for participant in participants:
-        t_shirt_row = {
-            'ID': participant.id,
-            'Name': participant.name,
-            'Email': participant.email,
-            'Contact Number': participant.contact_number,
-            'University': participant.university,
-            'T-shirt Size': participant.tshirt_size,
-        }
-        t_shirt_data.append(t_shirt_row)
     
     # Create Excel file with two sheets
     output = BytesIO()
@@ -347,24 +269,6 @@ def download_excel(request):
             # Create empty sheet if no data
             empty_df = pd.DataFrame({'Message': ['No participants registered']})
             empty_df.to_excel(writer, index=False, sheet_name='Questionnaire Answers')
-
-        # Sheet 3: Teams
-        if teams_data:
-            df_teams = pd.DataFrame(teams_data)
-            df_teams.to_excel(writer, index=False, sheet_name='Teams')
-        else:
-            # Create empty sheet if no data
-            empty_df = pd.DataFrame({'Message': ['No teams registered']})
-            empty_df.to_excel(writer, index=False, sheet_name='Teams')
-
-        # Sheet 4: T-Shirt
-        if t_shirt_data:
-            df_t_shirt = pd.DataFrame(t_shirt_data)
-            df_t_shirt.to_excel(writer, index=False, sheet_name='T-Shirt')
-        else:
-            # Create empty sheet if no data
-            empty_df = pd.DataFrame({'Message': ['No T-Shirts registered']})
-            empty_df.to_excel(writer, index=False, sheet_name='T-Shirt')
     
     output.seek(0)
     response = HttpResponse(
@@ -378,18 +282,18 @@ def download_excel(request):
 @permission_required('view_reg_responses_list')
 def response_table(request):
 
-    ieee_member = 350
-    non_ieee_member = 450
+    # ieee_member = 350
+    # non_ieee_member = 450
 
     permissions = {
         'view_finance_info':Site_Permissions.user_has_permission(request.user, 'view_finance_info')
     }
 
-    participants = Form_Participant.objects.all().order_by('created_at')
+    participants = Form_Participant_Phase_1.objects.all().order_by('created_at')
 
     # Query grouped stats
     stats = (
-        Form_Participant.objects
+        Form_Participant_Phase_1.objects
         .values("membership_type")
         .annotate(total=Count("id"))
     )
@@ -401,19 +305,19 @@ def response_table(request):
         membership = entry["membership_type"]
         summary[membership] = entry.get("total", 0)
     
-    summary['ieee_member_total'] = summary.get('member', 0) * ieee_member
-    summary['non_ieee_member_total'] = summary.get('non_ieee', 0) * non_ieee_member
+    # summary['ieee_member_total'] = summary.get('member', 0) * ieee_member
+    # summary['non_ieee_member_total'] = summary.get('non_ieee', 0) * non_ieee_member
 
-    total_amount = (summary['ieee_member_total']
-                    +summary['non_ieee_member_total'])
-    total_amount = f"BDT {total_amount:,}"
+    # total_amount = (summary['ieee_member_total']
+    #                 +summary['non_ieee_member_total'])
+    # total_amount = f"BDT {total_amount:,}"
 
-    summary['ieee_member_total'] = f"{summary['ieee_member_total']:,}"
-    summary['non_ieee_member_total'] = f"{summary['non_ieee_member_total']:,}"
+    # summary['ieee_member_total'] = f"{summary['ieee_member_total']:,}"
+    # summary['non_ieee_member_total'] = f"{summary['non_ieee_member_total']:,}"
 
     
     university_data = (
-        Form_Participant.objects
+        Form_Participant_Phase_1.objects
         .exclude(university__isnull=True)
         .exclude(university='')
         .annotate(university_sanitized=Trim('university'))
@@ -422,21 +326,21 @@ def response_table(request):
         .order_by('-total')
     )
 
-    # Payment method counts
-    payment_counts = (
-        Form_Participant.objects
-        .values('payment_method')
-        .annotate(total=Count('id'))
-    )
-    # Convert into dict like {"Bkash": 10, "Nagad": 15}
-    payment_summary = {entry['payment_method']: entry['total'] for entry in payment_counts}
+    # # Payment method counts
+    # payment_counts = (
+    #     Form_Participant_Phase_1.objects
+    #     .values('payment_method')
+    #     .annotate(total=Count('id'))
+    # )
+    # # Convert into dict like {"Bkash": 10, "Nagad": 15}
+    # payment_summary = {entry['payment_method']: entry['total'] for entry in payment_counts}
 
     context = {
         'participants': participants,
         'registration_stats': summary,
         'university_data': university_data,
-        'payment_summary': payment_summary,
-        'total_amount': total_amount,
+        # 'payment_summary': payment_summary,
+        # 'total_amount': total_amount,
         'has_perm':permissions
     }
     return render(request, 'response_table.html', context)
@@ -444,7 +348,7 @@ def response_table(request):
 @login_required
 @permission_required('view_reg_response')
 def view_response(request, id):
-    partipant=Form_Participant.objects.get(id=id)
+    partipant=Form_Participant_Phase_1.objects.get(id=id)
     context = {
         'participant': partipant
     }

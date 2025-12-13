@@ -5,7 +5,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>PowerExpress 2.0 | Dashboard</title>
+    <title>SPAC 2025 | Dashboard</title>
     <link rel="icon" href="{% static '/img/logo.gif' %}" />
 
     <script src="{% static 'js/html5-qrcode.min.js' %}"></script>
@@ -19,7 +19,7 @@
         position: fixed;
         width: 100%;
         height: 100%;
-        background-color: #00629B;
+        background-color: #002855;
         z-index: -10;
       }
 
@@ -36,33 +36,30 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        background-color: #00629B;
         color: #000;
         /* font-weight: bold; */
-        padding: 10px 20px;
+        padding: 20px 20px;
         font-size: 1.5rem;
       }
 
       .navbar img {
-        width: 150px;
-        height: 50px;
+        width: auto;
+        height: 70px;
         object-fit: cover;
       }
 
       .navbar .logout {
-        background-color: #c82424;
+        background: #c22d2d85;
         color: white;
-        border: none;
         padding: 8px 16px;
-        cursor: pointer;
-        border-radius: 4px;
-        font-size: 1rem;
+        font-size: 18px;
+        border-radius: 6px;
+        border: 2px solid #c22d2d;
         text-decoration: none;
       }
       .navbar .logout:hover {
-        background-color: #e60000;
-        color: white;
-        transition: 0.6s;
+        background: #c22d2d;
+        transition: 0.3s;
       }
 
       /* Buttons */
@@ -77,9 +74,9 @@
       .button-group a {
         text-decoration: none;
         color: #fff;
-        border: 1px solid #fff;
+        border: 2px solid #fff;
         border-radius: 0.25rem;
-        background: #009CA6;
+        background: #1b395c;
         padding: 0.75rem 1.5rem;
         cursor: pointer;
         display: inline-flex;
@@ -91,7 +88,7 @@
       }
       .button-group button:hover,
       .button-group a:hover{
-        background: #03c1ce;
+        background: #00629B;
         color: white;
       }
       /* Smooth Transition blocks */
@@ -170,12 +167,18 @@
 
       .search-filter > input {
         /* min-width: 200px; */
-        border: 1px solid #ddd;
+        border: 2px solid #fff;
         /* box-shadow: 2px 2px 1px 1px #ddd; */
         border-radius: 4px;
         height: 40px;
         width: 350px;
-        padding: 0 14px;
+        padding: 4px 14px;
+        background: transparent;
+        color: #fff;
+        font-size: 16px;
+      }
+      .search-filter > input:focus {
+        outline: none;
       }
 
       .filter-options {
@@ -198,11 +201,11 @@
 
       #filter {
         text-decoration: none;
-        border: none;
-        border-radius: 4px;
-        padding: 11px 36px;
-        background: #00629B;
-        color: #000000;
+        border: 2px solid #fff;
+        border-radius: 6px;
+        padding: 16px 46px;
+        background: #1b395c;
+        color: #fff;
         cursor: pointer;
         font-size: 16px;
         font-weight: 500;
@@ -342,9 +345,9 @@
         background: #555; /* Color on hover */
       }
       #tap-to-scan {
-        color: #000000;
-        background-color: #fbd762;
-        border: 1px solid #000000;
+        color: #fff;
+        background-color: #dab744;
+        border: 2px solid #fff;
       }
       #tap-to-scan:hover {
         background-color: #f0c021;
@@ -524,14 +527,14 @@ video{
     <!-- Navbar -->
     <div class="navbar">
       <img src="{% static '/img/SPAC25Logo.png' %}" alt="logo" />
-      <div>
+      <div style="color: white;">
         Current Sessions: {% for session in token_sessions %}{{session.session_name}}{% if not forloop.last %}, {% endif %}{% endfor %}
       </div>
       <div style="
           display: flex;
           align-items: center;
           gap: 5px;">
-        <p style="width: 150px; font-size: smaller; margin: 0;">Refresh in: <span id="countdown">10</span></p>
+        <p style="width: 150px; font-size: smaller; margin: 0; color: white;">Refresh in: <span id="countdown">10</span></p>
         <a href="{% url 'core:logout' %}" class="logout">Logout</a>
       </div>
     </div>

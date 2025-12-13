@@ -4,7 +4,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>PowerExpress 2.0 | Registration Form</title>
+    <title>SPAC 2025 | Phase 01 Registration Form</title>
     <link rel="icon" href="{% static '/img/logo.gif' %}" />
     <!--daisy ui-->
     <link
@@ -78,7 +78,7 @@
         position: absolute;
         width: 100%;
         height: 100%;
-        background-color: #00629B;
+        background-color: #002855;
         background-image: url("");
         background-repeat: no-repeat;
         background-size: 20%;
@@ -198,16 +198,16 @@
     <div id="particles-js" class="fixed inset-0 -z-10"></div>
 
     <div class="w-11/12 md:w-3/5 mx-auto my-4">
-      <div class="rounded overflow-hidden shadow-[0px_0px_10px_#00629B] border-1 border-white flex justify-center">
+      <div class="rounded overflow-hidden shadow-[0px_0px_10px_#00629B] border-1 border-white flex justify-center max-md:h-40">
         {% if not is_staff_view and not is_published and not registration_closed %}
         <img
-          src="{% static '/img/SpacBanner.png' %}"
+          src="{% static '/img/phase1.png' %}"
           alt=""
           class="object-cover md:h-auto"
         />
         {% else %}
         <img
-          src="{% static '/img/SpacBanner.png' %}"
+          src="{% static '/img/phase1.png' %}"
           alt=""
           class="object-cover md:h-auto"
         />
@@ -318,63 +318,19 @@
         "
       >
         {% if not is_staff_view and not is_published and not registration_closed%}
-        <div class="shadow-md p-5 font-medium rounded-md">
-            <h2 class="text-3xl text-center mb-5 font-mono">
-              Phase 01 - Participants Registration -  Student Professional Awareness Conference (SPAC) 2025
-            </h2>
-            <p class="text-justify">
-              We are thrilled to announce the opening of Phase 1 of Registration for one of the most anticipated events of the year - Student Professional Awareness Conference (SPAC) 2024! Phase 1 is your opportunity to secure your spots expressing your interest in joining and being a part of the dynamic experience. 
-              <br>
-              <br>
-              </p>
-              <p >
-              <b>What’s in for Phase 1?</b>
-              </p>
-              <br>
-              Phase 1 is an application selection process based on the answers provided during registration. 
-              <br>
-              <br>
-            </p>
-              <ul class="list-disc ml-5">
-                <li>Register with your detailed information and enthusiasm to reserve your place</li>
-                <li>Gain early access to event updates and details as the phase is on a first come first service</li>
-              </ul>
-              <br>
-              <p class="text-justify">
-              Participants selected after reviewing the response from Phase 1 will only be able to register the 2nd phase which will be the payment stage that completes their registration process. So make sure you write everything in detail and mention the required information on the questionnaire section of the Registration form.
-              <br>
-              <br>
-              So Secure your seat by registering soon!!
-              <br>
-              <br>
-              <b>Registration Deadline: 16th December, 2025</b>
-              <br>
-              <br>
-              <b>Event Name</b>: SPAC 2025
-              <br>
-              <b>Event Date</b>: 29th December 2025
-              <br>
-              <b>Venue</b>: North South University, Dhaka
-              <br>
-              <b>Event Type</b>: Day-long flagship program
-            </p>
-          </div>
         <div
           class="p-6 bg-yellow-50 border border-yellow-300 rounded text-yellow-900 text-center" style="
           margin-top:18px"
         >
-          {% comment %} 
-          Registration is not open yet. Please check back later.
-          {% endcomment %}
-          {% comment %} <p>
-            The form PowerExpress 2.0 has not started accepting responses yet. Check back later!
-          </p> {% endcomment %}
           <p>
+            Registration has not started yet. Please check back later.
+          </p>
+          {% comment %} <p>
             Registration is closed as we have reached the maximum number of
             participants.
-          </p>
+          </p> {% endcomment %}
           <p>
-            For any queries, contact - <a href="tel:+8801712902722" style="color:#0b5ed7;text-decoration:none;">+880 17 1290 2722</a>
+            For any queries, contact - <a href="mailto:mdnafiur.rahman19@ieee.org" style="color:#0b5ed7;text-decoration:none;">mdnafiur.rahman19@ieee.org</a>
           </p>
         </div>
         {% elif not is_staff_view and registration_closed %}
@@ -398,44 +354,38 @@
 
           <!-- Step 1: Basic Info -->
           <section id="step1" class="shadow-md p-5 font-medium rounded-md">
-            <h2 class="text-3xl text-center mb-5 font-mono">
+            <h2 class="md:text-3xl text-xl text-center mb-5">
               Phase 01 - Participants Registration -  Student Professional Awareness Conference (SPAC) 2025
             </h2>
             <p class="text-justify">
-              We are thrilled to announce the opening of Phase 1 of Registration for one of the most anticipated events of the year - Student Professional Awareness Conference (SPAC) 2024! Phase 1 is your opportunity to secure your spots expressing your interest in joining and being a part of the dynamic experience. 
+              The IEEE North South University Student Branch is delighted to announce the opening of Phase 1 registration of the most-awaited flagship event of the year -  <b>Student Professional Awareness Conference (SPAC) 2025!</b> Phase 1 is your opportunity to secure your spot by expressing your interest in joining this dynamic experience.
               <br>
               <br>
               </p>
               <p >
-              <b>What’s in for Phase 1?</b>
+              <b>What is Phase 1?</b>
               </p>
               <br>
-              Phase 1 is an application selection process based on the answers provided during registration. 
+              Phase 1 is an application-based selection process that is evaluated through the responses and answers you provide during registration.
               <br>
               <br>
+              <b>What Phase 1 Offers:</b>
             </p>
               <ul class="list-disc ml-5">
-                <li>Register with your detailed information and enthusiasm to reserve your place</li>
-                <li>Gain early access to event updates and details as the phase is on a first come first service</li>
+                <li>Submit your detailed information and demonstrate your enthusiasm to secure your place.</li>
+                <li>Receive early access to event updates and details, as Phase 1 is available on a first-come, first-served basis.</li>
               </ul>
               <br>
               <p class="text-justify">
-              Participants selected after reviewing the response from Phase 1 will only be able to register the 2nd phase which will be the payment stage that completes their registration process. So make sure you write everything in detail and mention the required information on the questionnaire section of the Registration form.
+              Participants selected after reviewing Phase 1 responses will only be able to register for Phase 2, which is the payment stage that completes the registration process. Please make sure to fill out all the questionnaire sections in detail and accurately, as it will be considered during the selection process.
               <br>
               <br>
-              So Secure your seat by registering soon!!
+              Secure your spot by registering soon!
               <br>
               <br>
-              <b>Registration Deadline: 16th December, 2025</b>
+              <b>Registration Deadline: 15th December, 2025</b>
               <br>
               <br>
-              <b>Event Name</b>: SPAC 2025
-              <br>
-              <b>Event Date</b>: 29th December 2025
-              <br>
-              <b>Venue</b>: North South University, Dhaka
-              <br>
-              <b>Event Type</b>: Day-long flagship program
             </p>
             <hr class="my-6 w-[100%] m-auto text-gray-400">
             <h2 class="section_heading">BASIC INFO</h2>
@@ -515,26 +465,26 @@
             <div class="student_div">
               <div class="mb-5">
                 <label for="nsu_id" class="input_label">
-                  NSU ID<span class="text-red-700 ml-1">*</span>
+                  Student ID<span class="text-red-700 ml-1">*</span>
                 </label>
                 <input
                   type="number"
                   name="nsu_id"
                   id="nsu_id"
-                  placeholder="Enter your NSU ID"
+                  placeholder="Enter your student id"
                   class="input"
                   required
                 />
               </div>
               <div class="mb-5">
                 <label for="department" class="input_label">
-                  Department<span class="text-red-700 ml-1">*</span>
+                  Department/Major<span class="text-red-700 ml-1">*</span>
                 </label>
                 <input
                   type="text"
                   name="department"
                   id="department"
-                  placeholder="Enter your department"
+                  placeholder="Enter your department/major"
                   class="input"
                   required
                 />
@@ -544,33 +494,33 @@
             <div class="other_uni_div">
               <div class="mb-5">
                 <label for="uni_name" class="input_label">
-                  Name of your university<span class="text-red-700 ml-1">*</span>
+                  Institution Name<span class="text-red-700 ml-1">*</span>
                 </label>
                 <input
                   type="text"
                   name="uni_name"
                   id="uni_name"
-                  placeholder="Enter your university name"
+                  placeholder="Enter your institution name"
                   class="input"
                   required
                 />
               </div>
               <div class="mb-5">
                 <label for="uni_id" class="input_label">
-                  University ID<span class="text-red-700 ml-1">*</span>
+                  Student ID<span class="text-red-700 ml-1">*</span>
                 </label>
                 <input
                   type="number"
                   name="uni_id"
                   id="uni_id"
-                  placeholder="Enter your university id"
+                  placeholder="Enter your student id"
                   class="input"
                   required
                 />
               </div>
               <div class="mb-5">
                 <label for="major" class="input_label">
-                  What's your department?<span
+                  Department/Major<span
                     class="text-red-700 ml-1"
                     >*</span
                   >
@@ -579,7 +529,7 @@
                   type="text"
                   name="major"
                   id="major"
-                  placeholder="Enter your department"
+                  placeholder="Enter your department/major"
                   class="input"
                   required
                 />
@@ -604,9 +554,9 @@
                 Non-IEEE Member </label
               ><br />
             </div>
-            <div class="mb-5">
+            <div class="mb-5 ieee_id_div">
                 <label for="ieee_id" class="input_label">
-                  Your IEEE ID Number (Write N/A if you're Non-IEEE Member)<span
+                  Your IEEE Membership ID<span
                     class="text-red-700 ml-1"
                     >*</span
                   >
@@ -615,7 +565,7 @@
                   type="text"
                   name="ieee_id"
                   id="ieee_id"
-                  placeholder="Enter your Membership ID"
+                  placeholder="Enter your IEEE Membership ID"
                   class="input"
                   required
                 />
@@ -718,7 +668,7 @@
 
           <div class="mb-5">
             <label for="comments" class="input_label">
-              4. Any comments?
+              Any comments?
             </label>
             <textarea
               id="comments"
@@ -729,36 +679,6 @@
             ></textarea>
           </div>
 
-            <!-- <div class="mb-5">
-              <label for="ambassador_code" class="input_label">
-                Ambassador Code<span
-                  class="text-red-700 ml-1"
-                  >*</span
-                >
-              </label>
-              <input
-                type="text"
-                name="ambassador_code"
-                id="ambassador_code"
-                placeholder="Enter your Ambassador code"
-                class="input"
-                required
-              />
-            </div> -->
-             <div class="mb-5">
-              <!-- <label>
-                <input
-                class="mb-1"
-                type="checkbox"
-                name="participant_type"
-                value="participant_pwrolmp_contestant"
-                />
-                Power Olympiad Contestant</label
-                ><br />
-                <label> -->
-                  <br />
-              
-            </div>
             <div class="flex justify-center">
               <button
                 class="continue-btn"
@@ -768,202 +688,6 @@
               </button>
             </div>
           </section>
-          <!-- Step 3: Poster Contest-->
-           <!-- <section
-            id="step3"
-            class="hidden shadow-md p-5 font-medium rounded-md"
-          >
-            <div class="flex items-center justify-between+">
-              <div class="z-10">
-                <button
-                  onclick="prevStep(2)"
-                  class="back-btn"
-                  type="button"
-                >
-                  Back
-                </button>
-              </div>
-
-              <div
-                class="absolute left-1/2 transform -translate-x-1/2 px-20 sm:px-4"
-              >
-            </div>
-          </div>
-
-          
-          <h2 class="section_heading" style="margin-bottom: 0px">
-            Idea Generation Competition Details
-          </h2>
-          <p style="text-align:center;margin-bottom: 22px">Powering a greener tomorrow starts with your idea!</p>  
-          <div class="text-justify mb-5">
-
-            <p><b>Topic:</b> Affordable, Low-Carbon &amp; Resilient Energy Solutions for Local Energy Community (LEC) of Bangladesh</p>
-            <p><b>Goals:</b></p>
-            <ul>
-              <li>Reduce CO₂ emissions</li>
-              <li>Make energy affordable &amp; fair</li>
-              <li>Boost reliability and resilience</li>
-              <li>Achieve the lowest possible cost</li>
-            </ul>
-            <br>
-            <p><b>Winner,  1st Runner-Up,</b> and <b>2nd Runner-Up</b> will receive cash prizes for their innovative contributions!</p>
-            <br>
-            <p><b>Submission Requirement:</b></p>
-            <p>All participants must join in groups- minimum 2 members and maximum 3 members per team.</p>
-            <p>Participants registered for the Idea Generation Competition must submit an <b>abstract (100–150 words)</b> by <b>22nd November.</b></p>
-            <p>The submission link will be shared via <b>email</b> on <b>21st November</b>.</p>
-            <p>All <b>selected participants</b> must present their idea using <b>presentation slides</b> on the event day.</p>
-            <br>
-            <p>Let’s rethink, redesign, and revolutionize the future of energy for Bangladesh- one powerful idea at a time.</p>
-          </div>
-          <hr class="my-6 w-[100%] m-auto text-gray-400">
-          <p class="text-justify mb-5">Each team can have 3 members (maximum). All of the members will have to register for the event. Only one member from each team will have to register for his team.</p>
-             <div class="mb-5">
-              <label class="input_label">
-                Are you registering for your team?<span class="text-red-700 ml-1">*</span>
-              </label>
-              <label>
-                <input
-                  class="mb-1"
-                  type="radio"
-                  name="registering_for_team"
-                  value="True"
-                  required
-                />
-                Yes, I'm registering for my team.</label
-              ><br />
-              <label>
-                <input
-                  class="mb-1"
-                  type="radio"
-                  name="registering_for_team"
-                  value="False"
-                />
-                No, one of my teammate will register.</label
-              ><br />
-            </div>
-            <div class="mb-5" id="team_count_section">
-              <label class="input_label">
-                How many member are there in your team?<span class="text-red-700 ml-1">*</span>
-              </label>
-              <label>
-                <input
-                  class="mb-1"
-                  type="radio"
-                  name="team_mem_count"
-                  value="two"
-                  required
-                />
-                Two</label
-              ><br />
-              <label>
-                <input
-                  class="mb-1"
-                  type="radio"
-                  name="team_mem_count"
-                  value="three"
-                />
-                Three</label
-              ><br />
-            </div>
-            <div id="mem_1">
-              <div class="mb-5">
-                <label for="mem_name_1" class="input_label">
-                  Name of your team member 1<span class="text-red-700 ml-1">*</span>
-                </label>
-                <input
-                type="text"
-                name="mem_name_1"
-                id="mem_name_1"
-                placeholder="Enter your first team member name"
-                class="input"
-                required
-                />
-            </div>
-            <div class="mb-5">
-              <label for="mem_uni_name_1" class="input_label">
-                University Name<span class="text-red-700 ml-1">*</span>
-              </label>
-              <input
-                type="text"
-                name="mem_uni_name_1"
-                id="mem_uni_name_1"
-                placeholder="Enter your first team member university name"
-                class="input"
-                required
-                />
-              </div>
-              <div class="mb-5">
-                <label for="mem_uni_id_1" class="input_label">
-                University ID<span
-                  class="text-red-700 ml-1"
-                  >*</span
-                >
-              </label>
-              <input
-              type="number"
-              name="mem_uni_id_1"
-              id="mem_uni_id_1"
-              placeholder="Enter your first team member university id"
-              class="input"
-              required
-              />
-            </div>
-            </div>
-            <div id="mem_2">
-              <div class="mb-5">
-                <label for="mem_name_2" class="input_label">
-                  Name of your team member 2<span class="text-red-700 ml-1">*</span>
-                </label>
-                <input
-                type="text"
-                name="mem_name_2"
-                id="mem_name_2"
-                placeholder="Enter your second team member name"
-                class="input"
-                required
-                />
-            </div>
-            <div class="mb-5">
-              <label for="mem_uni_name_2" class="input_label">
-                University Name<span class="text-red-700 ml-1">*</span>
-              </label>
-              <input
-                type="text"
-                name="mem_uni_name_2"
-                id="mem_uni_name_2"
-                placeholder="Enter your second team member university name"
-                class="input"
-                required
-                />
-              </div>
-              <div class="mb-5">
-                <label for="mem_uni_id_2" class="input_label">
-                University ID<span
-                  class="text-red-700 ml-1"
-                  >*</span
-                >
-              </label>
-              <input
-              type="number"
-              name="mem_uni_id_2"
-              id="mem_uni_id_2"
-              placeholder="Enter your second team member university id"
-              class="input"
-              required
-              />
-            </div>
-            </div>
-            <div class="flex justify-center">
-              <button
-                onclick="nextStep(3)"
-                class="continue-btn"
-                type="button"
-              >
-                Continue
-              </button>
-            </div>
-          </section> -->
         </form>
         {% endif %}
       </div>
@@ -1038,14 +762,22 @@ document.addEventListener('DOMContentLoaded', function () {
   const studentDivs = document.querySelectorAll('.student_div');
   const otherStudentDivs = document.querySelectorAll('.other_uni_div');
 
-  const teamRadios = document.querySelectorAll('input[name="registering_for_team"]');
-  const teamCountRadios = document.querySelectorAll('input[name="team_mem_count"]');
-  const teamCountSection = document.getElementById("team_count_section");
-  const mem1 = document.getElementById("mem_1");
-  const mem2 = document.getElementById("mem_2");
+  // --- IEEE Member Logic ---
+  const ieeeMemberRadio = document.querySelector('input[name="membership_type"][value="member"]');
+  const ieeeNonMemberRadio = document.querySelector('input[name="membership_type"][value="non_ieee"]');
+  const ieeeIdDiv = document.querySelector('.ieee_id_div');
+  const ieeeIdInput = document.querySelector('#ieee_id');
 
-  const mem1Inputs = mem1.querySelectorAll("input");
-  const mem2Inputs = mem2.querySelectorAll("input");
+  function toggleIeeeSection() {
+    if (ieeeMemberRadio.checked) {
+      ieeeIdDiv.style.display = 'block';
+      ieeeIdInput.required = true;
+    } else if (ieeeNonMemberRadio.checked) {
+      ieeeIdDiv.style.display = 'none';
+      ieeeIdInput.required = false;
+      ieeeIdInput.value = ""; // clear
+    }
+  }
 
   // --- Toggle Student Sections ---
   function toggleSections() {
@@ -1065,74 +797,18 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
+  // --- Default Hidden ---
   studentDivs.forEach(div => div.style.display = 'none');
   otherStudentDivs.forEach(div => div.style.display = 'none');
+  ieeeIdDiv.style.display = 'none'; // hide IEEE ID by default
+
+  // --- Event Listeners ---
   studentRadio.addEventListener('change', toggleSections);
   otherStudentRadio.addEventListener('change', toggleSections);
 
-// --- Toggle Team Sections ---
-  function toggleTeamSection() {
-    const selected = document.querySelector('input[name="registering_for_team"]:checked');
-
-    if (selected && selected.value === "True") {
-      teamCountSection.style.display = "block";
-    } else {
-      teamCountSection.style.display = "none";
-      mem1.style.display = "none";
-      mem2.style.display = "none";
-
-      mem1Inputs.forEach(i => i.required = false);
-      mem2Inputs.forEach(i => i.required = false);
-
-      const tmc = document.querySelectorAll('input[name="team_mem_count"]')
-      tmc.forEach(i => i.required = false)
-    }
-  }
-
-  // --- Toggle Member Sections (refactored like your student toggle) ---
-  function toggleMemberSection() {
-    const selected = document.querySelector('input[name="team_mem_count"]:checked');
-
-    if (selected && selected.value === "two") {
-      // Show only member 1
-      mem1.style.display = "block";
-      mem2.style.display = "none";
-
-      mem1Inputs.forEach(i => i.required = true);
-      mem2Inputs.forEach(i => i.required = false);
-
-    } else if (selected && selected.value === "three") {
-      // Show both members
-      mem1.style.display = "block";
-      mem2.style.display = "block";
-
-      mem1Inputs.forEach(i => i.required = true);
-      mem2Inputs.forEach(i => i.required = true);
-
-    } else {
-      // Hide both if no selection
-      mem1.style.display = "none";
-      mem2.style.display = "none";
-
-      mem1Inputs.forEach(i => i.required = false);
-      mem2Inputs.forEach(i => i.required = false);
-    }
-  }
-
-  // --- Initialize hidden state ---
-  teamCountSection.style.display = "none";
-  mem1.style.display = "none";
-  mem2.style.display = "none";
-
-  // --- Add Event Listeners ---
-  teamRadios.forEach(r => r.addEventListener("change", toggleTeamSection));
-  teamCountRadios.forEach(r => r.addEventListener("change", toggleMemberSection));
-
-  // --- Initialize once ---
-  toggleTeamSection();
-  toggleMemberSection();
+  ieeeMemberRadio.addEventListener('change', toggleIeeeSection);
+  ieeeNonMemberRadio.addEventListener('change', toggleIeeeSection);
 });
-
 
 
 function nextStep(currentStep) {

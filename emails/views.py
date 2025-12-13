@@ -164,22 +164,23 @@ def send_registration_email(request, name, email):
         message = MIMEMultipart()
         message["From"] = "IEEE NSU SB Portal <ieeensusb.portal@gmail.com>"
         message["To"] = str(email)
-        message["Subject"] = "PowerExpress 2.0 - Registration Successful"
+        message["Subject"] = "SPAC25 - Phase-1 - Registration Successful"
 
         scheme = "https" if request.is_secure() else "http"
-        ics_link = f"{scheme}://{request.get_host()}/media_files/event.ics"
-        print(ics_link)
-        message.attach(MIMEText(render_to_string('submission_email_template.html', {'participant_name':name, 'ics_link':ics_link}), 'html'))
+        # ics_link = f"{scheme}://{request.get_host()}/media_files/event.ics"
+        banner_image_url = f"{scheme}://{request.get_host()}/media_files/SPAC25LogoMin.png"
+        # print(ics_link)
+        message.attach(MIMEText(render_to_string('phase1_submission_email_template.html', {'participant_name':name, 'banner_image_url':banner_image_url}), 'html'))
 
-        content_file = open(f"Participant Files/event.ics", "rb")
-        part = MIMEBase('application', 'octet-stream')
-        part.set_payload(content_file.read())
-        encoders.encode_base64(part)
-        part.add_header(
-            'Content-Disposition',
-            f'attachment; filename=PowerExpress2.0.ics',
-        )
-        message.attach(part)
+        # content_file = open(f"Participant Files/event.ics", "rb")
+        # part = MIMEBase('application', 'octet-stream')
+        # part.set_payload(content_file.read())
+        # encoders.encode_base64(part)
+        # part.add_header(
+        #     'Content-Disposition',
+        #     f'attachment; filename=PowerExpress2.0.ics',
+        # )
+        # message.attach(part)
         
         # encoded message
         encoded_message = base64.urlsafe_b64encode(message.as_bytes()).decode()

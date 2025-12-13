@@ -8,7 +8,7 @@ from core.models import Registered_Participant, Token_Participant, Token_Session
 from django.db.models import Count, F, Prefetch, Value
 from django.db.models.functions import Coalesce
 
-from registration.models import Form_Participant
+from registration.models import Form_Participant_Phase_1
 
 class Core:
 
@@ -181,7 +181,7 @@ class Core:
                 t_shirt_size=participant.tshirt_size,
                 unique_code=Core.generate_unique_code(participant.name, participant.university),
             )
-            for participant in Form_Participant.objects.all()
+            for participant in Form_Participant_Phase_1.objects.all()
         ]
 
         Registered_Participant.objects.bulk_create(objects)
