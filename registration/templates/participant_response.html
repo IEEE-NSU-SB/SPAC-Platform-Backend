@@ -1,464 +1,186 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SPAC 2025 | Registration Form</title>
-    <link rel="icon" href="{% static '/img/logo.gif' %}" />
-    <!--daisy ui-->
-    <link
-      href="https://cdn.jsdelivr.net/npm/daisyui@5"
-      rel="stylesheet"
-      type="text/css"
-    />
-    <!--tailwind-->
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <!-- sweet alert  -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <!--particles.js-->
-    <script src="{% static 'js/particles.min.js' %}"></script>
-    <!-- stats.js lib -->
-    <script src="http://threejs.org/examples/js/libs/stats.min.js"></script>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SPAC 2025 | Application Response</title>
+  <link rel="icon" href="{% static '/img/logo.gif' %}" />
 
-    <style>
-      @import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&display=swap');
+  <!-- DaisyUI + Tailwind -->
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 
-      body {
-        /* background-image: url("{% static '/img/StepBG.png' %}"); */
-        background: transparent;
-        background-repeat: no-repeat;
-        background-size: cover;
-        position: relative;
-        z-index: 0;
-        font-family: "Instrument Sans", sans-serif;
-      }
-      .response_count {
-        /* font-weight: bold; */
-        font-size: larger;
-        border-bottom: 2px solid #00629B;
-        border-top: 1px solid #00629B;
-        border-left: 6px solid #00629B;
-        border-right: 1px solid #00629B;
-        padding: 4px 8px;
-        border-radius: 14px 4px;
-        background: #e3ffc6;
-        color: #122812;
-        /* font-style: italic; */
-      }
-      /* Width of the scrollbar */
-      .custom-scrollbar::-webkit-scrollbar {
-        width: 5px;
-        height: 12px; /* For horizontal scrollbar */
-      }
+  <!-- SweetAlert (kept for consistency, not used here) -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-      /* Track (background) */
-      .custom-scrollbar::-webkit-scrollbar-track {
-        background: #a32d2d;
-        border-radius: 8px;
-      }
+  <style>
+    body {
+      font-family: 'Instrument Sans', sans-serif;
+      background: #002855;
+    }
+    .input_label {
+      display: block;
+      font-size: 18px;
+      margin-bottom: 0.35rem;
+      color: #000;
+    }
+    .input {
+      width: 100%;
+      padding: .5rem .75rem;
+      border: 1px solid #000;
+      border-radius: 0.375rem;
+      background: transparent;
+      color: black;
+    }
+    .section_heading {
+      text-align: center;
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: #000;
+    }
+    .back-btn {
+      background: #00629B;
+      border: 1px solid white;
+      color: #fff;
+      padding: 8px 2rem;
+      border-radius: .5rem;
+      font-size: 1rem;
+      cursor: pointer;
+    }
 
-      /* Handle (the draggable part) */
-      .custom-scrollbar::-webkit-scrollbar-thumb {
-        background: #e53232;
-        border-radius: 9999px;
-        cursor: pointer;
-      }
+    .back-btn:hover {
+      background: #00629B;
+      transition: 0.3s;
+    }
+  </style>
+</head>
 
-      /* Handle on hover */
-      .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-        background: #74BA2D;
-      }
-      /* particles container */
-      canvas {
-        display: block;
-        vertical-align: bottom;
-      } /* ---- particles.js container ---- */
-      #particles-js {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        background-color: #00629B;
-        background-image: url("");
-        background-repeat: no-repeat;
-        background-size: 20%;
-        background-position: 50% 50%;
-      } /* ---- stats.js ---- */
-      .count-particles {
-        background: #000022;
-        position: absolute;
-        top: 48px;
-        left: 0;
-        width: 80px;
-        color: #13e8e9;
-        font-size: 0.8em;
-        text-align: left;
-        text-indent: 4px;
-        line-height: 14px;
-        padding-bottom: 2px;
-        font-family: Helvetica, Arial, sans-serif;
-        font-weight: bold;
-      }
-      .js-count-particles {
-        font-size: 1.1em;
-      }
-      #stats,
-      .count-particles {
-        -webkit-user-select: none;
-        margin-top: 5px;
-        margin-left: 5px;
-      }
-      #stats {
-        border-radius: 3px 3px 0 0;
-        overflow: hidden;
-      }
-      .count-particles {
-        border-radius: 0 0 3px 3px;
-      }
-      .input_label{
-        display: block;
-        font-size: 18px;
-        margin-bottom: 0.35rem;
-        color: #122812;
-      }
-      .input{
-        width: 100%;
-        padding: .5rem .75rem;
-        border: 1px solid gray;
-        border-radius: 0.375rem;
-        outline-style: none;
-        box-shadow: 2px 2px 2px #eefbe3;
-        transition: all .3s ease-in-out;
-        background: transparent;
-      }
-      .input:focus{
-        border: 1px solid #74BA2D;
-        box-shadow: 2px 2px 2px #D7F5BF;
-      }
-      .admin-btn{
-        color: #122812;
-        border: 1px solid #122812;
-        border-radius: 0.325rem;
-        background: #00629B;
-        padding: 0.25rem 0.85rem;
-        display: inline-flex;
-        align-items: center;
-        gap: 4px;
-        font-size: 1.25rem;
-        transition: all 0.3s ease-in-out;
-        justify-content: center;
-      }
-      .admin-btn:hover{
-        background: #00629B;
-        color: #00629B;
-      }
-      .back-btn{
-        color: #2c612c;
-        border: 1px solid #8f8f8f;
-        border-radius: 0.5rem;
-        cursor: pointer;
-        font-size: 1.25rem;
-        margin-top: .75rem;
-        padding: 4px 1rem;
-        background: #D7F5BF;
-        margin-bottom: 1rem;
-      }
-      .section_heading{
-        text-align: center;
-        font-size: 1.5rem;
-        margin-bottom: .5rem;
-      }
-      @media screen and (max-width: 500px) {
-        .response_count {
-          margin: 0 auto;
-        }
-        .admin-btn{
-          width: 100%;
-          font-size: 1rem;
-        }
-        .response_count{
-          margin: 12px auto;
-        }
-      }
-    </style>
-  </head>
+<body class="py-4 min-h-screen">
 
-  <body class="py-2 custom-scrollbar min-h-screen">
-    <!--Particles JS-->
-    <div id="particles-js" class="fixed inset-0 -z-10"></div>
-    <!-- Button Header -->
-    <div class="rounded">
-      <div
-        class="w-11/12 md:w-3/5 mx-auto"
-        style="
-          backdrop-filter: blur(7px);
-          border-radius: 4px 4px;
-        "
-      >
-        <!-- Form wrapper -->
-        <form id="registrationForm" method="post">
+  <div class="w-11/12 md:w-3/5 mx-auto">
 
-          <!-- Step 1: Basic Info -->
-          <section id="step1" class="bg-[#eefbe3] shadow-md p-5 font-medium rounded-md">
-              <div class="z-10">
-                  <button onclick="window.history.back();" class="back-btn" type="button">Back</button>
-                  <h2 class="section_heading">Response of {{participant.name}}</h2>
-              </div>
+    <!-- ================= STEP 1: BASIC INFORMATION ================= -->
+    <section class="bg-[#c6e8ff] border-2 text-black border-white shadow-md p-6 rounded-md mb-6">
+      <button onclick="window.history.back();" class="back-btn" type="button">Back</button>
 
-              <div class="mb-5">
-                  <label class="input_label">
-                      Name<span class="text-red-700 ml-1">*</span>
-                  </label>
-                  <div class="input">{{ participant.name }}</div>
-              </div>
+      <h2 class="section_heading mt-4">{{ participant.name }}'s response</h2>
 
-              <div class="mb-5">
-                  <label class="input_label">
-                      Email Address<span class="text-red-700 ml-1">*</span>
-                  </label>
-                  <div class="input">{{ participant.email }}</div>
-              </div>
+      <div class="mb-5">
+        <label class="input_label">Name</label>
+        <div class="input">{{ participant.name }}</div>
+      </div>
 
-              <div class="mb-5">
-                  <label class="input_label">
-                      Contact Number<span class="text-red-700 ml-1">*</span>
-                  </label>
-                  <div class="input">{{ participant.contact_number }}</div>
-              </div>
+      <div class="mb-5">
+        <label class="input_label">Email Address</label>
+        <div class="input">{{ participant.email }}</div>
+      </div>
 
-              <!-- Student radio buttons (unchanged) -->
-              <div class="mb-5">
-                  <label class="input_label">
-                      Are you a student from North South University?<span class="text-red-700 ml-1">*</span>
-                  </label>
+      <div class="mb-5">
+        <label class="input_label">Contact Number</label>
+        <div class="input">{{ participant.contact_number }}</div>
+      </div>
 
-                  <label class="text-lg">
-                      <input class="mb-1" type="radio" name="is_student" value="student" {% if participant.is_nsu_student %}checked{% else %}disabled{% endif %} /> Yes
-                  </label><br />
+      <!-- NSU student status -->
+      <div class="mb-5">
+        <label class="input_label">Are you a student from North South University?</label>
 
-                  <label class="text-lg">
-                      <input class="mb-1" type="radio" name="is_student" value="other_student" {% if not participant.is_nsu_student %}checked{% else %}disabled{% endif %} /> Other
-                  </label><br />
-              </div>
+        <label class="block">
+          <input type="radio" {% if participant.is_nsu_student %}checked{% endif %} disabled /> Yes
+        </label>
+        <label class="block">
+          <input type="radio" {% if not participant.is_nsu_student %}checked{% endif %} disabled /> No
+        </label>
+      </div>
 
-              {% if participant.is_nsu_student %}
-              <!-- NSU Student Fields -->
-              <div class="student_div">
-                  <div class="mb-5">
-                      <label class="input_label">NSU ID<span class="text-red-700 ml-1">*</span></label>
-                      <div class="input">{{ participant.university_id }}</div>
-                  </div>
+      {% if participant.is_nsu_student %}
+      <!-- NSU student fields -->
+      <div class="mb-5">
+        <label class="input_label">NSU Student ID</label>
+        <div class="input">{{ participant.university_id }}</div>
+      </div>
 
-                  <div class="mb-5">
-                      <label class="input_label">NSU Email<span class="text-red-700 ml-1">*</span></label>
-                      <div class="input">{{ participant.nsu_email }}</div>
-                  </div>
+      <div class="mb-5">
+        <label class="input_label">Department / Major</label>
+        <div class="input">{{ participant.department }}</div>
+      </div>
+      {% else %}
+      <!-- Other university fields -->
+      <div class="mb-5">
+        <label class="input_label">University Name</label>
+        <div class="input">{{ participant.university }}</div>
+      </div>
 
-                  <div class="mb-5">
-                      <label class="input_label">Department<span class="text-red-700 ml-1">*</span></label>
-                      <div class="input">{{ participant.department }}</div>
-                  </div>
+      <div class="mb-5">
+        <label class="input_label">Student ID</label>
+        <div class="input">{{ participant.university_id }}</div>
+      </div>
 
-                  <div class="mb-5">
-                      <label class="input_label">Which year are you in?<span class="text-red-700 ml-1">*</span></label>
-                      <div class="input">{{ participant.current_year }}</div>
-                  </div>
-              </div>
-              {% else %}
-              <!-- Other University Student Fields -->
-              <div class="other_uni_div">
-                  <div class="mb-5">
-                      <label class="input_label">Name of your university<span class="text-red-700 ml-1">*</span></label>
-                      <div class="input">{{ participant.university }}</div>
-                  </div>
+      <div class="mb-5">
+        <label class="input_label">Department / Major</label>
+        <div class="input">{{ participant.major }}</div>
+      </div>
+      {% endif %}
 
-                  <div class="mb-5">
-                      <label class="input_label">University ID<span class="text-red-700 ml-1">*</span></label>
-                      <div class="input">{{ participant.university_id }}</div>
-                  </div>
+      <!-- IEEE membership -->
+      <div class="mb-5">
+        <label class="input_label">Are you an IEEE Member?</label>
 
-                  <div class="mb-5">
-                      <label class="input_label">Which year are you in?<span class="text-red-700 ml-1">*</span></label>
-                      <div class="input">{{ participant.current_year }}</div>
-                  </div>
+        <label class="block">
+          <input type="radio" {% if participant.membership_type == 'member' %}checked{% endif %} disabled /> IEEE Member
+        </label>
+        <label class="block">
+          <input type="radio" {% if participant.membership_type == 'non_ieee' %}checked{% endif %} disabled /> Non-IEEE Member
+        </label>
+      </div>
 
-                  <div class="mb-5">
-                      <label class="input_label">What's your major?<span class="text-red-700 ml-1">*</span></label>
-                      <div class="input">{{ participant.major }}</div>
-                  </div>
-              </div>
-              {% endif %}
+      <div class="mb-5">
+        <label class="input_label">IEEE Membership ID</label>
+        <div class="input">{{ participant.ieee_id }}</div>
+      </div>
 
+      <div class="mb-5">
+        <label class="input_label">Ambassador Referral Code (if any)</label>
+        <div class="input">{{ participant.ambassador_code }}</div>
+      </div>
+    </section>
 
-              <div class="mb-5">
-                  <label class="input_label">Are you an IEEE Member?<span class="text-red-700 ml-1">*</span></label>
+    <!-- ================= STEP 2: QUESTIONNAIRE ================= -->
+    <section class="bg-[#c6e8ff] border-2 text-black border-white shadow-md p-6 rounded-md mb-6">
+      <h2 class="section_heading">Questionnaire</h2>
 
-                  <label class="text-lg">
-                      <input class="mb-2" type="radio" name="membership_type" value="member" {% if participant.membership_type == 'member' %}checked{% else %}disabled{% endif %} /> IEEE Member
-                  </label><br />
+      <div class="mb-5">
+        <label class="input_label">1. What do you know about SPAC?</label>
+        <textarea class="input h-28" disabled>{{ participant.answers.question1 }}</textarea>
+      </div>
 
-                  <label class="text-lg">
-                      <input type="radio" name="membership_type" value="non_ieee" {% if participant.membership_type == 'non_ieee' %}checked{% else %}disabled{% endif %} /> Non-IEEE Member
-                  </label><br />
-              </div>
+      <div class="mb-5">
+        <label class="input_label">2. Why do you want to be a participant of SPAC?</label>
+        <textarea class="input h-28" disabled>{{ participant.answers.question2 }}</textarea>
+      </div>
 
-              <div class="mb-5">
-                  <label class="input_label">Your IEEE ID Number (Write N/A if you're Non-IEEE Member)<span class="text-red-700 ml-1">*</span></label>
-                  <div class="input">{{ participant.ieee_id }}</div>
-              </div>
-          </section>
+      <div class="mb-5">
+        <label class="input_label">3. What is your expectation from SPAC?</label>
+        <textarea class="input h-28" disabled>{{ participant.answers.question3 }}</textarea>
+      </div>
 
-          <!-- Step 2: Questionnaire -->
-          <section id="step2" class="bg-[#eefbe3] shadow-md p-5 font-medium rounded-md my-6">
-              <div class="flex items-center justify-center my-8">
-                      <h2 class="section_heading">Questions</h2>
-              </div>
+      <div class="mb-5">
+        <label class="input_label">Any comments?</label>
+        <textarea class="input h-24" disabled>{{ participant.answers.question4 }}</textarea>
+      </div>
+    </section>
 
-              <div class="mb-5">
-                  <label class="input_label">1. What's your idea about this event? (Write your thoughts within 100 words)<span class="text-red-700 ml-1">*</span></label>
-                  <textarea class="w-full p-2 border border-gray-500 rounded-md" disabled>{{ participant.answers.question1 }}</textarea>
-              </div>
-
-              <div class="mb-5">
-                  <label class="input_label">2. What is your expectation from this program? (Write your thoughts within 100 words)<span class="text-red-700 ml-1">*</span></label>
-                  <textarea class="w-full p-2 border border-gray-500 rounded-md">{{ participant.answers.question2 }}</textarea>
-              </div>
-
-              <div class="mb-5">
-                  <label class="input_label">
-                      You are joining "PowerExpress 2.0" as_ (Select multiple if you want to participate in more than one)<span class="text-red-700 ml-1">*</span>
-                  </label>
-
-                  <label>
-                      <input class="mb-1" type="checkbox" name="participant_type" value="participant_pstpre_contestant" {% if 'participant_pstpre_contestant' in participant.participant_type %}checked{% endif %} disabled /> Idea Generation Competition Contestant
-                  </label><br />
-
-                  <!-- <label>
-                      <input class="mb-1" type="checkbox" name="participant_type" value="participant_pwrolmp_contestant" {% if 'participant_pwrolmp_contestant' in participant.participant_type %}checked{% endif %} disabled /> Power Olympiad Contestant
-                  </label><br /> -->
-
-                  <label>
-                      <input class="mb-1" type="checkbox" name="participant_type" value="participant" checked disabled /> Just as Participant
-                  </label><br />
-              </div>
-          </section>
-
-          {% if 'participant_pstpre_contestant' in participant.participant_type %}
-          <!-- Step 3: Poster Contest -->
-          <section id="step3" class="bg-[#eefbe3] shadow-md p-5 font-medium rounded-md my-6">
-              <div class="flex items-center justify-center my-8">
-                  <h2 class="section_heading">Idea Generation Competition Details</h2>
-              </div>
-
-              <p class="text-justify mb-5">
-                  Each team can have 3 members (maximum). All members must register.
-                  Only one member registers the team.
-              </p>
-
-              <div class="mb-5">
-                  <label class="input_label">Are you registering for your team?<span class="text-red-700 ml-1">*</span></label>
-
-                  <label><input class="mb-1" type="radio" name="registering_for_team" value="True" {% if participant.registering_for_team %}checked{% else %}disabled{% endif %} /> Yes, I'm registering for my team.</label><br />
-                  <label><input class="mb-1" type="radio" name="registering_for_team" value="False" {% if not participant.registering_for_team %}checked{% else %}disabled{% endif %} /> No, one of my teammate will register.</label><br />
-              </div>
-              
-              {% if participant.registering_for_team %}
-              <div class="mb-5" id="team_count_section">
-                  <label class="input_label">How many members?<span class="text-red-700 ml-1">*</span></label>
-
-                  <label><input class="mb-1" type="radio" name="team_mem_count" value="two" {% if participant.team_member_count == 'two' %}checked{% else %}disabled{% endif %} /> Two</label><br />
-                  <label><input class="mb-1" type="radio" name="team_mem_count" value="three" {% if participant.team_member_count == 'three' %}checked{% else %}disabled{% endif %} /> Three</label><br />
-              </div>
-              
-              <!-- Team Member 1 -->
-              <div id="mem_1">
-                <div class="mb-5">
-                  <label class="input_label">Name of team member 1<span class="text-red-700 ml-1">*</span></label>
-                  <div class="input">{{ participant.team_mem_1_name }}</div>
-                </div>
-                
-                <div class="mb-5">
-                  <label class="input_label">University Name<span class="text-red-700 ml-1">*</span></label>
-                  <div class="input">{{ participant.team_mem_1_university }}</div>
-                </div>
-                
-                <div class="mb-5">
-                  <label class="input_label">University ID<span class="text-red-700 ml-1">*</span></label>
-                  <div class="input">{{ participant.team_mem_1_university_id }}</div>
-                </div>
-              </div>
-              
-              {% if participant.team_member_count == 'three' %}
-              <!-- Team Member 2 -->
-              <div id="mem_2">
-                  <div class="mb-5">
-                      <label class="input_label">Name of team member 2<span class="text-red-700 ml-1">*</span></label>
-                      <div class="input">{{ participant.team_mem_2_name }}</div>
-                  </div>
-
-                  <div class="mb-5">
-                      <label class="input_label">University Name<span class="text-red-700 ml-1">*</span></label>
-                      <div class="input">{{ participant.team_mem_2_university }}</div>
-                  </div>
-
-                  <div class="mb-5">
-                      <label class="input_label">University ID<span class="text-red-700 ml-1">*</span></label>
-                      <div class="input">{{ participant.team_mem_2_university_id }}</div>
-                  </div>
-              </div>
-              {% endif %}
-              {% endif %}
-          </section>
-          {% endif %}
-
-          <!-- Step 4: Payment -->
-          <section id="step4" class="bg-[#eefbe3] shadow-md p-5 font-medium rounded-md">
-              <div class="flex items-center justify-between my-8">
-                  <div class="absolute left-1/2 transform -translate-x-1/2 px-20 sm:px-4">
-                      <h2 class="text-2xl mb-6 truncate text-center">Payment</h2>
-                  </div>
-              </div>
-
-              <p>
-                  IEEE Member 350 taka<br />
-                  Non-IEEE Member 450 taka<br /><br />
-                  <b>Bkash: +8801734973058</b>
-              </p>
-
-              <!-- Radio payment unchanged -->
-              <div class="my-8">
-                  <label class="block font-semibold mb-1">
-                      Select Payment Method:<span class="text-red-700 ml-1">*</span>
-                  </label>
-
-                  <label>
-                      <input type="radio" name="payment_method" value="Bkash" checked disabled /> Bkash (Send Money)
-                  </label>
-              </div>
-
-              <div class="mb-5">
-                  <label class="block font-semibold mb-1">
-                      Transaction ID<span class="text-red-700 ml-1">*</span>
-                  </label>
-                  <div class="input">{{ participant.transaction_id }}</div>
-              </div>
-              
-              <div class="mb-5">
-                  <label class="block font-semibold mb-1">
-                      Any comments?
-                  </label>
-                  <div class="input">{{ participant.comments }}</div>
-              </div>
-
-          </section>
-      </form>
-
-    </div>
-  </div>
-    <div class="flex justify-center items-center mt-3 h-15 mx-5 text-center">
-      <p class="text-black font-semibold italic">
-        <small>2025 © All rights reserved by IEEE NSU Student Branch</small>
+    <!-- ================= NOTE ================= -->
+    <section class="bg-[#c6e8ff] border border-yellow-300 p-4 rounded-md">
+      <p class="text-sm text-gray-700">
+        <strong>Note:</strong> This is a <b>Phase 01 application response</b>. Payment and final confirmation are collected only after shortlisting.
       </p>
-    </div>
-  </body>
+    </section>
+
+    <footer class="text-center mt-6">
+      <small class="italic text-white">2025 © All rights reserved by IEEE NSU Student Branch</small>
+    </footer>
+
+  </div>
+</body>
 </html>
