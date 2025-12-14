@@ -10,3 +10,5 @@ class EventFormStatusAdmin(admin.ModelAdmin):
 @admin.register(Form_Participant_Phase_1)
 class Form_Participant_Phase01_Admin(admin.ModelAdmin):
     list_display = ['id', 'name', 'university', 'email', 'membership_type', 'is_nsu_student', 'created_at']
+
+admin.site.register(Form_Participant_Unique_Code_Phase_2)

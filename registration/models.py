@@ -45,6 +45,8 @@ class Form_Participant_Phase_1(models.Model):
     answers = models.JSONField(default=dict)
     comments = models.TextField(null=True, blank=True, default='')
 
+    is_selected = models.BooleanField(null=False, blank=False, default=False)
+    is_phase_2_email_sent = models.BooleanField(null=False, blank=False, default=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -52,6 +54,17 @@ class Form_Participant_Phase_1(models.Model):
 
     def __str__(self):
         return f"{self.name} - {self.email}"
+    
+class Form_Participant_Unique_Code_Phase_2(models.Model):
+
+    participant = models.ForeignKey(Form_Participant_Phase_1, null=False, blank=False, on_delete=models.CASCADE)
+    unique_code = models.CharField(null=False, blank=False, max_length=50)
+
+    class Meta:
+        verbose_name = 'Unique Code for Phase 2'
+
+    def __str__(self):
+        return self.participant.name
     
 # class Form_Participant_Phase_2(models.Model):
 

@@ -131,13 +131,7 @@
                 type="checkbox"
                 class="phase2Check"
                 data-id="{{p.id}}"
-                {%
-                if
-                p.phase2_mail_sent
-                %}disabled
-                checked{%
-                endif
-                %}
+                {% if p.is_selected %}checked{% endif %}
               />
             </td>
               <td class="px-4 py-3">
