@@ -7,7 +7,7 @@ urlpatterns = [
     # Public/user registration form (only visible when published)
     path('', landing, name='landing'),
     path('phase-1/', registration_form_phase01, name='registration_form_phase01'),
-    path('phase2', registration_form_phase02, name='registration_form_phase02'),
+    # path('phase-2/', registration_form_phase02, name='registration_form_phase02'),
     # Staff-only admin view of the form and controls
     path('reg/', registration_redirect, name="registration_redirect"),
     path('registration/admin/', registration_admin, name='registration_admin'),

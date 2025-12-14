@@ -285,11 +285,13 @@ def response_table(request):
     # ieee_member = 350
     # non_ieee_member = 450
 
+
     permissions = {
         'view_finance_info':Site_Permissions.user_has_permission(request.user, 'view_finance_info')
     }
 
     participants = Form_Participant_Phase_1.objects.all().order_by('created_at')
+    total_registrations = Form_Participant_Phase_1.objects.count()
 
     # Query grouped stats
     stats = (
@@ -341,6 +343,7 @@ def response_table(request):
         'university_data': university_data,
         # 'payment_summary': payment_summary,
         # 'total_amount': total_amount,
+        'total_registrations':total_registrations,
         'has_perm':permissions
     }
     return render(request, 'response_table.html', context)

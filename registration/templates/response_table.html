@@ -40,6 +40,17 @@
         background: #c22d2d;
         transition: 0.3s;
       }
+      .statistics {
+        background: #e49e3581;
+        color: white;
+        padding: 8px 16px;
+        border-radius: 6px;
+        border: 2px solid #e49e35;
+      }
+      .statistics:hover {
+        background: #e49e35;
+        transition: 0.3s;
+      }
       input::placeholder {
         color: #ffffff;
       }
@@ -83,6 +94,12 @@
             Send Phase-2 Email
           </button>
           <a href="{% url 'core:logout' %}" class="logout">Logout</a>
+          <!-- Statistics Button -->
+            {% if has_perm.view_finance_info %}
+              <button class="statistics" onclick="document.getElementById('statsModal').showModal()">
+                Statistics
+              </button>
+            {% endif %}
         </div>
       </div>
 
@@ -154,6 +171,63 @@
       </div>
     </div>
 
+    {% if has_perm.view_finance_info %}
+        <!-- Modal -->
+      <dialog id="statsModal" class="modal">
+        <div class="modal-box max-w-3xl">
+          <h2 class="text-2xl font-bold mb-4">Statistics</h2>
+
+          <div class="overflow-x-auto">
+            <table class="table table-zebra w-full border" style='text-align: center;'>
+              <thead class="bg-[#112640] text-white">
+                <tr>
+                  <th class="py-2 px-4 rounded-tl-lg">Membership Grade</th>
+                  <th class="py-2 px-4">Count</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="py-2 px-4">IEEE Member</td>
+                  <td class="py-2 px-4">{{registration_stats.member|default:0}}</td>
+                </tr>
+                <tr>
+                  <td class="py-2 px-4">Non-IEEE Member</td>
+                  <td class="py-2 px-4">{{registration_stats.non_ieee|default:0}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          
+          <!-- Total -->
+          <div class="mt-4 text-left font-bold text-lg">
+            <p style="font-size:smaller;">
+            Total Registrations: <span class="text-green-600">{{total_registrations}}</span>
+            </p>
+            <br>
+            <p style="font-weight: normal;">University List :</p>
+            <ul>
+              {% for uni in university_data  %}
+              <li class="flex items-center px-4 py-2 my-2 text-sm 
+                        text-gray-800 bg-gray-100 rounded-md shadow-sm hover:bg-gray-200">
+                  <span class="font-medium">{{ uni.university_sanitized }}</span>
+                  <span class="ml-2 text-gray-500">–</span>
+                  <span class="ml-2 text-gray-700 font-bold">[{{ uni.total }}]</span>
+              </li>
+              {% endfor %}
+            </ul>
+          </div>
+          
+          <!-- Actions -->
+          <div class="modal-action">
+            <form method="dialog">
+              <button class="btn close">Close</button>
+            </form>
+          </div>
+        </div>
+      </dialog>
+      {% endif %}
+    </div>
+
     <!-- Scripts -->
     <script>
       // Search
@@ -162,8 +236,8 @@
         .addEventListener("input", function () {
           const q = this.value.toLowerCase();
           document.querySelectorAll("tbody tr").forEach((row) => {
-            const name = row.children[2]?.innerText.toLowerCase() || "";
-            const email = row.children[4]?.innerText.toLowerCase() || "";
+            const name = row.children[1]?.innerText.toLowerCase() || "";
+            const email = row.children[3]?.innerText.toLowerCase() || "";
             row.style.display =
               name.includes(q) || email.includes(q) ? "" : "none";
           });
