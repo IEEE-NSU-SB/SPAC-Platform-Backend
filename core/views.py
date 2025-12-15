@@ -265,3 +265,6 @@ def update_db_serial(request):
         return JsonResponse({'message':'success'})
     else:
         return render(request,'404.html')
+    
+def landing_page(request):
+    return render(request, 'landingpage.html')
