@@ -254,6 +254,19 @@ def download_excel(request):
             'Q3': answers.get('question3', ''),
         }
         questionnaire_data.append(questionnaire_row)
+
+    # Prepare data for Sheet 3: Ambassasdor Codes
+    ambassador_data = []
+    for participant in participants:
+        basic_row = {
+            'ID': participant.id,
+            'Name': participant.name,
+            'Email': participant.email,
+            'Membership Type': participant.membership_type,
+            'University': participant.university,
+            'Ambassador Code': participant.ambassador_code,
+        }
+        ambassador_data.append(basic_row)
     
     # Create Excel file with two sheets
     output = BytesIO()
@@ -275,6 +288,15 @@ def download_excel(request):
             # Create empty sheet if no data
             empty_df = pd.DataFrame({'Message': ['No participants registered']})
             empty_df.to_excel(writer, index=False, sheet_name='Questionnaire Answers')
+        
+        # Sheet 3: Ambassador Codes
+        if ambassador_data:
+            df_ambassador = pd.DataFrame(ambassador_data)
+            df_ambassador.to_excel(writer, index=False, sheet_name='Ambassador Codes')
+        else:
+            # Create empty sheet if no data
+            empty_df = pd.DataFrame({'Message': ['No participants used ambassador codes']})
+            empty_df.to_excel(writer, index=False, sheet_name='Ambassador Codes')
     
     output.seek(0)
     response = HttpResponse(
