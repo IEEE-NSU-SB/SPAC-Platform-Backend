@@ -203,15 +203,17 @@
 
     <!-- Main Content -->
     <div class="main-container">
-      <h1 class="title">Select Phase</h1>
+      <h1 class="title">Where do you wanna go today?</h1>
       
       <div class="phase-container">
-        <a href="" class="phase-button">
+        <a href="{% url 'core:dashboard' %}" class="phase-button">
+          QR Dashboard
+        </a>
+        <a href="{% url 'registration:registration_form_phase01' %}" class="phase-button">
           Phase 1
         </a>
-        
-        <a href="" class="phase-button">
-          Phase 2
+        <a href="{% url 'core:logout' %}" class="phase-button">
+          ALT+F4 (future phase-2)
         </a>
       </div>
     </div>

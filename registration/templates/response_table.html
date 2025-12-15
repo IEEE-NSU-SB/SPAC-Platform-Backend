@@ -87,12 +87,12 @@
         />
 
         <div class="flex items-center gap-4">
-          <button
+          {% comment %} <button
             id="sendMailBtn"
             class="px-5 py-2 bg-[#1b395c] text-white rounded-lg shadow hover:bg-[#00629B] border-2"
           >
             Send Phase-2 Email
-          </button>
+          </button> {% endcomment %}
           <a href="{% url 'core:logout' %}" class="logout">Logout</a>
           <!-- Statistics Button -->
             {% if has_perm.view_finance_info %}
@@ -104,7 +104,7 @@
       </div>
 
       <!-- New row for additional buttons -->
-      <div class="flex justify-end gap-4 mb-5 max-md:justify-center">
+      {% comment %} <div class="flex justify-end gap-4 mb-5 max-md:justify-center">
         <button
           id="selectAllBtn"
           class="px-5 py-2 bg-[#1b395c] text-white rounded-lg shadow hover:bg-[#00629B] border-2"
@@ -117,7 +117,7 @@
         >
           Save Selections
         </button>
-      </div>
+      </div> {% endcomment %}
 
       <!-- Table -->
       <div class="bg-white rounded-xl shadow-lg overflow-x-auto max-h-[450px]">

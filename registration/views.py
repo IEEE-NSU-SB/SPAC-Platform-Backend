@@ -25,17 +25,23 @@ def landing(request):
         return redirect('registration:registration_form_phase01')
     
     if request.user.is_authenticated and request.user.is_staff:
-        return redirect('registration:registration_admin')
+        return redirect('registration:reg_landing')
     
     if request.user.is_authenticated:
         if not Site_Permissions.user_has_permission(request.user, 'reg_form_control'):
             return redirect('core:dashboard')
         elif not Site_Permissions.user_has_permission(request.user, 'view_qr_dashboard'):
-            return redirect('registration:registration_admin')
+            return redirect('registration:reg_landing')
         else:
             return redirect('core:dashboard')
     else:
         return redirect('registration:registration_form_phase01')
+    
+
+@login_required
+@permission_required('reg_form_control')
+def reg_landing(request):
+    return render(request, 'landingpage.html')
 
 def registration_form_phase01(request):
     """Display the registration form for general users. Hidden if not published."""

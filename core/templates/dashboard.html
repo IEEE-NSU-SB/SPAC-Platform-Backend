@@ -552,7 +552,7 @@ video{
           {% if has_perm.update_session %}
           <button id="set-session">Set Session</button>
           {% endif %}
-          <a href="{% url 'registration:registration_admin' %}" >Registration Form</a>
+          <a href="{% url 'registration:reg_landing' %}" >System Dashboard</a>
           {% if has_perm.scan_session %}
           <button id="tap-to-scan">Tap to Scan</button>
           {% endif %}

@@ -6,6 +6,7 @@ app_name='registration'
 urlpatterns = [
     # Public/user registration form (only visible when published)
     path('', landing, name='landing'),
+    path('registration/landing/', reg_landing, name='reg_landing'),
     path('phase-1/', registration_form_phase01, name='registration_form_phase01'),
     # path('phase-2/', registration_form_phase02, name='registration_form_phase02'),
     # Staff-only admin view of the form and controls

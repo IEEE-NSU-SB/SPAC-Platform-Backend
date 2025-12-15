@@ -8,7 +8,6 @@ urlpatterns = [
     path('login/', login, name="login"),
     path('logout/', logout, name="logout"),
     path('dashboard/', dashboard, name='dashboard'),
-    path('landing/', landing_page, name='landing_page'),
     path('api/process_qr_data/', Process_QR_Data.as_view(), name="process_qr_data"),
     path('api/update_session/', SessionUpdateAjax.as_view(), name='update_session'),
     path('api/get_session_statuses/', GetSessionStatusAjax.as_view(), name="get_session_statuses"),

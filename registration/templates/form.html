@@ -285,10 +285,10 @@
 
           {% if has_perm.view_qr_dashboard %}
           <a
-            href="{% url 'core:dashboard' %}"
+            href="{% url 'registration:reg_landing' %}"
             class="admin-btn"
           >
-            <span>Dashboard</span>
+            <span>System Dashboard</span>
           </a>
           {% endif %} 
           {% if has_perm.view_reg_responses_list %}

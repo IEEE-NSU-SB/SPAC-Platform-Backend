@@ -19,11 +19,14 @@ from core.models import Registered_Participant
 # Create your views here.
 def login(request):
 
+    if request.user.is_authenticated and request.user.is_superuser:
+        return redirect('registration:reg_landing')
+
     if request.user.is_authenticated:
         if not Site_Permissions.user_has_permission(request.user, 'reg_form_control'):
             return redirect('core:dashboard')
         elif not Site_Permissions.user_has_permission(request.user, 'view_qr_dashboard'):
-            return redirect('registration:registration_admin')
+            return redirect('registration:reg_landing')
         else:
             return redirect('core:dashboard')
     
@@ -41,10 +44,13 @@ def login(request):
                 # Redirect to the originally requested URL
                 return redirect(next_url)
             else:
+                if request.user.is_authenticated and request.user.is_superuser:
+                    return redirect('registration:reg_landing')
+                
                 if not Site_Permissions.user_has_permission(request.user, 'reg_form_control'):
                     return redirect('core:dashboard')
                 elif not Site_Permissions.user_has_permission(request.user, 'view_qr_dashboard'):
-                    return redirect('registration:registration_admin')
+                    return redirect('registration:reg_landing')
                 else:
                     return redirect('core:dashboard')
         else:
@@ -265,6 +271,3 @@ def update_db_serial(request):
         return JsonResponse({'message':'success'})
     else:
         return render(request,'404.html')
-    
-def landing_page(request):
-    return render(request, 'landingpage.html')
