@@ -103,6 +103,22 @@
         </div>
       </div>
 
+      <!-- New row for additional buttons -->
+      <div class="flex justify-end gap-4 mb-5 max-md:justify-center">
+        <button
+          id="selectAllBtn"
+          class="px-5 py-2 bg-[#1b395c] text-white rounded-lg shadow hover:bg-[#00629B] border-2"
+        >
+          Select All
+        </button>
+        <button
+          id="saveBtn"
+          class="px-5 py-2 bg-[#1b395c] text-white rounded-lg shadow hover:bg-[#00629B] border-2"
+        >
+          Save Selections
+        </button>
+      </div>
+
       <!-- Table -->
       <div class="bg-white rounded-xl shadow-lg overflow-x-auto max-h-[450px]">
         <table class="min-w-full text-sm">
@@ -260,6 +276,58 @@
 
         alert("Phase-2 emails will be sent to IDs: " + selected.join(", "));
         // Backend POST should be implemented here
+      });
+
+      // Send Mail Button (Frontend only)
+      document.getElementById("sendMailBtn").addEventListener("click", () => {
+        const selected = [
+          ...document.querySelectorAll(".phase2Check:checked:not(:disabled)"),
+        ].map((cb) => cb.dataset.id);
+
+        if (!selected.length) {
+          alert("No participants selected");
+          return;
+        }
+
+        alert("Phase-2 emails will be sent to IDs: " + selected.join(", "));
+        // Backend POST should be implemented here
+      });
+
+      // Add Select All button listener here
+      document.getElementById("selectAllBtn").addEventListener("click", () => {
+        const checkboxes = document.querySelectorAll(".phase2Check:not(:disabled)");
+        const allChecked = [...checkboxes].every(cb => cb.checked);
+        checkboxes.forEach(cb => cb.checked = !allChecked);
+      });
+
+      // Add Save button listener here
+      document.getElementById("saveBtn").addEventListener("click", () => {
+        const selected = [
+          ...document.querySelectorAll(".phase2Check:checked:not(:disabled)"),
+        ].map((cb) => cb.dataset.id);
+
+        if (!selected.length) {
+          alert("No participants selected to save");
+          return;
+        }
+
+        fetch("YOUR_SAVE_ENDPOINT", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": document.querySelector("[name=csrfmiddlewaretoken]")?.value || "",  // Add CSRF if needed
+          },
+          body: JSON.stringify({ selected_ids: selected }),
+        })
+        .then(response => response.json())
+        .then(data => {
+          alert("Selections saved successfully!");
+          // Optionally refresh the page or update UI
+        })
+        .catch(error => {
+          console.error("Error saving selections:", error);
+          alert("Failed to save selections.");
+        });
       });
 
       // Particles
