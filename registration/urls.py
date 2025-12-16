@@ -16,6 +16,7 @@ urlpatterns = [
     path('registration/toggle-publish/', toggle_publish, name='toggle_publish'),
     path('registration/responses/', response_table, name='response_table'),
     path('registration/response/<int:id>/', view_response, name='view_response'),
-    path('submit-form/', submit_form, name='submit_form'),
-    path('download-excel/', download_excel, name='download_excel'),
+    path('registration/submit-form/', submit_form, name='submit_form'),
+    path('registration/download-excel/', download_excel, name='download_excel'),
+    path('registration/save_selected_p01/', save_selected_phase01, name='save_selected_phase01')
 ]   

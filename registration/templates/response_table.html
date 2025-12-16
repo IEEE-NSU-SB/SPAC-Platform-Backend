@@ -104,7 +104,7 @@
       </div>
 
       <!-- New row for additional buttons -->
-      {% comment %} <div class="flex justify-end gap-4 mb-5 max-md:justify-center">
+      <div class="flex justify-end gap-4 mb-5 max-md:justify-center">
         <button
           id="selectAllBtn"
           class="px-5 py-2 bg-[#1b395c] text-white rounded-lg shadow hover:bg-[#00629B] border-2"
@@ -117,7 +117,7 @@
         >
           Save Selections
         </button>
-      </div> {% endcomment %}
+      </div>
 
       <!-- Table -->
       <div class="bg-white rounded-xl shadow-lg overflow-x-auto max-h-[450px]">
@@ -311,11 +311,11 @@
           return;
         }
 
-        fetch("YOUR_SAVE_ENDPOINT", {
+        fetch("{% url 'registration:save_selected_phase01' %}", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            "X-CSRFToken": document.querySelector("[name=csrfmiddlewaretoken]")?.value || "",  // Add CSRF if needed
+            "X-CSRFToken": '{{csrf_token}}',  // Add CSRF if needed
           },
           body: JSON.stringify({ selected_ids: selected }),
         })

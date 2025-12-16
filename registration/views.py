@@ -1,4 +1,5 @@
 import csv
+import json
 import pandas as pd
 from io import BytesIO
 from django.http import HttpResponse, JsonResponse
@@ -384,3 +385,24 @@ def view_response(request, id):
         'participant': partipant
     }
     return render(request, 'participant_response.html', context)
+
+from django.db.models import Case, When, Value, BooleanField
+
+@login_required
+@permission_required('reg_form_control')
+def save_selected_phase01(request):
+
+    try:
+        data = json.loads(request.body)
+        selected_ids = data.get('selected_ids')
+
+        Form_Participant_Phase_1.objects.update(
+            is_selected=Case(
+                When(id__in=selected_ids, then=Value(True)),
+                default=Value(False),
+                output_field=BooleanField(),
+            )
+        )
+        return JsonResponse({'message':'Participants selection updated successfully!', 'status':'success'})
+    except:
+        return JsonResponse({'message':'Error!', 'status':'error'})
