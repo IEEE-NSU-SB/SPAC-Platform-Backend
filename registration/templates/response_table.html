@@ -263,7 +263,7 @@
         });
       });
 
-      // Send Mail Button (Frontend only)
+      {% comment %} // Send Mail Button (Frontend only)
       document.getElementById("sendMailBtn").addEventListener("click", () => {
         const selected = [
           ...document.querySelectorAll(".phase2Check:checked:not(:disabled)"),
@@ -291,7 +291,7 @@
 
         alert("Phase-2 emails will be sent to IDs: " + selected.join(", "));
         // Backend POST should be implemented here
-      });
+      }); {% endcomment %}
 
       // Add Select All button listener here
       document.getElementById("selectAllBtn").addEventListener("click", () => {
