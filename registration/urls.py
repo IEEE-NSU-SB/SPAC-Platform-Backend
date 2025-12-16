@@ -4,19 +4,17 @@ from .views import *
 
 app_name='registration'
 urlpatterns = [
-    # Public/user registration form (only visible when published)
     path('', landing, name='landing'),
     path('registration/landing/', reg_landing, name='reg_landing'),
     path('phase-1/', registration_form_phase01, name='registration_form_phase01'),
     # path('phase-2/', registration_form_phase02, name='registration_form_phase02'),
-    # Staff-only admin view of the form and controls
     path('reg/', registration_redirect, name="registration_redirect"),
     path('registration/admin/', registration_admin, name='registration_admin'),
-    # Publish toggle endpoint (staff-only)
     path('registration/toggle-publish/', toggle_publish, name='toggle_publish'),
     path('registration/responses/', response_table, name='response_table'),
     path('registration/response/<int:id>/', view_response, name='view_response'),
     path('registration/submit-form/', submit_form, name='submit_form'),
     path('registration/download-excel/', download_excel, name='download_excel'),
-    path('registration/save_selected_p01/', save_selected_phase01, name='save_selected_phase01')
+    path('registration/save_selected_p01/', save_selected_phase01, name='save_selected_phase01'),
+    path('registration/send_p02_email/', send_phase02_email, name='send_phase02_email')
 ]   
