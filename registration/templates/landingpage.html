@@ -190,6 +190,102 @@
           height: 30px;
         }
       }
+      .table-wrapper {
+  width: 100%;
+  max-width: 900px;
+  margin: auto;
+}
+
+.nav-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+}
+
+.nav-table th,
+.nav-table td {
+  padding: 18px;
+  text-align: center;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.nav-table thead {
+  background: #1b395c;
+  color: white;
+  font-size: 1.2rem;
+}
+
+.row-title {
+  font-weight: 600;
+  background: #f3f4f6;
+}
+
+.table-btn {
+  display: inline-block;
+  padding: 10px 18px;
+  background: #1b395c;
+  color: white;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: all 0.25s ease;
+}
+
+.table-btn:hover {
+  background: #00629B;
+  transform: translateY(-2px);
+}
+
+.disabled-btn {
+  color: #9ca3af;
+  font-style: italic;
+}
+.mobile-list {
+  display: none;
+}
+/* ---------- MOBILE LIST VIEW ---------- */
+@media (max-width: 640px) {
+
+  .nav-table,
+  .nav-table thead {
+    display: none;
+  }
+
+  .mobile-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .mobile-card {
+    background: white;
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+  }
+
+  .mobile-card h3 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: #1b395c;
+  }
+
+  .mobile-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #e5e7eb;
+  }
+
+  .mobile-item:last-child {
+    border-bottom: none;
+  }
+}
+
     </style>
   </head>
   <body>
@@ -203,20 +299,99 @@
 
     <!-- Main Content -->
     <div class="main-container">
-      <h1 class="title">Where do you wanna go today?</h1>
-      
-      <div class="phase-container">
-        <a href="{% url 'core:dashboard' %}" class="phase-button">
-          QR Dashboard
-        </a>
-        <a href="{% url 'registration:registration_form_phase01' %}" class="phase-button">
-          Phase 1
-        </a>
-        <a href="{% url 'core:logout' %}" class="phase-button">
-          ALT+F4 (future phase-2)
-        </a>
-      </div>
+  <h1 class="title">Where do you wanna go today?</h1>
+
+  <div class="table-wrapper">
+    <table class="nav-table">
+      <thead>
+        <tr>
+          <th></th>
+          <th>Phase 1</th>
+          <th>Phase 2</th>
+          <th>QR Dashboard</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="row-title">Form</td>
+          <td>
+            <a href="{% url 'registration:registration_form_phase01' %}" class="table-btn">
+              Open
+            </a>
+          </td>
+          <td>
+            <span class="disabled-btn">Coming Soon</span>
+          </td>
+          <td>
+            <a href="{% url 'core:dashboard' %}" class="table-btn">
+              QR Dashboard
+            </a>
+          </td>
+        </tr>
+
+        <tr>
+          <td class="row-title">Response Table</td>
+          <td>
+            <a href="{% url 'registration:response_table' %}" class="table-btn">
+              View
+            </a>
+          </td>
+          <td>
+            <span class="disabled-btn">Coming Soon</span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="mobile-list">
+
+  <div class="mobile-card">
+    <h3>Phase 1</h3>
+
+    <div class="mobile-item">
+      <span>Form</span>
+      <a href="{% url 'registration:registration_form_phase01' %}" class="table-btn">
+        Open
+      </a>
     </div>
+
+    <div class="mobile-item">
+      <span>Responses</span>
+      <a href="{% url 'registration:response_table' %}" class="table-btn">
+        View
+      </a>
+    </div>
+  </div>
+
+  <div class="mobile-card">
+    <h3>Phase 2</h3>
+
+    <div class="mobile-item">
+      <span>Form</span>
+      <span class="disabled-btn">Coming Soon</span>
+    </div>
+
+    <div class="mobile-item">
+      <span>Responses</span>
+      <span class="disabled-btn">Coming Soon</span>
+    </div>
+  </div>
+
+  <div class="mobile-card">
+    <h3>QR Dashboard</h3>
+
+    <div class="mobile-item">
+      <span>Responses</span>
+      <a href="{% url 'core:dashboard' %}" class="table-btn">
+        View
+      </a>
+    </div>
+  </div>
+
+</div>
+
+</div>
+
 
     <!-- Footer -->
     <div class="footer">
