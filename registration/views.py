@@ -14,7 +14,7 @@ from emails.views import send_registration_email
 from django.db.models import Count
 from django.db.models.functions import Trim
 
-from .models import EventFormStatus, Form_Participant_Phase_1
+from .models import EventFormStatus, Form_Participant_Phase_1, Form_Participant_Unique_Code_Phase_2
 
 def _get_publish_status() -> bool:
     status = EventFormStatus.objects.order_by('-updated_at').first()
@@ -296,7 +296,7 @@ def download_excel(request):
             df_ambassador.to_excel(writer, index=False, sheet_name='Ambassador Codes')
         else:
             # Create empty sheet if no data
-            empty_df = pd.DataFrame({'Message': ['No participants used ambassador codes']})
+            empty_df = pd.DataFrame({'Message': ['No participants registered']})
             empty_df.to_excel(writer, index=False, sheet_name='Ambassador Codes')
     
     output.seek(0)
@@ -393,16 +393,48 @@ from django.db.models import Case, When, Value, BooleanField
 def save_selected_phase01(request):
 
     try:
-        data = json.loads(request.body)
-        selected_ids = data.get('selected_ids')
+        if request.method == 'POST':
+            data = json.loads(request.body)
+            selected_ids = data.get('selected_ids')
 
-        Form_Participant_Phase_1.objects.update(
-            is_selected=Case(
-                When(id__in=selected_ids, then=Value(True)),
-                default=Value(False),
-                output_field=BooleanField(),
+            Form_Participant_Phase_1.objects.update(
+                is_selected=Case(
+                    When(id__in=selected_ids, then=Value(True)),
+                    default=Value(False),
+                    output_field=BooleanField(),
+                )
             )
-        )
-        return JsonResponse({'message':'Participants selection updated successfully!', 'status':'success'})
+            return JsonResponse({'message':'Participants selection updated successfully!', 'status':'success'})
+        else:
+            return JsonResponse({'message':'Invalid request header', 'status':'error'})
+    except:
+        return JsonResponse({'message':'Error!', 'status':'error'})
+    
+@login_required
+def send_phase02_email(request):
+    try:
+        if request.method == 'POST':
+            data = json.loads(request.body)
+            selected_ids = data.get('selected_ids')
+
+            for id in selected_ids:
+                form_participant = Form_Participant_Phase_1.objects.get(id=id)
+                if not form_participant.is_phase_2_email_sent:
+                    if not Form_Participant_Unique_Code_Phase_2.objects.filter(participant=form_participant).exists():
+                        form_participant_unique_code_p02 = Form_Participant_Unique_Code_Phase_2.objects.create(participant=form_participant, unique_code=form_participant.email, is_active=True)
+                    else:
+                        form_participant_unique_code_p02 = Form_Participant_Unique_Code_Phase_2.objects.get(participant=form_participant)
+                    try:
+                        print(f'Sending email to {form_participant.id}!')
+
+                        # SEND EMAIL HERE
+
+                        form_participant.is_phase_2_email_sent = True
+                        form_participant.save()
+                    except:
+                        print(f'Sending email to {form_participant.id} FAILED!')
+            return JsonResponse({'message':'Successfully emailed to all participants!', 'status':'success'})
+        else:
+            return JsonResponse({'message':'Invalid request header', 'status':'error'})
     except:
         return JsonResponse({'message':'Error!', 'status':'error'})

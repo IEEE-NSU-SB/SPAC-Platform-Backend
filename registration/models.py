@@ -58,7 +58,8 @@ class Form_Participant_Phase_1(models.Model):
 class Form_Participant_Unique_Code_Phase_2(models.Model):
 
     participant = models.ForeignKey(Form_Participant_Phase_1, null=False, blank=False, on_delete=models.CASCADE)
-    unique_code = models.CharField(null=False, blank=False, max_length=50)
+    unique_code = models.CharField(null=False, blank=False, max_length=50, unique=True)
+    is_active = models.BooleanField(null=False, blank=False, default=False)
 
     class Meta:
         verbose_name = 'Unique Code for Phase 2'
