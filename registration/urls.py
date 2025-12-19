@@ -12,6 +12,7 @@ urlpatterns = [
     path('registration/admin/', registration_admin, name='registration_admin'),
     path('registration/toggle-publish/', toggle_publish, name='toggle_publish'),
     path('registration/responses/', response_table, name='response_table'),
+    path('registration/responses2/', response_table2, name='response_table2'),
     path('registration/response/<int:id>/', view_response, name='view_response'),
     path('registration/submit-form/', submit_form, name='submit_form'),
     path('registration/download-excel/', download_excel, name='download_excel'),

@@ -1,0 +1,186 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SPAC 2025 | Application Response</title>
+  <link rel="icon" href="{% static '/img/logo.gif' %}" />
+
+  <!-- DaisyUI + Tailwind -->
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+  <!-- SweetAlert (kept for consistency, not used here) -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <style>
+    body {
+      font-family: 'Instrument Sans', sans-serif;
+      background: #002855;
+    }
+    .input_label {
+      display: block;
+      font-size: 18px;
+      margin-bottom: 0.35rem;
+      color: #000;
+    }
+    .input {
+      width: 100%;
+      padding: .5rem .75rem;
+      border: 1px solid #000;
+      border-radius: 0.375rem;
+      background: transparent;
+      color: black;
+    }
+    .section_heading {
+      text-align: center;
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: #000;
+    }
+    .back-btn {
+      background: #00629B;
+      border: 1px solid white;
+      color: #fff;
+      padding: 8px 2rem;
+      border-radius: .5rem;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    .back-btn:hover {
+      background: #00629B;
+      transition: 0.3s;
+    }
+  </style>
+</head>
+
+<body class="py-4 min-h-screen">
+
+  <div class="w-11/12 md:w-3/5 mx-auto">
+
+    <!-- ================= STEP 1: BASIC INFORMATION ================= -->
+    <section class="bg-[#c6e8ff] border-2 text-black border-white shadow-md p-6 rounded-md mb-6">
+      <button onclick="window.history.back();" class="back-btn" type="button">Back</button>
+
+      <h2 class="section_heading mt-4">Response of {{ participant.name }} </h2>
+
+      <div class="mb-5">
+        <label class="input_label">Name</label>
+        <div class="input">{{ participant.name }}</div>
+      </div>
+
+      <div class="mb-5">
+        <label class="input_label">Email Address</label>
+        <div class="input">{{ participant.email }}</div>
+      </div>
+
+      <div class="mb-5">
+        <label class="input_label">Contact Number</label>
+        <div class="input">{{ participant.contact_number }}</div>
+      </div>
+
+      <!-- NSU student status -->
+      <div class="mb-5">
+        <label class="input_label">Are you a student from North South University?</label>
+
+        <label class="block">
+          <input type="radio" {% if participant.is_nsu_student %}checked{% endif %} disabled /> Yes
+        </label>
+        <label class="block">
+          <input type="radio" {% if not participant.is_nsu_student %}checked{% endif %} disabled /> No
+        </label>
+      </div>
+
+      {% if participant.is_nsu_student %}
+      <!-- NSU student fields -->
+      <div class="mb-5">
+        <label class="input_label">NSU Student ID</label>
+        <div class="input">{{ participant.university_id }}</div>
+      </div>
+
+      <div class="mb-5">
+        <label class="input_label">Department / Major</label>
+        <div class="input">{{ participant.department }}</div>
+      </div>
+      {% else %}
+      <!-- Other university fields -->
+      <div class="mb-5">
+        <label class="input_label">University Name</label>
+        <div class="input">{{ participant.university }}</div>
+      </div>
+
+      <div class="mb-5">
+        <label class="input_label">Student ID</label>
+        <div class="input">{{ participant.university_id }}</div>
+      </div>
+
+      <div class="mb-5">
+        <label class="input_label">Department / Major</label>
+        <div class="input">{{ participant.major }}</div>
+      </div>
+      {% endif %}
+
+      <!-- IEEE membership -->
+      <div class="mb-5">
+        <label class="input_label">Are you an IEEE Member?</label>
+
+        <label class="block">
+          <input type="radio" {% if participant.membership_type == 'member' %}checked{% endif %} disabled /> IEEE Member
+        </label>
+        <label class="block">
+          <input type="radio" {% if participant.membership_type == 'non_ieee' %}checked{% endif %} disabled /> Non-IEEE Member
+        </label>
+      </div>
+
+      <div class="mb-5">
+        <label class="input_label">IEEE Membership ID</label>
+        <div class="input">{{ participant.ieee_id }}</div>
+      </div>
+
+      <div class="mb-5">
+        <label class="input_label">Ambassador Referral Code (if any)</label>
+        <div class="input">{{ participant.ambassador_code }}</div>
+      </div>
+    </section>
+
+    <!-- ================= STEP 2: QUESTIONNAIRE ================= -->
+    <section class="bg-[#c6e8ff] border-2 text-black border-white shadow-md p-6 rounded-md mb-6">
+      <h2 class="section_heading">Questionnaire</h2>
+
+      <div class="mb-5">
+        <label class="input_label">1. What do you know about SPAC?</label>
+        <textarea class="input h-28" disabled>{{ participant.answers.question1 }}</textarea>
+      </div>
+
+      <div class="mb-5">
+        <label class="input_label">2. Why do you want to be a participant of SPAC?</label>
+        <textarea class="input h-28" disabled>{{ participant.answers.question2 }}</textarea>
+      </div>
+
+      <div class="mb-5">
+        <label class="input_label">3. What is your expectation from SPAC?</label>
+        <textarea class="input h-28" disabled>{{ participant.answers.question3 }}</textarea>
+      </div>
+
+      <div class="mb-5">
+        <label class="input_label">Any comments?</label>
+        <textarea class="input h-24" disabled>{{ participant.answers.question4 }}</textarea>
+      </div>
+    </section>
+
+    <!-- ================= NOTE ================= -->
+    <section class="bg-[#c6e8ff] border border-yellow-300 p-4 rounded-md">
+      <p class="text-sm text-gray-700">
+        <strong>Note:</strong> This is a <b>Phase 01 application response</b>. Payment and final confirmation are collected only after shortlisting.
+      </p>
+    </section>
+
+    <footer class="text-center mt-6">
+      <small class="italic text-white">2025 © All rights reserved by IEEE NSU Student Branch</small>
+    </footer>
+
+  </div>
+</body>
+</html>
