@@ -10,7 +10,7 @@ from django.views.decorators.http import require_POST
 from access_ctrl.decorators import permission_required
 from access_ctrl.utils import Site_Permissions
 from system_administration.utils import log_exception
-from emails.views import send_registration_email
+from emails.views import send_participant_phase02_email, send_registration_email_phase01
 from django.db.models import Count
 from django.db.models.functions import Trim
 
@@ -86,6 +86,13 @@ def registration_form_phase02(request):
             return redirect('registration:registration_admin_phase02')
         else:
             return redirect('core:dashboard')
+    
+    unique_code = request.GET.get('token')
+    if unique_code:
+        if not Form_Participant_Unique_Code_Phase_2.objects.filter(unique_code=unique_code).exists():
+            return render(request, 'form.html', {})
+    else:
+        return render(request, 'form.html', {})
 
     registration_count = Form_Participant_Phase_2.objects.count()
     registration_closed = registration_count >= 10000
@@ -226,7 +233,7 @@ def submit_form_phase01(request):
                 comments=comments,
             )
 
-            send_registration_email(request, participant.name, participant.email)
+            send_registration_email_phase01(request, participant.name, participant.email)
             
             # Return success response
             return JsonResponse({
@@ -269,50 +276,39 @@ def submit_form_phase02(request):
             name = request.POST.get('name')
             email = request.POST.get('email')
             contact_number = request.POST.get('contact_number')
-            is_nsu_student = request.POST.get('is_student_bool')
-            department = ''
-            if is_nsu_student == 'True':
-                university = 'North South University'
-                university_id = request.POST.get('nsu_id','')
-                department = request.POST.get('department','')
-            else:
-                university = request.POST.get('uni_name', '')
-                university_id = request.POST.get('uni_id','')
-                department = request.POST.get('major','')
+            institution = request.POST.get('institution_name', '')
+            # university_id = request.POST.get('uni_id','')
 
-            membership_type = request.POST.get('membership_type')
-            if membership_type == 'member':
-                ieee_id = request.POST.get('ieee_id')
+            membership_type = request.POST.get('membership_grade')
+            if membership_type == 'student':
+                ieee_id = request.POST.get('student_membership_id')
+            elif membership_type == 'professional':
+                ieee_id = request.POST.get('professional_membership_id')
             else:
                 ieee_id = 'N/A'
-            ambassador_code = request.POST.get('ambassador_code', '')
+            
+            tshirt_size = request.POST.get('tshirt_size')
 
             # Step 2
-            # Collect questionnaire answers
-            answers = {
-                'question1': request.POST.get('question1', ''),
-                'question2': request.POST.get('question2', ''),
-                'question3': request.POST.get('question3', ''),
-            }
+            payment_method = 'Bkash'
+            transaction_id = request.POST.get('transaction_id')
             comments = request.POST.get('comments')
 
             # Create and save participant
-            participant = Form_Participant_Phase_1.objects.create(
+            participant = Form_Participant_Phase_2.objects.create(
                 name=name,
                 email=email,
                 contact_number=contact_number,
+                institution=institution,
                 membership_type=membership_type,
                 ieee_id=ieee_id,
-                university=university,
-                department=department,
-                university_id=university_id,
-                answers=answers,
-                is_nsu_student=is_nsu_student,
-                ambassador_code=ambassador_code,
+                tshirt_size=tshirt_size,
+                payment_method=payment_method,
+                transaction_id=transaction_id,
                 comments=comments,
             )
 
-            send_registration_email(request, participant.name, participant.email)
+            # send_registration_email(request, participant.name, participant.email)
             
             # Return success response
             return JsonResponse({
@@ -437,12 +433,12 @@ def response_table2(request):
         'view_finance_info':Site_Permissions.user_has_permission(request.user, 'view_finance_info')
     }
 
-    participants = Form_Participant_Phase_1.objects.all().order_by('created_at')
-    total_registrations = Form_Participant_Phase_1.objects.count()
+    participants = Form_Participant_Phase_2.objects.all().order_by('created_at')
+    total_registrations = Form_Participant_Phase_2.objects.count()
 
     # Query grouped stats
     stats = (
-        Form_Participant_Phase_1.objects
+        Form_Participant_Phase_2.objects
         .values("membership_type")
         .annotate(total=Count("id"))
     )
@@ -466,11 +462,11 @@ def response_table2(request):
 
     
     university_data = (
-        Form_Participant_Phase_1.objects
-        .exclude(university__isnull=True)
-        .exclude(university='')
-        .annotate(university_sanitized=Trim('university'))
-        .values('university_sanitized')
+        Form_Participant_Phase_2.objects
+        .exclude(institution__isnull=True)
+        .exclude(institution='')
+        .annotate(institution_sanitized=Trim('institution'))
+        .values('institution_sanitized')
         .annotate(total=Count('id'))
         .order_by('-total')
     )
@@ -499,10 +495,6 @@ def response_table2(request):
 @permission_required('view_reg_responses_list')
 def response_table(request):
 
-    # ieee_member = 350
-    # non_ieee_member = 450
-
-
     permissions = {
         'view_finance_info':Site_Permissions.user_has_permission(request.user, 'view_finance_info')
     }
@@ -524,17 +516,6 @@ def response_table(request):
         membership = entry["membership_type"]
         summary[membership] = entry.get("total", 0)
     
-    # summary['ieee_member_total'] = summary.get('member', 0) * ieee_member
-    # summary['non_ieee_member_total'] = summary.get('non_ieee', 0) * non_ieee_member
-
-    # total_amount = (summary['ieee_member_total']
-    #                 +summary['non_ieee_member_total'])
-    # total_amount = f"BDT {total_amount:,}"
-
-    # summary['ieee_member_total'] = f"{summary['ieee_member_total']:,}"
-    # summary['non_ieee_member_total'] = f"{summary['non_ieee_member_total']:,}"
-
-    
     university_data = (
         Form_Participant_Phase_1.objects
         .exclude(university__isnull=True)
@@ -545,21 +526,10 @@ def response_table(request):
         .order_by('-total')
     )
 
-    # # Payment method counts
-    # payment_counts = (
-    #     Form_Participant_Phase_1.objects
-    #     .values('payment_method')
-    #     .annotate(total=Count('id'))
-    # )
-    # # Convert into dict like {"Bkash": 10, "Nagad": 15}
-    # payment_summary = {entry['payment_method']: entry['total'] for entry in payment_counts}
-
     context = {
         'participants': participants,
         'registration_stats': summary,
         'university_data': university_data,
-        # 'payment_summary': payment_summary,
-        # 'total_amount': total_amount,
         'total_registrations':total_registrations,
         'has_perm':permissions
     }
@@ -602,25 +572,10 @@ def save_selected_phase01(request):
 def send_phase02_email(request):
     try:
         if request.method == 'POST':
-            data = json.loads(request.body)
-            selected_ids = data.get('selected_ids')
-
-            for id in selected_ids:
-                form_participant = Form_Participant_Phase_1.objects.get(id=id)
-                if not form_participant.is_phase_2_email_sent:
-                    if not Form_Participant_Unique_Code_Phase_2.objects.filter(participant=form_participant).exists():
-                        form_participant_unique_code_p02 = Form_Participant_Unique_Code_Phase_2.objects.create(participant=form_participant, unique_code=form_participant.email, is_active=True)
-                    else:
-                        form_participant_unique_code_p02 = Form_Participant_Unique_Code_Phase_2.objects.get(participant=form_participant)
-                    try:
-                        print(f'Sending email to {form_participant.id}!')
-
-                        # SEND EMAIL HERE
-
-                        form_participant.is_phase_2_email_sent = True
-                        form_participant.save()
-                    except:
-                        print(f'Sending email to {form_participant.id} FAILED!')
+            form_participants = Form_Participant_Phase_1.objects.filter(is_selected=True)
+            
+            send_participant_phase02_email(request, form_participants)
+            
             return JsonResponse({'message':'Successfully emailed to all participants!', 'status':'success'})
         else:
             return JsonResponse({'message':'Invalid request header', 'status':'error'})

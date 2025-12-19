@@ -253,22 +253,6 @@
       });
     });
 
-
-      {% comment %} // Send Mail Button (Frontend only)
-      document.getElementById("sendMailBtn").addEventListener("click", () => {
-        const selected = [
-          ...document.querySelectorAll(".phase2Check:checked:not(:disabled)"),
-        ].map((cb) => cb.dataset.id);
-
-        if (!selected.length) {
-          alert("No participants selected");
-          return;
-        }
-
-        alert("Phase-2 emails will be sent to IDs: " + selected.join(", "));
-        // Backend POST should be implemented here
-      });
-
       // Send Mail Button (Frontend only)
       document.getElementById("sendMailBtn").addEventListener("click", () => {
         const selected = [
@@ -281,8 +265,24 @@
         }
 
         alert("Phase-2 emails will be sent to IDs: " + selected.join(", "));
-        // Backend POST should be implemented here
-      }); {% endcomment %}
+        
+        fetch("{% url 'registration:send_phase02_email' %}", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": '{{csrf_token}}',
+          },
+        })
+        .then(response => response.json())
+        .then(data => {
+          alert("Selections saved successfully!");
+          // Optionally refresh the page or update UI
+        })
+        .catch(error => {
+          console.error("Error saving selections:", error);
+          alert("Failed to save selections.");
+        });
+      });
 
       // Add Select All button listener here
       document.getElementById("selectAllBtn").addEventListener("click", () => {

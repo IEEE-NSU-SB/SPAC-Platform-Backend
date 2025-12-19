@@ -81,8 +81,8 @@ class Form_Participant_Unique_Code_Phase_2(models.Model):
 class Form_Participant_Phase_2(models.Model):
 
     MEMBERSHIP_CHOICES = [
-        ("student_member", "IEEE Student Member"),
-        ("member", "IEEE Member"),
+        ("student", "IEEE Student Member"),
+        ("professional", "IEEE Member"),
         ("non_ieee", "Non-IEEE Member"),
     ]
 
