@@ -96,10 +96,13 @@ def registration_form_phase02(request):
 
     registration_count = Form_Participant_Phase_2.objects.count()
     registration_closed = registration_count >= 10000
+    universities = University.objects.all()
+
     context = {
         'is_staff_view': False,
         'is_published': _get_publish_status_phase02(),
         'registration_closed': registration_closed,
+        'universities':universities,
     }
     return render(request, 'phase2form.html',context)
 
@@ -131,6 +134,7 @@ def registration_admin_phase02(request):
     """Staff-only admin view to manage and preview the form regardless of publish state."""
 
     registration_count = Form_Participant_Phase_2.objects.count()
+    universities = University.objects.all()
 
     permisions = {
         'reg_form_control':Site_Permissions.user_has_permission(request.user, 'reg_form_control'),
@@ -143,7 +147,8 @@ def registration_admin_phase02(request):
         'is_staff_view': True,
         'is_published': _get_publish_status_phase02(),
         'registration_count':registration_count,
-        'has_perm': permisions
+        'has_perm': permisions,
+        'universities':universities,
     }
     return render(request, 'phase2form.html', context)
 

@@ -477,9 +477,9 @@
             </label>
             <select id="institution-select" name="institution_name" class="input">
               <option value="" disabled selected>Select an Institution</option>
-              <option value="Ahsanullah University of Science and Technology">Ahsanullah University of Science and Technology</option>
-              <option value="American International University Bangladesh">American International University Bangladesh</option>
-              <option value="NSU">NSU</option>
+              {% for university in universities %}
+              <option value="{{university.name}}">{{university.name}}</option>
+              {% endfor %}
             </select>
           </div>
 
