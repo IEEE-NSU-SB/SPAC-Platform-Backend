@@ -218,18 +218,29 @@
 
     <!-- Scripts -->
     <script>
-    // Global table search (searches ALL columns)
-    document.getElementById("tableSearch").addEventListener("input", function () {
-      const query = this.value.toLowerCase();
+      document
+        .getElementById("tableSearch")
+        .addEventListener("input", function () {
+          const q = this.value.toLowerCase();
+          document.querySelectorAll("tbody tr").forEach((row) => {
+            const name = row.children[1]?.innerText.toLowerCase() || "";
+            const email = row.children[3]?.innerText.toLowerCase() || "";
+            const uni = row.children[2]?.innerText.toLowerCase() || "";
+            const shirt = row.children[4]?.innerText.toLowerCase() || "";
+            row.style.display =
+              name.includes(q) || email.includes(q) || uni.includes(q) || shirt.includes(q) ? "" : "none";
+          });
+        });
 
+      // Row click
       document.querySelectorAll("tbody tr").forEach((row) => {
-        // Get all text inside the row
-        const rowText = row.innerText.toLowerCase();
-
-        // Show/hide row based on match
-        row.style.display = rowText.includes(query) ? "" : "none";
+        row.addEventListener("click", (e) => {
+          if (e.target.type !== "checkbox") {
+            const link = row.dataset.href;
+            if (link) window.location.href = link;
+          }
+        });
       });
-    });
     </script>
   </body>
 </html>
