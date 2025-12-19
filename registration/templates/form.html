@@ -294,7 +294,7 @@
           {% if has_perm.view_reg_responses_list %}
           <!-- See Responses Button (staff only) -->
           <a
-            href="{% url 'registration:response_table' %}"
+            href="{% url 'registration:response_table_phase01' %}"
             class="admin-btn"
           >
             <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
@@ -349,7 +349,7 @@
         </div> -->
 
         <!-- Form wrapper -->
-        <form id="registrationForm" method="post" action="/registration/submit-form/">
+        <form id="registrationForm" method="post" action="/registration/phase-1/submit-form/">
           {% csrf_token %}
 
           <!-- Step 1: Basic Info -->
@@ -962,7 +962,7 @@ if (publishToggle) {
   document.getElementById('confirmPublish').addEventListener('click', () => {
     document.getElementById('publishModal').classList.add('hidden');
     // Send AJAX request to publish
-    fetch('{% url "registration:toggle_publish" %}', {
+    fetch('{% url "registration:toggle_publish_phase01" %}', {
       method: 'POST',
       headers: {
         'X-CSRFToken': csrfToken
@@ -986,7 +986,7 @@ if (publishToggle) {
   document.getElementById('confirmUnpublish').addEventListener('click', () => {
     document.getElementById('unpublishModal').classList.add('hidden');
     // Send AJAX request to unpublish
-    fetch('{% url "registration:toggle_publish" %}', {
+    fetch('{% url "registration:toggle_publish_phase01" %}', {
       method: 'POST',
       headers: {
         'X-CSRFToken': csrfToken

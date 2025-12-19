@@ -320,7 +320,10 @@
             </a>
           </td>
           <td>
-            <span class="disabled-btn">Coming Soon</span>
+            <a href="{% url 'registration:registration_form_phase02' %}" class="table-btn">
+              Open
+            </a>
+            {% comment %} <span class="disabled-btn">Coming Soon</span> {% endcomment %}
           </td>
           <td>
             <a href="{% url 'core:dashboard' %}" class="table-btn">
@@ -332,12 +335,15 @@
         <tr>
           <td class="row-title">Response Table</td>
           <td>
-            <a href="{% url 'registration:response_table' %}" class="table-btn">
+            <a href="{% url 'registration:response_table_phase01' %}" class="table-btn">
               View
             </a>
           </td>
           <td>
-            <span class="disabled-btn">Coming Soon</span>
+            <a href="{% url 'registration:response_table_phase02' %}" class="table-btn">
+              View
+            </a>
+            {% comment %} <span class="disabled-btn">Coming Soon</span> {% endcomment %}
           </td>
         </tr>
       </tbody>
@@ -357,7 +363,7 @@
 
     <div class="mobile-item">
       <span>Responses</span>
-      <a href="{% url 'registration:response_table' %}" class="table-btn">
+      <a href="{% url 'registration:response_table_phase01' %}" class="table-btn">
         View
       </a>
     </div>

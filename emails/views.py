@@ -20,11 +20,7 @@ from core.models import Registered_Participant
 from spac_platform import settings
 from django.contrib import messages
 from django.shortcuts import render
-from django.contrib.admin.views.decorators import staff_member_required
-from django.views.decorators.http import require_POST
-import csv
 
-from registration.models import EventFormStatus
 from system_administration.utils import log_exception
 
 # Create your views here.

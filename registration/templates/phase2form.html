@@ -300,16 +300,16 @@
 
           {% if has_perm.view_qr_dashboard %}
           <a
-            href="{% url 'core:dashboard' %}"
+            href="{% url 'registration:landing' %}"
             class="admin-btn"
           >
-            <span>Dashboard</span>
+            <span>System Dashboard</span>
           </a>
           {% endif %} 
           {% if has_perm.view_reg_responses_list %}
           <!-- See Responses Button (staff only) -->
           <a
-            href="{% url 'registration:response_table' %}"
+            href="{% url 'registration:response_table_phase02' %}"
             class="admin-btn"
           >
             <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
@@ -355,7 +355,7 @@
         {% else %}
 
         <!-- Form wrapper -->
-        <form id="registrationForm" method="post" action="/submit-form/">
+        <form id="registrationForm" method="post" action="/registration/phase-2/submit-form/">
           {% csrf_token %}
 
           <!-- Step 1: Basic Info -->
@@ -962,7 +962,7 @@
 
         document.getElementById('confirmPublish').addEventListener('click', () => {
           document.getElementById('publishModal').classList.add('hidden');
-          fetch('{% url "registration:toggle_publish" %}', {
+          fetch('{% url "registration:toggle_publish_phase02" %}', {
             method: 'POST',
             headers: {
               'X-CSRFToken': csrfToken
@@ -984,7 +984,7 @@
 
         document.getElementById('confirmUnpublish').addEventListener('click', () => {
           document.getElementById('unpublishModal').classList.add('hidden');
-          fetch('{% url "registration:toggle_publish" %}', {
+          fetch('{% url "registration:toggle_publish_phase02" %}', {
             method: 'POST',
             headers: {
               'X-CSRFToken': csrfToken
