@@ -224,7 +224,7 @@
         />
         {% else %}
         <img
-          src="{% static '/img/phase 1.png' %}"
+          src="{% static '/img/phase 2.png' %}"
           alt=""
           class="object-cover md:h-auto"
         />
@@ -479,8 +479,9 @@
               Institution Name
               <span class="text-red-700 ml-1">*</span>
             </label>
-            <select id="institution-select" name="institution_name" class="input">
-              <option value="" disabled selected>Select an Institution</option>
+            <select id="institution-select" name="institution_name" class="input" required>
+              <option value="">Select an Institution</option>
+              <option value="NSU">NSU</option>
               {% for university in universities %}
               <option value="{{university.name}}">{{university.name}}</option>
               {% endfor %}

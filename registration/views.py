@@ -90,9 +90,9 @@ def registration_form_phase02(request):
     unique_code = request.GET.get('token')
     if unique_code:
         if not Form_Participant_Unique_Code_Phase_2.objects.filter(unique_code=unique_code).exists():
-            return render(request, 'form.html', {})
+            return render(request, 'check_token.html', {})
     else:
-        return render(request, 'form.html', {})
+        return render(request, 'check_token.html', {})
 
     registration_count = Form_Participant_Phase_2.objects.count()
     registration_closed = registration_count >= 10000
