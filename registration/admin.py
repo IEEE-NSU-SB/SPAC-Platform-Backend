@@ -20,3 +20,5 @@ class Form_Participant_Phase01_Admin(admin.ModelAdmin):
     list_display = ['id', 'name', 'institution', 'email', 'membership_type', 'created_at']
 
 admin.site.register(Form_Participant_Unique_Code_Phase_2)
+
+admin.site.register(University)
