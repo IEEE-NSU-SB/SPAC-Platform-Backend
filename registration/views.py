@@ -90,9 +90,9 @@ def registration_form_phase02(request):
     unique_code = request.GET.get('token')
     if unique_code:
         if not Form_Participant_Unique_Code_Phase_2.objects.filter(unique_code=unique_code).exists():
-            return render(request, 'check_token.html', {})
+            return render(request, 'check_token.html', {'message':'Invalid token! Please use the link given in your email.'})
     else:
-        return render(request, 'check_token.html', {})
+        return render(request, 'check_token.html', {'message':'Token was not found! Please use the link given in your email.'})
 
     registration_count = Form_Participant_Phase_2.objects.count()
     registration_closed = registration_count >= 10000
