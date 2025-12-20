@@ -1,186 +1,331 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SPAC 2025 | Application Response</title>
-  <link rel="icon" href="{% static '/img/logo.gif' %}" />
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SPAC 2025 | Phase 02 Registration Form</title>
+    <link rel="icon" href="{% static '/img/logo.gif' %}" />
+    <!--daisy ui-->
+    <link
+      href="https://cdn.jsdelivr.net/npm/daisyui@5"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <!--tailwind-->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- stats.js lib -->
+    <script src="http://threejs.org/examples/js/libs/stats.min.js"></script>
 
-  <!-- DaisyUI + Tailwind -->
-  <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" />
-  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&display=swap');
 
-  <!-- SweetAlert (kept for consistency, not used here) -->
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+      body {
+        background: transparent;
+        background-repeat: no-repeat;
+        background-size: cover;
+        position: relative;
+        z-index: 0;
+        font-family: "Instrument Sans", sans-serif;
+        background: #002855;
+      }
+      .response_count {
+        font-size: larger;
+        border-bottom: 2px solid #19508e;
+        border-top: 1px solid #19508e;
+        border-left: 8px solid #19508e;
+        border-right: 1px solid #19508e;
+        padding: 4px 8px;
+        border-radius: 4px;
+        background: #c6e8ff;
+        color: #122812;
+      }
+      /* Width of the scrollbar */
+      .custom-scrollbar::-webkit-scrollbar {
+        width: 5px;
+        height: 12px;
+      }
 
-  <style>
-    body {
-      font-family: 'Instrument Sans', sans-serif;
-      background: #002855;
-    }
-    .input_label {
-      display: block;
-      font-size: 18px;
-      margin-bottom: 0.35rem;
-      color: #000;
-    }
-    .input {
-      width: 100%;
-      padding: .5rem .75rem;
-      border: 1px solid #000;
-      border-radius: 0.375rem;
-      background: transparent;
-      color: black;
-    }
-    .section_heading {
-      text-align: center;
-      font-size: 1.5rem;
-      margin-bottom: 1rem;
-      color: #000;
-    }
-    .back-btn {
-      background: #00629B;
-      border: 1px solid white;
-      color: #fff;
-      padding: 8px 2rem;
-      border-radius: .5rem;
-      font-size: 1rem;
-      cursor: pointer;
-    }
+      /* Track (background) */
+      .custom-scrollbar::-webkit-scrollbar-track {
+        background: #a32d2d;
+        border-radius: 8px;
+      }
 
-    .back-btn:hover {
-      background: #00629B;
-      transition: 0.3s;
-    }
-  </style>
-</head>
+      /* Handle (the draggable part) */
+      .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: #e53232;
+        border-radius: 9999px;
+        cursor: pointer;
+      }
 
-<body class="py-4 min-h-screen">
+      /* Handle on hover */
+      .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+        background: #00629B;
+      }
+      /* particles container */
+      canvas {
+        display: block;
+        vertical-align: bottom;
+      }
+      #particles-js {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-color: #002855;
+        background-image: url("");
+        background-repeat: no-repeat;
+        background-size: 20%;
+        background-position: 50% 50%;
+      }
+      .count-particles {
+        background: #000022;
+        position: absolute;
+        top: 48px;
+        left: 0;
+        width: 80px;
+        color: #13e8e9;
+        font-size: 0.8em;
+        text-align: left;
+        text-indent: 4px;
+        line-height: 14px;
+        padding-bottom: 2px;
+        font-family: Helvetica, Arial, sans-serif;
+        font-weight: bold;
+      }
+      .js-count-particles {
+        font-size: 1.1em;
+      }
+      #stats,
+      .count-particles {
+        -webkit-user-select: none;
+        margin-top: 5px;
+        margin-left: 5px;
+      }
+      #stats {
+        border-radius: 3px 3px 0 0;
+        overflow: hidden;
+      }
+      .count-particles {
+        border-radius: 0 0 3px 3px;
+      }
+      .input_label{
+        display: block;
+        font-size: 18px;
+        margin-bottom: 0.35rem;
+        color: #122812;
+      }
+      .input{
+        width: 100%;
+        padding: .5rem .75rem;
+        border: 1px solid gray;
+        border-radius: 0.375rem;
+        outline-style: none;
+        transition: all .3s ease-in-out;
+        background: transparent;
+      }
+      .input:focus{
+        border: 1px solid #00629B;
+        box-shadow: 2px 2px 2px #bfdff5;
+      }
+      .continue-btn{
+        color: white;
+        background: #00629B;
+        padding: 0.5rem 1.25rem;
+        border-radius: 0.375rem;
+        cursor: pointer;
+        border: 1px solid #00629B;
+      }
+      .continue-btn:hover{
+        background: #d3e4f7;
+        color: #00629B;
+        transition: 0.3s all ease-in-out;
+      }
+      .admin-btn{
+        color: #122812;
+        border: 1px solid #122812;
+        border-radius: 0.325rem;
+        background: #00629B;
+        padding: 0.25rem 0.85rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 1.25rem;
+        transition: all 0.3s ease-in-out;
+        justify-content: center;
+        color: white;
+      }
+      .admin-btn:hover{
+        background: #d3e4f7;
+        color: #00629B;
+      }
+      .back-btn{
+        color: #122812;
+        border-radius: 1rem;
+        cursor: pointer;
+        font-size: 1.25rem;
+        margin-top: .75rem;
+      }
+      .section_heading{
+        text-align: center;
+        font-size: 1.5rem;
+        margin-bottom: .5rem;
+        margin-bottom: 22px;
+      }
+      .payment-info-text {
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-bottom: 15px;
+        color: #122812;
+      }
+      .payment-info-text strong {
+        color: #00629B;
+      }
+      @media screen and (max-width: 500px) {
+        .response_count {
+          margin: 0 auto;
+        }
+        .admin-btn{
+          width: 100%;
+          font-size: 1rem;
+        }
+        .response_count{
+          margin: 12px auto;
+        }
+        .payment-info-text {
+          font-size: 1rem;
+        }
+        .payment-info-text strong {
+          font-size: 1.1rem;
+        }
+      }
+      #step1 li{
+        margin-left: 16px;
+      }
+      input[type="select"].radio-input {
+        border: 1px solid gray;
+      }
+      .back-btn {
+        background: #00629B;
+        border: 1px solid white;
+        color: #fff;
+        padding: 8px 2rem;
+        border-radius: .5rem;
+        font-size: 1rem;
+        cursor: pointer;
+      }
 
-  <div class="w-11/12 md:w-3/5 mx-auto">
+      .back-btn:hover {
+        background: #00629B;
+        transition: 0.3s;
+      }
+    </style>
+  </head>
 
-    <!-- ================= STEP 1: BASIC INFORMATION ================= -->
-    <section class="bg-[#c6e8ff] border-2 text-black border-white shadow-md p-6 rounded-md mb-6">
-      <button onclick="window.history.back();" class="back-btn" type="button">Back</button>
+  <body class="py-2 custom-scrollbar min-h-screen">
 
-      <h2 class="section_heading mt-4">Response of {{ participant.name }} </h2>
+      <div
+        class="bg-[#d3e4f7] w-11/12 md:w-3/5 mx-auto"
+        style="
+          backdrop-filter: blur(7px);
+          border-radius: 4px 4px;
+          box-shadow: 0 2px 6px 0px #00000078;
+        "
+      >
 
-      <div class="mb-5">
-        <label class="input_label">Name</label>
-        <div class="input">{{ participant.name }}</div>
+
+        <!-- Form wrapper -->
+        <form id="registrationForm" method="post" action="/registration/phase-2/submit-form/">
+          {% csrf_token %}
+          <input type="hidden" name="token" value="{{unique_code}}">
+
+          <!-- Step 1: Basic Info -->
+          <section id="step1" class="shadow-md p-5 font-medium rounded-md">
+            <button onclick="window.history.back();" class="back-btn" type="button">Back</button>
+
+            <h2 class="section_heading mt-4">Response of {{ participant.name }} </h2>
+
+            <!-- name  -->
+            <div class="mb-5">
+              <label for="name" class="input_label">
+                Name<span
+                  class="text-red-700 ml-1"
+                  >*</span
+                >
+              </label>
+              <div class="input">{{ participant.name }}</div>
+            </div>
+            <!-- email  -->
+            <div class="mb-5">
+              <label for="email" class="input_label">
+                Email Address
+              </label>
+              <div class="input">{{ participant.email }}</div>
+            </div>
+            <!-- contact number -->
+            <div class="mb-5">
+              <label for="contact_number" class="input_label">
+                Contact Number
+              </label>
+              <div class="input">{{ participant.contact_number }}</div>
+            </div>
+
+            <!-- university name  -->
+            <div class="mb-5">
+            <label for="institution-select" class="input_label block mb-2">
+              Institution Name
+              
+            </label>
+            <div class="input">{{ participant.institution }}</div>
+          </div>
+          
+          <!-- membership Sections -->
+          <div class="mb-5">
+            <label class="input_label block mb-2">
+              Membership Grade
+            </label>
+            <div class="input">
+              {{ participant.get_membership_type_display }}
+            </div>
+          </div>
+          
+          {% if participant.ieee_id %}
+          <div id="professional_section" class="mt-3 mb-4">
+            <label class="input_label block mb-2">IEEE Membership ID  </label>
+            <div class="input">{{ participant.ieee_id }}</div>
+          </div>
+          {% endif %}
+          
+          <div class="mb-4 mt-3">
+            <label class="block uppercase   mb-1 ">
+              T-Shirt size
+            </label>
+            <div class="input">{{ participant.tshirt_size }}</div>
+          </div>
+          
+          
+          <div class="mb-5">
+            <label for="transaction_id" class="block font-semibold mb-1">
+              Transaction ID
+            </label>
+            <div class="input">{{ participant.transaction_id }}</div>
+          </div>
+          
+          <div class="mb-5">
+            <label for="comments" class="block font-semibold mb-1">
+              Any Comments?
+            </label>
+            <div class="input">{{ participant.comments }}</div>
+            </div>
+          </section>
+        </form>
       </div>
+    </div>
 
-      <div class="mb-5">
-        <label class="input_label">Email Address</label>
-        <div class="input">{{ participant.email }}</div>
-      </div>
-
-      <div class="mb-5">
-        <label class="input_label">Contact Number</label>
-        <div class="input">{{ participant.contact_number }}</div>
-      </div>
-
-      <!-- NSU student status -->
-      <div class="mb-5">
-        <label class="input_label">Are you a student from North South University?</label>
-
-        <label class="block">
-          <input type="radio" {% if participant.is_nsu_student %}checked{% endif %} disabled /> Yes
-        </label>
-        <label class="block">
-          <input type="radio" {% if not participant.is_nsu_student %}checked{% endif %} disabled /> No
-        </label>
-      </div>
-
-      {% if participant.is_nsu_student %}
-      <!-- NSU student fields -->
-      <div class="mb-5">
-        <label class="input_label">NSU Student ID</label>
-        <div class="input">{{ participant.university_id }}</div>
-      </div>
-
-      <div class="mb-5">
-        <label class="input_label">Department / Major</label>
-        <div class="input">{{ participant.department }}</div>
-      </div>
-      {% else %}
-      <!-- Other university fields -->
-      <div class="mb-5">
-        <label class="input_label">University Name</label>
-        <div class="input">{{ participant.university }}</div>
-      </div>
-
-      <div class="mb-5">
-        <label class="input_label">Student ID</label>
-        <div class="input">{{ participant.university_id }}</div>
-      </div>
-
-      <div class="mb-5">
-        <label class="input_label">Department / Major</label>
-        <div class="input">{{ participant.major }}</div>
-      </div>
-      {% endif %}
-
-      <!-- IEEE membership -->
-      <div class="mb-5">
-        <label class="input_label">Are you an IEEE Member?</label>
-
-        <label class="block">
-          <input type="radio" {% if participant.membership_type == 'member' %}checked{% endif %} disabled /> IEEE Member
-        </label>
-        <label class="block">
-          <input type="radio" {% if participant.membership_type == 'non_ieee' %}checked{% endif %} disabled /> Non-IEEE Member
-        </label>
-      </div>
-
-      <div class="mb-5">
-        <label class="input_label">IEEE Membership ID</label>
-        <div class="input">{{ participant.ieee_id }}</div>
-      </div>
-
-      <div class="mb-5">
-        <label class="input_label">Ambassador Referral Code (if any)</label>
-        <div class="input">{{ participant.ambassador_code }}</div>
-      </div>
-    </section>
-
-    <!-- ================= STEP 2: QUESTIONNAIRE ================= -->
-    <section class="bg-[#c6e8ff] border-2 text-black border-white shadow-md p-6 rounded-md mb-6">
-      <h2 class="section_heading">Questionnaire</h2>
-
-      <div class="mb-5">
-        <label class="input_label">1. What do you know about SPAC?</label>
-        <textarea class="input h-28" disabled>{{ participant.answers.question1 }}</textarea>
-      </div>
-
-      <div class="mb-5">
-        <label class="input_label">2. Why do you want to be a participant of SPAC?</label>
-        <textarea class="input h-28" disabled>{{ participant.answers.question2 }}</textarea>
-      </div>
-
-      <div class="mb-5">
-        <label class="input_label">3. What is your expectation from SPAC?</label>
-        <textarea class="input h-28" disabled>{{ participant.answers.question3 }}</textarea>
-      </div>
-
-      <div class="mb-5">
-        <label class="input_label">Any comments?</label>
-        <textarea class="input h-24" disabled>{{ participant.answers.question4 }}</textarea>
-      </div>
-    </section>
-
-    <!-- ================= NOTE ================= -->
-    <section class="bg-[#c6e8ff] border border-yellow-300 p-4 rounded-md">
-      <p class="text-sm text-gray-700">
-        <strong>Note:</strong> This is a <b>Phase 01 application response</b>. Payment and final confirmation are collected only after shortlisting.
+    <div class="flex justify-center items-center mt-3 h-15 mx-5 text-center sticky top-140 ">
+      <p class="text-white font-semibold italic">
+        <small>2025 © All rights reserved by IEEE NSU Student Branch</small>
       </p>
-    </section>
-
-    <footer class="text-center mt-6">
-      <small class="italic text-white">2025 © All rights reserved by IEEE NSU Student Branch</small>
-    </footer>
-
-  </div>
-</body>
+    </div>
+  </body>
 </html>

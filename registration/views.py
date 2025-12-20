@@ -601,3 +601,12 @@ def send_phase02_email(request):
             return JsonResponse({'message':'Invalid request header', 'status':'error'})
     except:
         return JsonResponse({'message':'Error!', 'status':'error'})
+    
+@login_required
+@permission_required('view_reg_response')   
+def view_response2(request, id):
+    partipant=Form_Participant_Phase_2.objects.get(id=id)
+    context = {
+        'participant': partipant
+    }
+    return render(request, 'phase2_participant_response.html', context)
