@@ -151,16 +151,23 @@
               />
             </td>
               <td class="px-4 py-3">
-                {% if p.phase2_mail_sent %}
+                {% if p.is_phase_2_email_sent %}
                 <span
                   class="px-3 py-1 text-xs bg-green-100 text-green-700 rounded-full"
                   >Email Sent</span
                 >
                 {% else %}
-                <span
-                  class="px-3 py-1 text-xs bg-yellow-100 text-yellow-700 rounded-full"
-                  >Pending</span
-                >
+                  {% if p.is_selected %}
+                  <span
+                    class="px-3 py-1 text-xs bg-red-100 text-red-700 rounded-full"
+                    >Pending</span
+                  >
+                  {% else %}
+                  <span
+                    class="px-3 py-1 text-xs bg-yellow-100 text-yellow-700 rounded-full"
+                    >Not Selected</span
+                  >
+                  {% endif %}
                 {% endif %}
               </td>
             </tr>
@@ -265,16 +272,16 @@
 
       // Send Mail Button (Frontend only)
       document.getElementById("sendMailBtn").addEventListener("click", () => {
-        const selected = [
-          ...document.querySelectorAll(".phase2Check:checked:not(:disabled)"),
-        ].map((cb) => cb.dataset.id);
+        // const selected = [
+        //   ...document.querySelectorAll(".phase2Check:checked:not(:disabled)"),
+        // ].map((cb) => cb.dataset.id);
 
-        if (!selected.length) {
-          alert("No participants selected");
-          return;
-        }
+        // if (!selected.length) {
+        //   alert("No participants selected");
+        //   return;
+        // }
 
-        alert("Phase-2 emails will be sent to IDs: " + selected.join(", "));
+        alert("Phase-2 emails will be sent now. Are you sure?");
         
         fetch("{% url 'registration:send_phase02_email' %}", {
           method: "POST",
@@ -285,12 +292,12 @@
         })
         .then(response => response.json())
         .then(data => {
-          alert("Selections saved successfully!");
-          // Optionally refresh the page or update UI
+          alert(data.message);
+          window.location.reload();
         })
         .catch(error => {
-          console.error("Error saving selections:", error);
-          alert("Failed to save selections.");
+          console.error("Error while sending emails:", error);
+          alert("Failed to send emails.");
         });
       });
 
@@ -323,7 +330,7 @@
         .then(response => response.json())
         .then(data => {
           alert("Selections saved successfully!");
-          // Optionally refresh the page or update UI
+          window.location.reload();
         })
         .catch(error => {
           console.error("Error saving selections:", error);

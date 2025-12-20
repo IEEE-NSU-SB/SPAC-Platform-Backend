@@ -10,7 +10,7 @@ from django.views.decorators.http import require_POST
 from access_ctrl.decorators import permission_required
 from access_ctrl.utils import Site_Permissions
 from system_administration.utils import log_exception
-from emails.views import send_participant_phase02_email, send_registration_email_phase01
+from emails.views import send_participant_phase02_email, send_registration_email_phase01, send_registration_email_phase02
 from django.db.models import Count
 from django.db.models.functions import Trim
 
@@ -103,6 +103,7 @@ def registration_form_phase02(request):
         'is_published': _get_publish_status_phase02(),
         'registration_closed': registration_closed,
         'universities':universities,
+        'unique_code':unique_code,
     }
     return render(request, 'phase2form.html',context)
 
@@ -275,6 +276,20 @@ def submit_form_phase02(request):
                 'success': False,
                 'message': 'Form has been turned off'
                 })
+            
+            unique_code = request.POST.get('token')
+
+            if unique_code:
+                if not Form_Participant_Unique_Code_Phase_2.objects.filter(unique_code=unique_code).exists():
+                    return JsonResponse({
+                    'success': False,
+                    'message': 'Incorrect token'
+                    })
+            else:
+                return JsonResponse({
+                    'success': False,
+                    'message': 'Token was not provided'
+                    })
 
             # Get form data
             #Step 1
@@ -313,7 +328,7 @@ def submit_form_phase02(request):
                 comments=comments,
             )
 
-            # send_registration_email(request, participant.name, participant.email)
+            send_registration_email_phase02(request, participant.name, participant.email)
             
             # Return success response
             return JsonResponse({

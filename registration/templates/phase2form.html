@@ -337,12 +337,15 @@
           class="p-6 bg-yellow-50 border border-yellow-300 rounded text-yellow-900 text-center" style="
           margin-top:18px"
         >
-          <p>
+          {% comment %} <p>
             Registration is closed as we have reached the maximum number of
             participants.
+          </p> {% endcomment %}
+          <p>
+            Registration has not started yet!
           </p>
           <p>
-            For any queries, contact - <a href="tel:+8801712902722" style="color:#0b5ed7;text-decoration:none;">+880 17 1290 2722</a>
+            For any queries, contact - <a href="mailto:mdnafiur.rahman19@ieee.org" style="color:#0b5ed7;text-decoration:none;">mdnafiur.rahman19@ieee.org</a>
           </p>
         </div>
         {% elif not is_staff_view and registration_closed %}
@@ -357,6 +360,7 @@
         <!-- Form wrapper -->
         <form id="registrationForm" method="post" action="/registration/phase-2/submit-form/">
           {% csrf_token %}
+          <input type="hidden" name="token" value="{{unique_code}}">
 
           <!-- Step 1: Basic Info -->
           <section id="step1" class="shadow-md p-5 font-medium rounded-md">

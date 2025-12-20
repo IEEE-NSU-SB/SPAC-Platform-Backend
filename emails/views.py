@@ -197,6 +197,40 @@ def send_registration_email_phase01(request, name, email):
     
     return JsonResponse({'message':'success'})
 
+def send_registration_email_phase02(request, name, email):
+    credentials = get_credentials()
+
+    if not credentials:
+        return JsonResponse({'message':'Please re-authorise google api'})
+    try:
+        service = build(settings.GOOGLE_MAIL_API_NAME, settings.GOOGLE_MAIL_API_VERSION, credentials=credentials)
+        print(settings.GOOGLE_MAIL_API_NAME, settings.GOOGLE_MAIL_API_VERSION, 'service created successfully')
+        message = MIMEMultipart()
+        message["From"] = "IEEE NSU SB Portal <ieeensusb.portal@gmail.com>"
+        message["To"] = str(email)
+        message["Subject"] = "SPAC25 - Phase-2 - Registration Successful"
+
+        scheme = "https" if request.is_secure() else "http"
+        banner_image_url = f"{scheme}://{request.get_host()}/media_files/SPAC25LogoMin.png"
+        message.attach(MIMEText(render_to_string('phase2_submission_email_template.html', {'participant_name':name, 'banner_image_url':banner_image_url}), 'html'))
+        
+        # encoded message
+        encoded_message = base64.urlsafe_b64encode(message.as_bytes()).decode()
+        
+        create_message = {"raw": encoded_message}
+        send_message = (
+            service.users()
+            .messages()
+            .send(userId="me", body=create_message)
+            .execute()
+        )
+        print(f'Message Id: {send_message["id"]}')
+    except Exception as e:
+        print(e)
+        return JsonResponse({'message':'error'})
+    
+    return JsonResponse({'message':'success'})
+
 def send_participant_phase02_email(request, form_participants):
 
     credentials = get_credentials()
