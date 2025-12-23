@@ -91,7 +91,7 @@
           id="saveBtn"
             class="px-5 py-2 max-md:w-full max-md:mr-3 bg-[#1b395c] text-white rounded-lg shadow hover:bg-[#00629B] border-2 transition-all duration-300 ease-in-out"
             >
-            Save Selections (INCOMPLETE)
+            Save Selections
           </button>        
       </div>
 
@@ -122,7 +122,7 @@
                 type="checkbox"
                 class="phase2Check"
                 data-id="{{p.id}}"
-                {% if p.is_selected %}checked{% endif %}
+                {% if p.is_payment_confirmed %}checked{% endif %}
               />
             </td>
             </tr>
@@ -245,6 +245,36 @@
               name.includes(q) || email.includes(q) || uni.includes(q) || shirt.includes(q) ? "" : "none";
           });
         });
+
+      // Add Save button listener here
+      document.getElementById("saveBtn").addEventListener("click", () => {
+        const selected = [
+          ...document.querySelectorAll(".phase2Check:checked:not(:disabled)"),
+        ].map((cb) => cb.dataset.id);
+
+        // if (!selected.length) {
+        //   alert("No participants selected to save");
+        //   return;
+        // }
+
+        fetch("{% url 'registration:save_selected_phase02' %}", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": '{{csrf_token}}',  // Add CSRF if needed
+          },
+          body: JSON.stringify({ selected_ids: selected }),
+        })
+        .then(response => response.json())
+        .then(data => {
+          alert("Selections saved successfully!");
+          window.location.reload();
+        })
+        .catch(error => {
+          console.error("Error saving selections:", error);
+          alert("Failed to save selections.");
+        });
+      });
 
       // Row click
       document.querySelectorAll("tbody tr").forEach((row) => {

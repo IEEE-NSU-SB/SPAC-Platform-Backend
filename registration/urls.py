@@ -20,6 +20,7 @@ urlpatterns = [
     path('registration/admin/phase-2/response/<int:id>/', view_response2, name='view_response2'),
     path('registration/admin/save_selected_p01/', save_selected_phase01, name='save_selected_phase01'),
     path('registration/admin/send_p02_email/', send_phase02_email, name='send_phase02_email'),
+    path('registration/admin/save_selected_p02/', save_selected_phase02, name='save_selected_phase02'),
 
     path('registration/download-excel/', download_excel, name='download_excel'),
 ]   

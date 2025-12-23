@@ -11,7 +11,7 @@ from access_ctrl.decorators import permission_required
 from access_ctrl.utils import Site_Permissions
 from system_administration.utils import log_exception
 from emails.views import send_participant_phase02_email, send_registration_email_phase01, send_registration_email_phase02
-from django.db.models import Count
+from django.db.models import Count, Q
 from django.db.models.functions import Trim
 
 from .models import *
@@ -496,7 +496,7 @@ def response_table2(request):
     )
 
     tshirt_size_data = Form_Participant_Phase_2.objects.values('tshirt_size').annotate(count=Count('tshirt_size')).order_by('count')
-    print(tshirt_size_data)
+
     # # Payment method counts
     # payment_counts = (
     #     Form_Participant_Phase_2.objects
@@ -528,7 +528,11 @@ def response_table(request):
     }
 
     participants = Form_Participant_Phase_1.objects.all().order_by('created_at')
-    total_registrations = Form_Participant_Phase_1.objects.count()
+
+    reg_stats = Form_Participant_Phase_1.objects.aggregate(
+        total_registrations=Count('id'),
+        total_selected=Count('id', filter=Q(is_selected=True)),
+    )
 
     # Query grouped stats
     stats = (
@@ -558,7 +562,7 @@ def response_table(request):
         'participants': participants,
         'registration_stats': summary,
         'university_data': university_data,
-        'total_registrations':total_registrations,
+        'reg_stats':reg_stats,
         'has_perm':permissions
     }
     return render(request, 'response_table.html', context)
@@ -618,3 +622,25 @@ def view_response2(request, id):
         'participant': partipant
     }
     return render(request, 'phase2_participant_response.html', context)
+
+@login_required
+@permission_required('reg_form_control')
+def save_selected_phase02(request):
+
+    try:
+        if request.method == 'POST':
+            data = json.loads(request.body)
+            selected_ids = data.get('selected_ids')
+
+            Form_Participant_Phase_2.objects.update(
+                is_payment_confirmed=Case(
+                    When(id__in=selected_ids, then=Value(True)),
+                    default=Value(False),
+                    output_field=BooleanField(),
+                )
+            )
+            return JsonResponse({'message':'Participants selection updated successfully!', 'status':'success'})
+        else:
+            return JsonResponse({'message':'Invalid request header', 'status':'error'})
+    except:
+        return JsonResponse({'message':'Error!', 'status':'error'})

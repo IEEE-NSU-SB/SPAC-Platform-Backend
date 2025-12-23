@@ -107,6 +107,8 @@ class Form_Participant_Phase_2(models.Model):
     payment_method = models.CharField(max_length=10, choices=PAYMENT_CHOICES, default="Not Set")
     transaction_id = models.CharField(max_length=100, null=True, blank=True, default='')
     comments = models.TextField(null=True, blank=True, default='')
+
+    is_payment_confirmed = models.BooleanField(null=False, blank=False, default=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
