@@ -455,7 +455,10 @@ def response_table2(request):
     }
 
     participants = Form_Participant_Phase_2.objects.all().order_by('created_at')
-    total_registrations = Form_Participant_Phase_2.objects.count()
+    reg_stats = Form_Participant_Phase_2.objects.aggregate(
+        total_registrations=Count('id'),
+        total_payment_confirmed=Count('id', filter=Q(is_payment_confirmed=True)),
+    )
 
     # Query grouped stats
     stats = (
@@ -513,7 +516,7 @@ def response_table2(request):
         'university_data': university_data,
         # 'payment_summary': payment_summary,
         'total_amount': total_amount,
-        'total_registrations': total_registrations,
+        'reg_stats': reg_stats,
         'tshirt_size_data': tshirt_size_data,
         'has_perm': permissions
     }

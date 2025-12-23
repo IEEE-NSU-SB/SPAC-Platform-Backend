@@ -181,17 +181,17 @@
             </tbody>
           </table>
         </div>
-        
-        <!-- Total -->
-        <div class="mt-4 text-left font-bold text-lg">
-          <p style="font-size:smaller;">
-          Total Amount: <span class="text-green-600">{{total_amount}}</span>
-          </p>
           
           <!-- Total -->
           <div class="mt-4 text-left font-bold text-lg">
             <p style="font-size:smaller;">
-            Total Registrations: <span class="text-green-600">{{total_registrations}}</span>
+            Total Amount: <span class="text-green-600">{{total_amount}}</span>
+            </p>
+            <p style="font-size:smaller;">
+            Total Registrations: <span class="text-green-600">{{reg_stats.total_registrations}}</span>
+            </p>
+            <p style="font-size:smaller;">
+            Payment Confirmed: <span class="text-green-600">{{reg_stats.total_payment_confirmed}}</span>
             </p>
             <br>
             <p style="font-weight: normal;">University List :</p>
@@ -225,7 +225,6 @@
               <button class="btn close">Close</button>
             </form>
           </div>
-        </div>
       </dialog>
       {% endif %}
     </div>
