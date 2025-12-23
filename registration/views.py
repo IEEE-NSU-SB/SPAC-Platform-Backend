@@ -445,8 +445,9 @@ def download_excel(request):
 @permission_required('view_reg_responses_list')
 def response_table2(request):
 
-    # ieee_member = 350
-    # non_ieee_member = 450
+    student = 810
+    professional = 860
+    non_ieee = 910
 
 
     permissions = {
@@ -470,15 +471,18 @@ def response_table2(request):
         membership = entry["membership_type"]
         summary[membership] = entry.get("total", 0)
     
-    # summary['ieee_member_total'] = summary.get('member', 0) * ieee_member
-    # summary['non_ieee_member_total'] = summary.get('non_ieee', 0) * non_ieee_member
+    summary['student_total'] = summary.get('student', 0) * student
+    summary['professional_total'] = summary.get('professional', 0) * professional
+    summary['non_ieee_total'] = summary.get('non_ieee', 0) * non_ieee
 
-    # total_amount = (summary['ieee_member_total']
-    #                 +summary['non_ieee_member_total'])
-    # total_amount = f"BDT {total_amount:,}"
+    total_amount = (summary['student_total']
+                    +summary['professional_total']
+                    +summary['non_ieee_total'])
+    total_amount = f"BDT {total_amount:,}"
 
-    # summary['ieee_member_total'] = f"{summary['ieee_member_total']:,}"
-    # summary['non_ieee_member_total'] = f"{summary['non_ieee_member_total']:,}"
+    summary['student_amount_total'] = f"{summary['student_total']:,}"
+    summary['professional_amount_total'] = f"{summary['professional_total']:,}"
+    summary['non_ieee_amount_total'] = f"{summary['non_ieee_total']:,}"
 
     
     university_data = (
@@ -491,23 +495,27 @@ def response_table2(request):
         .order_by('-total')
     )
 
+    tshirt_size_data = Form_Participant_Phase_2.objects.values('tshirt_size').annotate(count=Count('tshirt_size')).order_by('count')
+    print(tshirt_size_data)
     # # Payment method counts
     # payment_counts = (
-    #     Form_Participant_Phase_1.objects
+    #     Form_Participant_Phase_2.objects
     #     .values('payment_method')
     #     .annotate(total=Count('id'))
     # )
     # # Convert into dict like {"Bkash": 10, "Nagad": 15}
     # payment_summary = {entry['payment_method']: entry['total'] for entry in payment_counts}
+    # print(payment_summary)
 
     context = {
         'participants': participants,
         'registration_stats': summary,
         'university_data': university_data,
         # 'payment_summary': payment_summary,
-        # 'total_amount': total_amount,
-        'total_registrations':total_registrations,
-        'has_perm':permissions
+        'total_amount': total_amount,
+        'total_registrations': total_registrations,
+        'tshirt_size_data': tshirt_size_data,
+        'has_perm': permissions
     }
     return render(request, 'phase2_response_table.html', context)
 
