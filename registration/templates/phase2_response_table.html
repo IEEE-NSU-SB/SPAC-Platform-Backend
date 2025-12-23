@@ -82,12 +82,17 @@
       <!-- Controls -->
       <div class="flex justify-between items-start max-md:flex-col-reverse flex-wrap max-md:gap-5 mb-5">
         <input
-        id="tableSearch"
-        type="text"
-          placeholder="Search by name or email"
-          class="px-4 py-2 w-full max-md:mr-3 md:w-1/2 rounded-lg shadow-sm border-2 focus:border-[#ffffffab] focus:outline-none text-white"
-        />
-        
+          id="tableSearch"
+          type="text"
+            placeholder="Search by name or email"
+            class="px-4 py-2 w-full max-md:mr-3 md:w-1/2 rounded-lg shadow-sm border-2 focus:border-[#ffffffab] focus:outline-none text-white"
+          />
+          <button
+          id="saveBtn"
+            class="px-5 py-2 max-md:w-full max-md:mr-3 bg-[#1b395c] text-white rounded-lg shadow hover:bg-[#00629B] border-2 transition-all duration-300 ease-in-out"
+            >
+            Save Selections (INCOMPLETE)
+          </button>        
       </div>
 
       <!-- Table -->
@@ -99,6 +104,7 @@
               <th class="px-4 py-3">Name</th>
               <th class="px-4 py-3">University</th>
               <th class="px-4 py-3">T-Shirt</th>
+              <th class="px-4 py-3">Payment Confirmed?</th>
             </tr>
           </thead>
           <tbody>
@@ -111,6 +117,14 @@
             <td class="px-4 py-3">{{ p.name }}</td>
             <td class="px-4 py-3">{{ p.institution }}</td>
             <td class="px-4 py-3">{{ p.tshirt_size }}</td>
+            <td class="px-4 py-3">
+              <input
+                type="checkbox"
+                class="phase2Check"
+                data-id="{{p.id}}"
+                {% if p.is_selected %}checked{% endif %}
+              />
+            </td>
             </tr>
             {% empty %}
             <tr>
