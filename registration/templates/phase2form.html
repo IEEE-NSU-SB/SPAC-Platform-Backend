@@ -287,7 +287,7 @@
         >
           <!-- Download Excel Button (staff only) -->
           <a
-            href="{% url 'registration:download_excel' %}"
+            href="{% url 'registration:download_excel_phase02' %}"
             class="admin-btn"
           >
             <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
@@ -337,13 +337,13 @@
           class="p-6 bg-yellow-50 border border-yellow-300 rounded text-yellow-900 text-center" style="
           margin-top:18px"
         >
-          {% comment %} <p>
+          <p>
             Registration is closed as we have reached the maximum number of
             participants.
-          </p> {% endcomment %}
-          <p>
-            Registration has not started yet!
           </p>
+          {% comment %} <p>
+            Registration has not started yet!
+          </p> {% endcomment %}
           <p>
             For any queries, contact - <a href="mailto:mdnafiur.rahman19@ieee.org" style="color:#0b5ed7;text-decoration:none;">mdnafiur.rahman19@ieee.org</a>
           </p>

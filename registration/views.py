@@ -353,7 +353,7 @@ def submit_form_phase02(request):
     
 @login_required
 @permission_required('reg_form_control')
-def download_excel(request):
+def download_excel_phase01(request):
     participants = Form_Participant_Phase_1.objects.all()
     
     # Prepare data for Sheet 1: Basic Information (without questionnaire answers)
@@ -365,7 +365,7 @@ def download_excel(request):
             'Email': participant.email,
             'Contact Number': participant.contact_number,
             'Is NSU Student': 'Yes' if participant.is_nsu_student else 'No',
-            'Membership Type': participant.membership_type,
+            'Membership Type': participant.get_membership_type_display(),
             'IEEE ID': participant.ieee_id,
             'University': participant.university,
             'University ID': participant.university_id,
@@ -397,7 +397,7 @@ def download_excel(request):
             'ID': participant.id,
             'Name': participant.name,
             'Email': participant.email,
-            'Membership Type': participant.membership_type,
+            'Membership Type': participant.get_membership_type_display(),
             'University': participant.university,
             'Ambassador Code': participant.ambassador_code,
         }
@@ -438,7 +438,71 @@ def download_excel(request):
         output.getvalue(),
         content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     )
-    response['Content-Disposition'] = 'attachment; filename="participants_data.xlsx"'
+    response['Content-Disposition'] = 'attachment; filename="phase01_participants_data.xlsx"'
+    return response
+
+@login_required
+@permission_required('reg_form_control')
+def download_excel_phase02(request):
+    participants = Form_Participant_Phase_2.objects.all()
+    
+    # Prepare data for Sheet 1: Basic Information (without questionnaire answers)
+    basic_data = []
+    for participant in participants:
+        basic_row = {
+            'ID': participant.id,
+            'Name': participant.name,
+            'Email': participant.email,
+            'Contact Number': participant.contact_number,
+            'Membership Type': participant.get_membership_type_display(),
+            'IEEE ID': participant.ieee_id,
+            'Institution': participant.institution,
+            'Payment Method': participant.payment_method,
+            'Transaction ID': participant.transaction_id,
+            'Comments': participant.comments,
+            'Created At': participant.created_at.astimezone().strftime('%Y-%m-%d %H:%M:%S'),
+        }
+        basic_data.append(basic_row)
+    
+    # Prepare data for Sheet 2: T-Shirt Sizes
+    tshirt_size_data = []
+    for participant in participants:
+        basic_row = {
+            'ID': participant.id,
+            'Name': participant.name,
+            'Email': participant.email,
+            'Contact Number': participant.contact_number,
+            'T-Shirt Size': participant.tshirt_size,
+        }
+        tshirt_size_data.append(basic_row)
+    
+    # Create Excel file with two sheets
+    output = BytesIO()
+    with pd.ExcelWriter(output, engine='openpyxl') as writer:
+        # Sheet 1: Basic Information
+        if basic_data:
+            df_basic = pd.DataFrame(basic_data)
+            df_basic.to_excel(writer, index=False, sheet_name='Basic Information')
+        else:
+            # Create empty sheet if no data
+            empty_df = pd.DataFrame({'Message': ['No participants registered']})
+            empty_df.to_excel(writer, index=False, sheet_name='Basic Information')
+        
+        # Sheet 2: T-Shirt Sizes
+        if tshirt_size_data:
+            df_tshirt_size = pd.DataFrame(tshirt_size_data)
+            df_tshirt_size.to_excel(writer, index=False, sheet_name='T-Shirt Sizes')
+        else:
+            # Create empty sheet if no data
+            empty_df = pd.DataFrame({'Message': ['No participants registered']})
+            empty_df.to_excel(writer, index=False, sheet_name='T-Shirt Sizes')
+    
+    output.seek(0)
+    response = HttpResponse(
+        output.getvalue(),
+        content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    )
+    response['Content-Disposition'] = 'attachment; filename="phase02_participants_data.xlsx"'
     return response
 
 @login_required
