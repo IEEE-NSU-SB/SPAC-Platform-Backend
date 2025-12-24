@@ -201,13 +201,13 @@
       <div class="rounded overflow-hidden shadow-[0px_0px_10px_#00629B] border-1 border-white flex justify-center max-md:h-40">
         {% if not is_staff_view and not is_published and not registration_closed %}
         <img
-          src="{% static '/img/phase1.png' %}"
+          src="{% static '/img/closed.png' %}"
           alt=""
           class="object-cover md:h-auto"
         />
         {% else %}
         <img
-          src="{% static '/img/phase1.png' %}"
+          src="{% static '/img/closed.png' %}"
           alt=""
           class="object-cover md:h-auto"
         />
@@ -272,7 +272,7 @@
         >
           <!-- Download Excel Button (staff only) -->
           <a
-            href="{% url 'registration:download_excel' %}"
+            href="{% url 'registration:download_excel_phase01' %}"
             class="admin-btn"
           >
             <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
@@ -285,16 +285,16 @@
 
           {% if has_perm.view_qr_dashboard %}
           <a
-            href="{% url 'core:dashboard' %}"
+            href="{% url 'registration:reg_landing' %}"
             class="admin-btn"
           >
-            <span>Dashboard</span>
+            <span>System Dashboard</span>
           </a>
           {% endif %} 
           {% if has_perm.view_reg_responses_list %}
           <!-- See Responses Button (staff only) -->
           <a
-            href="{% url 'registration:response_table' %}"
+            href="{% url 'registration:response_table_phase01' %}"
             class="admin-btn"
           >
             <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
@@ -322,13 +322,13 @@
           class="p-6 bg-yellow-50 border border-yellow-300 rounded text-yellow-900 text-center" style="
           margin-top:18px"
         >
-          <p>
-            Registration has not started yet. Please check back later.
-          </p>
           {% comment %} <p>
+            Registration has not started yet. Please check back later.
+          </p> {% endcomment %}
+          <p>
             Registration is closed as we have reached the maximum number of
             participants.
-          </p> {% endcomment %}
+          </p>
           <p>
             For any queries, contact - <a href="mailto:mdnafiur.rahman19@ieee.org" style="color:#0b5ed7;text-decoration:none;">mdnafiur.rahman19@ieee.org</a>
           </p>
@@ -349,7 +349,7 @@
         </div> -->
 
         <!-- Form wrapper -->
-        <form id="registrationForm" method="post" action="/submit-form/">
+        <form id="registrationForm" method="post" action="/registration/phase-1/submit-form/">
           {% csrf_token %}
 
           <!-- Step 1: Basic Info -->
@@ -383,7 +383,7 @@
               Secure your spot by registering soon!
               <br>
               <br>
-              <b>Registration Deadline: 15th December, 2025</b>
+              <b>Registration Deadline: 16th December, 2025</b>
               <br>
               <br>
             </p>
@@ -962,7 +962,7 @@ if (publishToggle) {
   document.getElementById('confirmPublish').addEventListener('click', () => {
     document.getElementById('publishModal').classList.add('hidden');
     // Send AJAX request to publish
-    fetch('{% url "registration:toggle_publish" %}', {
+    fetch('{% url "registration:toggle_publish_phase01" %}', {
       method: 'POST',
       headers: {
         'X-CSRFToken': csrfToken
@@ -986,7 +986,7 @@ if (publishToggle) {
   document.getElementById('confirmUnpublish').addEventListener('click', () => {
     document.getElementById('unpublishModal').classList.add('hidden');
     // Send AJAX request to unpublish
-    fetch('{% url "registration:toggle_publish" %}', {
+    fetch('{% url "registration:toggle_publish_phase01" %}', {
       method: 'POST',
       headers: {
         'X-CSRFToken': csrfToken

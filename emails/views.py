@@ -6,6 +6,7 @@ from email.mime.text import MIMEText
 import json
 import os
 from time import sleep
+import uuid
 from django.http import HttpResponse, HttpResponseBadRequest, JsonResponse
 from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
@@ -17,14 +18,11 @@ from googleapiclient.discovery import build
 from django.core.files.base import ContentFile
 from django.template.loader import render_to_string
 from core.models import Registered_Participant
+from registration.models import Form_Participant_Phase_1, Form_Participant_Unique_Code_Phase_2
 from spac_platform import settings
 from django.contrib import messages
 from django.shortcuts import render
-from django.contrib.admin.views.decorators import staff_member_required
-from django.views.decorators.http import require_POST
-import csv
 
-from registration.models import EventFormStatus
 from system_administration.utils import log_exception
 
 # Create your views here.
@@ -153,7 +151,7 @@ IEEE NSU SB.''', 'plain'))
     
     return JsonResponse({'message':'success'})
 
-def send_registration_email(request, name, email):
+def send_registration_email_phase01(request, name, email):
     credentials = get_credentials()
 
     if not credentials:
@@ -197,6 +195,95 @@ def send_registration_email(request, name, email):
         print(e)
         return JsonResponse({'message':'error'})
     
+    return JsonResponse({'message':'success'})
+
+def send_registration_email_phase02(request, name, email):
+    credentials = get_credentials()
+
+    if not credentials:
+        return JsonResponse({'message':'Please re-authorise google api'})
+    try:
+        service = build(settings.GOOGLE_MAIL_API_NAME, settings.GOOGLE_MAIL_API_VERSION, credentials=credentials)
+        print(settings.GOOGLE_MAIL_API_NAME, settings.GOOGLE_MAIL_API_VERSION, 'service created successfully')
+        message = MIMEMultipart()
+        message["From"] = "IEEE NSU SB Portal <ieeensusb.portal@gmail.com>"
+        message["To"] = str(email)
+        message["Subject"] = "SPAC25 - Phase-2 - Registration Successful"
+
+        scheme = "https" if request.is_secure() else "http"
+        banner_image_url = f"{scheme}://{request.get_host()}/media_files/SPAC25LogoMin.png"
+        message.attach(MIMEText(render_to_string('phase2_submission_email_template.html', {'participant_name':name, 'banner_image_url':banner_image_url}), 'html'))
+        
+        # encoded message
+        encoded_message = base64.urlsafe_b64encode(message.as_bytes()).decode()
+        
+        create_message = {"raw": encoded_message}
+        send_message = (
+            service.users()
+            .messages()
+            .send(userId="me", body=create_message)
+            .execute()
+        )
+        print(f'Message Id: {send_message["id"]}')
+    except Exception as e:
+        print(e)
+        return JsonResponse({'message':'error'})
+    
+    return JsonResponse({'message':'success'})
+
+def send_participant_phase02_email(request, form_participants):
+
+    credentials = get_credentials()
+    # if not credentials:
+    #     print("NOT OKx")
+    #     return False
+    # try:
+    service = build(settings.GOOGLE_MAIL_API_NAME, settings.GOOGLE_MAIL_API_VERSION, credentials=credentials)
+    print(settings.GOOGLE_MAIL_API_NAME, settings.GOOGLE_MAIL_API_VERSION, 'service created successfully')
+
+    for form_participant in form_participants:
+        if not form_participant.is_phase_2_email_sent:
+            print(form_participant)
+            if not Form_Participant_Unique_Code_Phase_2.objects.filter(participant=form_participant).exists():
+                form_participant_unique_code_p02 = Form_Participant_Unique_Code_Phase_2.objects.create(participant=form_participant, unique_code=str(uuid.uuid4()), is_active=True)
+            else:
+                form_participant_unique_code_p02 = Form_Participant_Unique_Code_Phase_2.objects.get(participant=form_participant)
+            try:
+                print(f'Sending email to {form_participant.id}!')
+
+                # SEND EMAIL HERE
+                message = MIMEMultipart()
+
+                message["From"] = "IEEE NSU SB Portal <ieeensusb.portal@gmail.com>"
+                message["To"] = form_participant.email
+                message["Subject"] = 'SPAC25 - Phase-2 - Accepted'
+
+                scheme = "https" if request.is_secure() else "http"
+                form_link = f"{scheme}://{request.get_host()}/phase-2/?token={form_participant_unique_code_p02.unique_code}"
+                banner_image_url = f"{scheme}://{request.get_host()}/media_files/SPAC25LogoMin.png"
+
+                message.attach(MIMEText(render_to_string('phase2_acceptance.html', {'participant_name':form_participant.name, 'phase2_registration_link':form_link, 'banner_image_url':banner_image_url}), 'html'))
+
+                # encoded message
+                encoded_message = base64.urlsafe_b64encode(message.as_bytes()).decode()
+                
+                create_message = {"raw": encoded_message}
+
+                send_message = (
+                    service.users()
+                    .messages()
+                    .send(userId="me", body=create_message)
+                    .execute()
+                )
+
+                print(f'Serial: {form_participant.id}, Message Id: {send_message["id"]}')
+                sleep(3)
+
+                form_participant.is_phase_2_email_sent = True
+                form_participant.save()
+            except:
+                print(f'Sending email to {form_participant.id} FAILED!')
+
     return JsonResponse({'message':'success'})
 
 @login_required

@@ -12,15 +12,8 @@
     <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" />
 
     <!-- Particles -->
-    <script src="{% static 'js/particles.min.js' %}"></script>
 
     <style>
-      #particles-js {
-        position: fixed;
-        inset: 0;
-        background-color: #002855;
-        z-index: -10;
-      }
       tbody tr {
         transition: all 0.2s ease-in-out;
         cursor: pointer;
@@ -62,17 +55,15 @@
     </style>
   </head>
 
-  <body class="min-h-screen">
-    <div id="particles-js"></div>
-
+  <body class="min-h-screen bg-[#002855]">
     <div class="relative w-11/12 max-w-7xl mx-auto py-10 z-10">
       <!-- Header -->
       <div class="relative mb-20">
         <div class="relative flex justify-center">
           <span
-            class="px-10 py-3 text-[#fff] bg-[#002855] border-2 border-white text-xl md:text-3xl rounded-xl shadow-[2px_4px_0_0_#fff]"
+            class="px-10 py-3 text-[#fff] bg-[#002855] border-2 border-white text-xl md:text-3xl rounded-xl shadow-[2px_4px_0_0_#fff] text-center"
           >
-            Phase 01 Response Table
+            Phase 02 Response Table
           </span>
         </div>
       </div>
@@ -91,32 +82,17 @@
       <!-- Controls -->
       <div class="flex justify-between items-start max-md:flex-col-reverse flex-wrap max-md:gap-5 mb-5">
         <input
-        id="tableSearch"
-        type="text"
-          placeholder="Search by name or email"
-          class="px-4 py-2 w-full max-md:mr-3 md:w-1/2 rounded-lg shadow-sm border-2 focus:border-[#ffffffab] focus:outline-none text-white"
-        />
-        
-        <div class="flex justify-end gap-4 mb-5 max-md:justify-center items-center max-md:flex-wrap max-md:mx-auto">
-          <button
-            id="selectAllBtn"
-            class="px-5 py-2 max-md:w-full max-md:mr-3 bg-[#1b395c] text-white rounded-lg shadow hover:bg-[#00629B] border-2 transition-all duration-300 ease-in-out"
-          >
-          Select All
-          </button>
+          id="tableSearch"
+          type="text"
+            placeholder="Search by name or email"
+            class="px-4 py-2 w-full max-md:mr-3 md:w-1/2 rounded-lg shadow-sm border-2 focus:border-[#ffffffab] focus:outline-none text-white"
+          />
           <button
           id="saveBtn"
             class="px-5 py-2 max-md:w-full max-md:mr-3 bg-[#1b395c] text-white rounded-lg shadow hover:bg-[#00629B] border-2 transition-all duration-300 ease-in-out"
             >
             Save Selections
-          </button>
-          <button
-            id="sendMailBtn"
-            class="px-5 py-2 max-md:w-full max-md:mr-3 bg-[#1b5c4a] text-white rounded-lg shadow hover:bg-[#009b55] border-2 transition-all duration-300 ease-in-out"
-          >
-            Send Phase-2 Email
-          </button>
-        </div>
+          </button>        
       </div>
 
       <!-- Table -->
@@ -127,49 +103,30 @@
               <th class="px-4 py-3">ID</th>
               <th class="px-4 py-3">Name</th>
               <th class="px-4 py-3">University</th>
-              <th class="px-4 py-3">Email</th>
-              <th class="px-4 py-3">Select</th>
-              <th class="px-4 py-3">Status</th>
+              <th class="px-4 py-3">T-Shirt</th>
+              <th class="px-4 py-3">Transaction ID</th>
+              <th class="px-4 py-3">Payment Confirmed?</th>
             </tr>
           </thead>
           <tbody>
             {% for p in participants %}
             <tr
-              class="border-b"
-              data-href="{% url 'registration:view_response' p.id %}"
+            class="border-b"
+            data-href="{% url 'registration:view_response2' p.id %}"
             >
             <td class="px-4 py-3">{{ p.id }}</td>
             <td class="px-4 py-3">{{ p.name }}</td>
-            <td class="px-4 py-3">{{ p.university }}</td>
-            <td class="px-4 py-3">{{ p.email }}</td>
+            <td class="px-4 py-3">{{ p.institution }}</td>
+            <td class="px-4 py-3">{{ p.tshirt_size }}</td>
+            <td class="px-4 py-3">{{ p.transaction_id }}</td>
             <td class="px-4 py-3">
               <input
                 type="checkbox"
                 class="phase2Check"
                 data-id="{{p.id}}"
-                {% if p.is_selected %}checked{% endif %}
+                {% if p.is_payment_confirmed %}checked{% endif %}
               />
             </td>
-              <td class="px-4 py-3">
-                {% if p.is_phase_2_email_sent %}
-                <span
-                  class="px-3 py-1 text-xs bg-green-100 text-green-700 rounded-full"
-                  >Email Sent</span
-                >
-                {% else %}
-                  {% if p.is_selected %}
-                  <span
-                    class="px-3 py-1 text-xs bg-red-100 text-red-700 rounded-full"
-                    >Pending</span
-                  >
-                  {% else %}
-                  <span
-                    class="px-3 py-1 text-xs bg-yellow-100 text-yellow-700 rounded-full text-nowrap"
-                    >Not Selected</span
-                  >
-                  {% endif %}
-                {% endif %}
-              </td>
             </tr>
             {% empty %}
             <tr>
@@ -195,33 +152,48 @@
           <h2 class="text-2xl font-bold mb-4">Statistics</h2>
 
           <div class="overflow-x-auto">
-            <table class="table table-zebra w-full border" style='text-align: center;'>
-              <thead class="bg-[#112640] text-white">
-                <tr>
-                  <th class="py-2 px-4 rounded-tl-lg">Membership Grade</th>
-                  <th class="py-2 px-4">Count</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td class="py-2 px-4">IEEE Member</td>
-                  <td class="py-2 px-4">{{registration_stats.member|default:0}}</td>
-                </tr>
-                <tr>
-                  <td class="py-2 px-4">Non-IEEE Member</td>
-                  <td class="py-2 px-4">{{registration_stats.non_ieee|default:0}}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+          <table class="table table-zebra w-full border">
+            <thead class="bg-gray-700 text-white">
+              <tr class="text-center">
+                <th class="py-2 px-4 rounded-tl-lg">Membership Grade</th>
+                <th class="py-2 px-4">Count</th>
+                <th class="py-2 px-4">Amount</th>
+                <th class="py-2 px-4 rounded-tr-lg">Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="py-2 px-4">IEEE Student Member</td>
+                <td class="py-2 px-4">{{registration_stats.student|default:0}}</td>
+                <td class="py-2 px-4">810</td>
+                <td class="py-2 px-4">{{registration_stats.student_amount_total}}</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-4">IEEE Member</td>
+                <td class="py-2 px-4">{{registration_stats.professional|default:0}}</td>
+                <td class="py-2 px-4">860</td>
+                <td class="py-2 px-4">{{registration_stats.professional_amount_total}}</td>
+              </tr>
+              <tr>
+                <td class="py-2 px-4">Non-IEEE Member</td>
+                <td class="py-2 px-4">{{registration_stats.non_ieee|default:0}}</td>
+                <td class="py-2 px-4">910</td>
+                <td class="py-2 px-4">{{registration_stats.non_ieee_amount_total}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
           
           <!-- Total -->
           <div class="mt-4 text-left font-bold text-lg">
             <p style="font-size:smaller;">
+            Total Amount: <span class="text-green-600">{{total_amount}}</span>
+            </p>
+            <p style="font-size:smaller;">
             Total Registrations: <span class="text-green-600">{{reg_stats.total_registrations}}</span>
             </p>
             <p style="font-size:smaller;">
-            Total Selected: <span class="text-green-600">{{reg_stats.total_selected}}</span>
+            Payment Confirmed: <span class="text-green-600">{{reg_stats.total_payment_confirmed}}</span>
             </p>
             <br>
             <p style="font-weight: normal;">University List :</p>
@@ -229,9 +201,21 @@
               {% for uni in university_data  %}
               <li class="flex items-center px-4 py-2 my-2 text-sm 
                         text-gray-800 bg-gray-100 rounded-md shadow-sm hover:bg-gray-200">
-                  <span class="font-medium">{{ uni.university_sanitized }}</span>
+                  <span class="font-medium">{{ uni.institution_sanitized }}</span>
                   <span class="ml-2 text-gray-500">–</span>
                   <span class="ml-2 text-gray-700 font-bold">[{{ uni.total }}]</span>
+              </li>
+              {% endfor %}
+            </ul>
+            <br>
+            <p style="font-weight: normal;">T-Shirt List :</p>
+            <ul>
+              {% for tshirt in tshirt_size_data  %}
+              <li class="flex items-center px-4 py-2 my-2 text-sm 
+                        text-gray-800 bg-gray-100 rounded-md shadow-sm hover:bg-gray-200">
+                  <span class="font-medium">{{ tshirt.tshirt_size }}</span>
+                  <span class="ml-2 text-gray-500">–</span>
+                  <span class="ml-2 text-gray-700 font-bold">[{{ tshirt.count }}]</span>
               </li>
               {% endfor %}
             </ul>
@@ -243,7 +227,6 @@
               <button class="btn close">Close</button>
             </form>
           </div>
-        </div>
       </dialog>
       {% endif %}
     </div>
@@ -258,58 +241,11 @@
             const name = row.children[1]?.innerText.toLowerCase() || "";
             const email = row.children[3]?.innerText.toLowerCase() || "";
             const uni = row.children[2]?.innerText.toLowerCase() || "";
+            const shirt = row.children[4]?.innerText.toLowerCase() || "";
             row.style.display =
-              name.includes(q) || email.includes(q) || uni.includes(q) ? "" : "none";
+              name.includes(q) || email.includes(q) || uni.includes(q) || shirt.includes(q) ? "" : "none";
           });
         });
-
-      // Row click
-      document.querySelectorAll("tbody tr").forEach((row) => {
-        row.addEventListener("click", (e) => {
-          if (e.target.type !== "checkbox") {
-            const link = row.dataset.href;
-            if (link) window.location.href = link;
-          }
-        });
-      });
-
-      // Send Mail Button (Frontend only)
-      document.getElementById("sendMailBtn").addEventListener("click", () => {
-        // const selected = [
-        //   ...document.querySelectorAll(".phase2Check:checked:not(:disabled)"),
-        // ].map((cb) => cb.dataset.id);
-
-        // if (!selected.length) {
-        //   alert("No participants selected");
-        //   return;
-        // }
-
-        alert("Phase-2 emails will be sent now. Are you sure?");
-        
-        fetch("{% url 'registration:send_phase02_email' %}", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "X-CSRFToken": '{{csrf_token}}',
-          },
-        })
-        .then(response => response.json())
-        .then(data => {
-          alert(data.message);
-          window.location.reload();
-        })
-        .catch(error => {
-          console.error("Error while sending emails:", error);
-          alert("Failed to send emails.");
-        });
-      });
-
-      // Add Select All button listener here
-      document.getElementById("selectAllBtn").addEventListener("click", () => {
-        const checkboxes = document.querySelectorAll(".phase2Check:not(:disabled)");
-        const allChecked = [...checkboxes].every(cb => cb.checked);
-        checkboxes.forEach(cb => cb.checked = !allChecked);
-      });
 
       // Add Save button listener here
       document.getElementById("saveBtn").addEventListener("click", () => {
@@ -317,12 +253,12 @@
           ...document.querySelectorAll(".phase2Check:checked:not(:disabled)"),
         ].map((cb) => cb.dataset.id);
 
-        if (!selected.length) {
-          alert("No participants selected to save");
-          return;
-        }
+        // if (!selected.length) {
+        //   alert("No participants selected to save");
+        //   return;
+        // }
 
-        fetch("{% url 'registration:save_selected_phase01' %}", {
+        fetch("{% url 'registration:save_selected_phase02' %}", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -341,14 +277,14 @@
         });
       });
 
-      // Particles
-      particlesJS("particles-js", {
-        particles: {
-          number: { value: 40 },
-          color: { value: "#fff" },
-          size: { value: 3 },
-          move: { speed: 1 },
-        },
+      // Row click
+      document.querySelectorAll("tbody tr").forEach((row) => {
+        row.addEventListener("click", (e) => {
+          if (e.target.type !== "checkbox") {
+            const link = row.dataset.href;
+            if (link) window.location.href = link;
+          }
+        });
       });
     </script>
   </body>
