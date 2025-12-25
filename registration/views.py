@@ -89,8 +89,11 @@ def registration_form_phase02(request):
     
     unique_code = request.GET.get('token')
     if unique_code:
-        if not Form_Participant_Unique_Code_Phase_2.objects.filter(unique_code=unique_code).exists():
+        entry = Form_Participant_Unique_Code_Phase_2.objects.filter(unique_code=unique_code)
+        if not entry:
             return render(request, 'check_token.html', {'message':'Invalid token! Please use the link given in your email.'})
+        elif not entry[0].is_active:
+            return render(request, 'check_token.html', {'message':'You are not authorized to view this page.'})
     else:
         return render(request, 'check_token.html', {'message':'Token was not found! Please use the link given in your email.'})
 
