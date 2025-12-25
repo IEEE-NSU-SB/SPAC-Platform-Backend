@@ -109,8 +109,10 @@ def registration_form_phase02(request):
         'is_published': _get_publish_status_phase02(),
         'registration_closed': registration_closed,
         'universities':universities,
-        'unique_code':unique_code,
     }
+    if ENABLE_PHASE02_TOKEN_CHECK:
+        context.update({'unique_code':unique_code})
+        
     return render(request, 'phase2form.html',context)
 
 @login_required
