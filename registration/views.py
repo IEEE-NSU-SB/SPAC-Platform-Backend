@@ -9,6 +9,7 @@ from django.views.decorators.http import require_POST
 
 from access_ctrl.decorators import permission_required
 from access_ctrl.utils import Site_Permissions
+from registration.renderData import Registration
 from system_administration.utils import log_exception
 from emails.views import send_participant_phase02_email, send_registration_email_phase01, send_registration_email_phase02
 from django.db.models import Count, Q
@@ -17,14 +18,6 @@ from django.db.models.functions import Trim
 from .models import *
 
 ENABLE_PHASE02_TOKEN_CHECK = False
-
-def _get_publish_status_phase01() -> bool:
-    status = EventFormStatus_Phase01.objects.order_by('-updated_at').first()
-    return bool(status and status.is_published)
-
-def _get_publish_status_phase02() -> bool:
-    status = EventFormStatus_Phase02.objects.order_by('-updated_at').first()
-    return bool(status and status.is_published)
 
 def landing(request):
 
@@ -65,11 +58,11 @@ def registration_form_phase01(request):
         else:
             return redirect('core:dashboard')
 
-    registration_count = Form_Participant_Phase_1.objects.count()
+    registration_count = Registration.get_phase01_participant_count()
     registration_closed = registration_count >= 10000
     context = {
         'is_staff_view': False,
-        'is_published': _get_publish_status_phase01(),
+        'is_published': Registration.get_publish_status_phase01(),
         'registration_closed': registration_closed,
     }
     return render(request, 'form.html', context)
@@ -100,13 +93,13 @@ def registration_form_phase02(request):
         else:
             return render(request, 'check_token.html', {'message':'Token was not found! Please use the link given in your email.'})
 
-    registration_count = Form_Participant_Phase_2.objects.count()
+    registration_count = Registration.get_phase02_participant_count()
     registration_closed = registration_count >= 10000
-    universities = University.objects.all()
+    universities = Registration.get_all_phase02_universities()
 
     context = {
         'is_staff_view': False,
-        'is_published': _get_publish_status_phase02(),
+        'is_published': Registration.get_publish_status_phase02(),
         'registration_closed': registration_closed,
         'universities':universities,
     }
@@ -120,7 +113,7 @@ def registration_form_phase02(request):
 def registration_admin_phase01(request):
     """Staff-only admin view to manage and preview the form regardless of publish state."""
 
-    registration_count = Form_Participant_Phase_1.objects.count()
+    registration_count = Registration.get_phase01_participant_count()
 
     permisions = {
         'reg_form_control':Site_Permissions.user_has_permission(request.user, 'reg_form_control'),
@@ -131,7 +124,7 @@ def registration_admin_phase01(request):
 
     context = {
         'is_staff_view': True,
-        'is_published': _get_publish_status_phase01(),
+        'is_published': Registration.get_publish_status_phase01(),
         'registration_count':registration_count,
         'has_perm': permisions
     }
@@ -142,8 +135,8 @@ def registration_admin_phase01(request):
 def registration_admin_phase02(request):
     """Staff-only admin view to manage and preview the form regardless of publish state."""
 
-    registration_count = Form_Participant_Phase_2.objects.count()
-    universities = University.objects.all()
+    registration_count = Registration.get_phase02_participant_count()
+    universities = Registration.get_all_phase02_universities()
 
     permisions = {
         'reg_form_control':Site_Permissions.user_has_permission(request.user, 'reg_form_control'),
@@ -154,7 +147,7 @@ def registration_admin_phase02(request):
 
     context = {
         'is_staff_view': True,
-        'is_published': _get_publish_status_phase02(),
+        'is_published': Registration.get_publish_status_phase02(),
         'registration_count':registration_count,
         'has_perm': permisions,
         'universities':universities,
@@ -163,37 +156,31 @@ def registration_admin_phase02(request):
 
 @login_required
 @require_POST
-def toggle_publish_phase01(request):
-    """Toggle EventFormStatus.is_published and return current status."""
-    status = EventFormStatus_Phase01.objects.order_by('-updated_at').first()
-    if not status:
-        status = EventFormStatus_Phase01.objects.create(is_published=True)
+def toggle_publish_phase01(request):   
+    status = Registration.toggle_phase01_publish()
+    if status:
+        return JsonResponse({'success': True, 'is_published': status.get('is_published')})
     else:
-        status.is_published = not status.is_published
-        status.save(update_fields=['is_published'])
-    return JsonResponse({'success': True, 'is_published': status.is_published})
+        return JsonResponse({'success': False})
 
 @login_required
 @require_POST
 def toggle_publish_phase02(request):
-    """Toggle EventFormStatus.is_published and return current status."""
-    status = EventFormStatus_Phase02.objects.order_by('-updated_at').first()
-    if not status:
-        status = EventFormStatus_Phase02.objects.create(is_published=True)
+    status = Registration.toggle_phase02_publish()
+    if status:
+        return JsonResponse({'success': True, 'is_published': status.get('is_published')})
     else:
-        status.is_published = not status.is_published
-        status.save(update_fields=['is_published'])
-    return JsonResponse({'success': True, 'is_published': status.is_published})
+        return JsonResponse({'success': False})
 
 def submit_form_phase01(request):
     """Handle form submission and save participant data"""
     try:
         if request.method == 'POST':
             
-            status = EventFormStatus_Phase01.objects.order_by('-updated_at').first()
+            status = Registration.get_publish_status_phase01()
 
             # if not Site_Permissions.user_has_permission(request.user, 'reg_form_control'):
-            if not Site_Permissions.user_has_permission(request.user, 'reg_form_control') and status.is_published == False:
+            if not Site_Permissions.user_has_permission(request.user, 'reg_form_control') and status == False:
                 return JsonResponse({
                 'success': False,
                 'message': 'Form has been turned off'
@@ -275,10 +262,10 @@ def submit_form_phase02(request):
     """Handle form submission and save participant data"""
     try:
         if request.method == 'POST':            
-            status = EventFormStatus_Phase02.objects.order_by('-updated_at').first()
+            status = Registration.get_publish_status_phase02()
 
             # if not Site_Permissions.user_has_permission(request.user, 'reg_form_control'):
-            if not Site_Permissions.user_has_permission(request.user, 'reg_form_control') and status.is_published == False:
+            if not Site_Permissions.user_has_permission(request.user, 'reg_form_control') and status == False:
                 return JsonResponse({
                 'success': False,
                 'message': 'Form has been turned off'
