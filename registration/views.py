@@ -270,6 +270,7 @@ def submit_form_phase02(request):
     """Handle form submission and save participant data"""
     try:
         if request.method == 'POST':
+            ENABLE_TOKEN_CHECK = False
             
             status = EventFormStatus_Phase02.objects.order_by('-updated_at').first()
 
@@ -280,19 +281,20 @@ def submit_form_phase02(request):
                 'message': 'Form has been turned off'
                 })
             
-            unique_code = request.POST.get('token')
+            if ENABLE_TOKEN_CHECK:
+                unique_code = request.POST.get('token')
 
-            if unique_code:
-                if not Form_Participant_Unique_Code_Phase_2.objects.filter(unique_code=unique_code).exists():
+                if unique_code:
+                    if not Form_Participant_Unique_Code_Phase_2.objects.filter(unique_code=unique_code).exists():
+                        return JsonResponse({
+                        'success': False,
+                        'message': 'Incorrect token'
+                        })
+                else:
                     return JsonResponse({
-                    'success': False,
-                    'message': 'Incorrect token'
-                    })
-            else:
-                return JsonResponse({
-                    'success': False,
-                    'message': 'Token was not provided'
-                    })
+                        'success': False,
+                        'message': 'Token was not provided'
+                        })
 
             # Get form data
             #Step 1
