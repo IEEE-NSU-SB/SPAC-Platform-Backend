@@ -16,6 +16,8 @@ from django.db.models.functions import Trim
 
 from .models import *
 
+ENABLE_PHASE02_TOKEN_CHECK = False
+
 def _get_publish_status_phase01() -> bool:
     status = EventFormStatus_Phase01.objects.order_by('-updated_at').first()
     return bool(status and status.is_published)
@@ -87,15 +89,16 @@ def registration_form_phase02(request):
         else:
             return redirect('core:dashboard')
     
-    unique_code = request.GET.get('token')
-    if unique_code:
-        entry = Form_Participant_Unique_Code_Phase_2.objects.filter(unique_code=unique_code)
-        if not entry:
-            return render(request, 'check_token.html', {'message':'Invalid token! Please use the link given in your email.'})
-        elif not entry[0].is_active:
-            return render(request, 'check_token.html', {'message':'You are not authorized to view this page.'})
-    else:
-        return render(request, 'check_token.html', {'message':'Token was not found! Please use the link given in your email.'})
+    if ENABLE_PHASE02_TOKEN_CHECK:
+        unique_code = request.GET.get('token')
+        if unique_code:
+            entry = Form_Participant_Unique_Code_Phase_2.objects.filter(unique_code=unique_code)
+            if not entry:
+                return render(request, 'check_token.html', {'message':'Invalid token! Please use the link given in your email.'})
+            elif not entry[0].is_active:
+                return render(request, 'check_token.html', {'message':'You are not authorized to view this page.'})
+        else:
+            return render(request, 'check_token.html', {'message':'Token was not found! Please use the link given in your email.'})
 
     registration_count = Form_Participant_Phase_2.objects.count()
     registration_closed = registration_count >= 10000
@@ -269,9 +272,7 @@ def submit_form_phase01(request):
 def submit_form_phase02(request):
     """Handle form submission and save participant data"""
     try:
-        if request.method == 'POST':
-            ENABLE_TOKEN_CHECK = False
-            
+        if request.method == 'POST':            
             status = EventFormStatus_Phase02.objects.order_by('-updated_at').first()
 
             # if not Site_Permissions.user_has_permission(request.user, 'reg_form_control'):
@@ -281,7 +282,7 @@ def submit_form_phase02(request):
                 'message': 'Form has been turned off'
                 })
             
-            if ENABLE_TOKEN_CHECK:
+            if ENABLE_PHASE02_TOKEN_CHECK:
                 unique_code = request.POST.get('token')
 
                 if unique_code:
