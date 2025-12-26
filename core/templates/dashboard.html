@@ -630,8 +630,8 @@ video{
               <th>SL</th>
               <th>Name</th>
               <th>University</th>
-              {% comment %} <th>Role</th> {% endcomment %}
               <th>Contact</th>
+              <th>T-Shirt Size</th>
               {% for session in token_sessions_all %}
               {% if has_perm.scan_any_session or session.is_active %}
               <th>{{session.session_name}}</th>
@@ -646,8 +646,8 @@ video{
               <td>{{participant.id}}</td>
               <td>{{participant.name}}</td>
               <td>{{participant.university}}</td>
-              {% comment %} <td>{{participant.role}}</td> {% endcomment %}
               <td>{{participant.contact_no}}</td>
+              <td>{{participant.tshirt_size}}</td>
               {% for session in token_sessions_all %}
               {% if has_perm.scan_any_session or session.is_active %}
                 <td>
