@@ -8,15 +8,14 @@ tz = ZoneInfo("Asia/Dhaka")
 
 # Event details
 event_name = "SPAC 2025"
-event_start = datetime(2025, 11, 24, 8, 30, tzinfo=tz)   # 8:30 AM Bangladesh time
-event_end   = datetime(2025, 11, 24, 19, 0, tzinfo=tz)  # 7:00 PM Bangladesh time
+event_start = datetime(2025, 12, 29, 8, 30, tzinfo=tz)   # 8:30 AM Bangladesh time
+event_end   = datetime(2025, 12, 29, 21, 0, tzinfo=tz)  # 9:00 PM Bangladesh time
 event_location = "North South University, Dhaka, Bangladesh"
 event_description = (
-    "SPAC 2025 — IEEE NSU PES SBC's flagship event focused on innovation, "
-    "energy, and collaboration across academia and industry."
+    "SPAC 2025 — The IEEE Student Professional Awareness Conference (SPAC) is a formal networking dinner connecting engineering and computer science students with esteemed industry professionals. IEEE NSU Student Branch aims to host the event with unparalleled grandeur and professionalism."
 )
-event_url = "https://www.facebook.com/"
-uid = "SPAC 2025-2025@ieeensu.org"
+event_url = "https://spac25.ieeensusb.org/"
+uid = "SPAC25@ieeensusb.org"
 
 # Create calendar and event
 cal = Calendar()

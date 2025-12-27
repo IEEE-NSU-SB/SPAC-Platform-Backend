@@ -1,0 +1,15 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:ics.py - http://git.io/lLljaA
+BEGIN:VEVENT
+DTSTAMP:20251227T123615Z
+DESCRIPTION:SPAC 2025 — The IEEE Student Professional Awareness Conference (SPAC) is a formal networking dinner connecting engineering and computer science students with esteemed industry professionals. IEEE NSU Student Branch aims to host the event with unparalleled grandeur and professionalism.
+DTEND:20251229T150000Z
+LAST-MODIFIED:20251227T123615Z
+LOCATION:North South University\, Dhaka\, Bangladesh
+DTSTART:20251229T023000Z
+SUMMARY:SPAC 2025
+UID:SPAC25@ieeensusb.org
+URL:https://spac25.ieeensusb.org/
+END:VEVENT
+END:VCALENDAR

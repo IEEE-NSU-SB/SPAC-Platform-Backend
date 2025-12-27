@@ -44,43 +44,59 @@ def send_emails(request):
 
             message["From"] = "IEEE NSU SB Portal <ieeensusb.portal@gmail.com>"
             message["To"] = participant.email
-            message["Cc"] = 'nujhat.saleh@northsouth.edu'
-            message["Subject"] = 'Registration Confirmation & Event Guidelines for PowerExpress 2.0'
+            message["Cc"] = 'mdnafiur.rahman19@ieee.org,nihalhasan@ieee.org,rakib.rayhan@ieee.org,farhanbd04@ieee.org,junayed@ieee.org,lincon.saha@ieee.org,sakib.sami@ieee.org'
+            message["Subject"] = 'SPAC 2025 | Event Details, Schedule, Guidelines & Mandatory QR Code'
 
-            message.attach(MIMEText(render_to_string('email_template.html', {'name':participant.name}), 'html'))
+            scheme = "https" if request.is_secure() else "http"
+            ics_link = f"{scheme}://{request.get_host()}/media_files/event.ics"
+            banner_image_url = f"{scheme}://{request.get_host()}/media_files/SPAC25LogoMin.png"
 
-            content_file = open(f"Participant Files/Participant_QR/{participant.id}.png", "rb")
+            message.attach(MIMEText(render_to_string('email_template.html', {'participant_name':participant.name, 'banner_image_url':banner_image_url, 'ics_link':ics_link}), 'html'))
 
+
+            content_file = open(f"Participant Files/event.ics", "rb")
             part = MIMEBase('application', 'octet-stream')
             part.set_payload(content_file.read())
             encoders.encode_base64(part)
             part.add_header(
                 'Content-Disposition',
-                f'attachment; filename={participant.name}.png',
+                f'attachment; filename=SPAC-25.ics',
             )
             message.attach(part)
 
-            content_file2 = open(f"Participant Files/PowerExpress 2.0 Timeline.pdf", "rb")
+            content_file2 = open(f"Participant Files/Participant_QR/{participant.id}.png", "rb")
 
             part2 = MIMEBase('application', 'octet-stream')
             part2.set_payload(content_file2.read())
             encoders.encode_base64(part2)
             part2.add_header(
                 'Content-Disposition',
-                f'attachment; filename=PowerExpress 2.0 Timeline.pdf',
+                f'attachment; filename={participant.name}.png',
             )
             message.attach(part2)
 
-            content_file3 = open(f"Participant Files/PowerExpressBanner.png", "rb")
+            content_file3 = open(f"Participant Files/SPAC-2025-Timeline.pdf", "rb")
 
             part3 = MIMEBase('application', 'octet-stream')
             part3.set_payload(content_file3.read())
             encoders.encode_base64(part3)
             part3.add_header(
                 'Content-Disposition',
-                f'attachment; filename=PowerExpressBanner.png',
+                f'attachment; filename=SPAC-2025-Timeline.pdf',
             )
             message.attach(part3)
+
+            content_file4 = open(f"Participant Files/SPAC25-Banner.jpg", "rb")
+
+            part4 = MIMEBase('application', 'octet-stream')
+            part4.set_payload(content_file4.read())
+            encoders.encode_base64(part4)
+            part4.add_header(
+                'Content-Disposition',
+                f'attachment; filename=SPAC25-Banner.jpg',
+            )
+            message.attach(part4)
+
 
             # encoded message
             encoded_message = base64.urlsafe_b64encode(message.as_bytes()).decode()
