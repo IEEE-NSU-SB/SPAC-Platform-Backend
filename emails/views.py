@@ -37,14 +37,14 @@ def send_emails(request):
     service = build(settings.GOOGLE_MAIL_API_NAME, settings.GOOGLE_MAIL_API_VERSION, credentials=credentials)
     print(settings.GOOGLE_MAIL_API_NAME, settings.GOOGLE_MAIL_API_VERSION, 'service created successfully')
 
-    registered_participants = Registered_Participant.objects.all()
+    registered_participants = Registered_Participant.objects.all().order_by('-id')
     for participant in registered_participants:
         try:
             message = MIMEMultipart()
 
-            message["From"] = "IEEE NSU SB Portal <ieeensusb.portal@gmail.com>"
+            message["From"] = "Arman Mokammel <arman.mokammel@northsouth.edu>"
             message["To"] = participant.email
-            message["Cc"] = 'mdnafiur.rahman19@ieee.org,nihalhasan@ieee.org,rakib.rayhan@ieee.org,farhanbd04@ieee.org,junayed@ieee.org,lincon.saha@ieee.org,sakib.sami@ieee.org'
+            # message["Cc"] = 'mdnafiur.rahman19@ieee.org,nihalhasan@ieee.org,rakib.rayhan@ieee.org,farhanbd04@ieee.org,junayed@ieee.org,lincon.saha@ieee.org,sakib.sami@ieee.org'
             message["Subject"] = 'SPAC 2025 | Event Details, Schedule, Guidelines & Mandatory QR Code'
 
             scheme = "https" if request.is_secure() else "http"
